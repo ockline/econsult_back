@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Models\Bank;
+namespace App\Models\Hiring\Interview;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bank extends Model
+class Competency extends Model
 {
+
+    protected  $table = 'competencies';
     protected $guarded = [];
     public $timestamps = true;
 }

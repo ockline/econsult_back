@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\TruncateTable;
 use Database\DisableForeignKeys;
 
-class MaritalStatusesTableSeeder extends Seeder
+class RankingCreterialsTableSeeder extends Seeder
 {
 
     use DisableForeignKeys, TruncateTable;
@@ -18,14 +18,16 @@ class MaritalStatusesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("marital_statuses");
-        $this->delete('marital_statuses');
+        $this->disableForeignKeys("ranking_creterials");
+        $this->delete('ranking_creterials');
 
-        \DB::table('marital_statuses')->insert(array(
+        \DB::table('ranking_creterials')->insert(array(
             0 =>
             array(
                 'id'  => 1,
-                'name' => 'Married',
+                'name' => 'N/A (0)',
+                'description' => 'none',
+                'rate' => 0,
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -33,7 +35,9 @@ class MaritalStatusesTableSeeder extends Seeder
             1 =>
             array(
                 'id'  => 2,
-                'name' => 'Widowed',
+                'name' => 'Below Average (1)',
+                'description' => 'low',
+                'rate' => 1,
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -41,29 +45,45 @@ class MaritalStatusesTableSeeder extends Seeder
             2 =>
             array(
                 'id'  => 3,
-                'name' => 'Separated',
+                'name' => 'Average (2)',
+                'description' => 'Average',
+                'rate' => 2,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            3 =>
+3 =>
             array(
                 'id'  => 4,
-                'name' => 'Divorced',
+                'name' => 'Good (3)',
+                'description' => 'Good',
+                'rate' => 3,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            4 =>
+4 =>
             array(
                 'id'  => 5,
-                'name' => 'Single',
-                'created_at' => '2024-01-11 17:33:54',
+                'name' => 'V.Good (4)',
+                'description' => 'Very Good',
+                'rate' => 4,
+                'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-        ));
+5 =>
+            array(
+                'id'  => 6,
+                'name' => 'Outstanding (5)',
+                'description' => 'Excelent',
+                'rate' => 5,
+                'created_at' => '2024-01-11 17:33:46',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+            ),
+     ));
 
-        $this->enableForeignKeys("marital_statuses");
+        $this->enableForeignKeys("ranking_creterials");
     }
 }

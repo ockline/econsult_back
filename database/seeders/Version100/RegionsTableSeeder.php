@@ -28,9 +28,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Dar es Salaam',
                     'country_id' => '1',
                     'office_zone_id' => '2',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             1 =>
                 array (
@@ -38,9 +38,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Mwanza',
                     'country_id' => '1',
                     'office_zone_id' => '6',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             2 =>
                 array (
@@ -48,9 +48,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Arusha',
                     'country_id' => '1',
                     'office_zone_id' => '3',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             3 =>
                 array (
@@ -58,9 +58,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Dodoma',
                     'country_id' => '1',
                     'office_zone_id' => '5',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             4 =>
                 array (
@@ -68,9 +68,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Geita ',
                     'country_id' => '1',
                     'office_zone_id' => '1',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             5 =>
                 array (
@@ -78,9 +78,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Iringa',
                     'country_id' => '1',
                     'office_zone_id' => '7',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             6 =>
                 array (
@@ -88,9 +88,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Kagera',
                     'country_id' => '1',
                     'office_zone_id' => '1',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             7 =>
                 array (
@@ -98,9 +98,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Katavi',
                     'country_id' => '1',
                     'office_zone_id' => '7',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             8 =>
                 array (
@@ -108,9 +108,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Kigoma',
                     'country_id' => '1',
                     'office_zone_id' => '9',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             9 =>
                 array (
@@ -118,9 +118,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Kilimanjaro',
                     'country_id' => '1',
                     'office_zone_id' => '3',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             10 =>
                 array (
@@ -128,9 +128,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Lindi',
                     'country_id' => '1',
                     'office_zone_id' => '8',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             11 =>
                 array (
@@ -138,9 +138,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Manyara',
                     'country_id' => '1',
                     'office_zone_id' => '3',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             12 =>
                 array (
@@ -148,9 +148,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Mara',
                     'country_id' => '1',
                     'office_zone_id' => '6',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             13 =>
                 array (
@@ -158,9 +158,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Mbeya',
                     'country_id' => '1',
                     'office_zone_id' => '7',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             14 =>
                 array (
@@ -168,9 +168,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Morogoro',
                     'country_id' => '1',
                     'office_zone_id' => '4',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             15 =>
                 array (
@@ -178,9 +178,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Mtwara',
                     'country_id' => '1',
                     'office_zone_id' => '8',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             16 =>
                 array (
@@ -188,29 +188,29 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Njombe ',
                     'country_id' => '1',
                     'office_zone_id' => '7',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             17 =>
                 array (
                     'id' => '19',
                     'name' => 'Kaskazini Pemba ',
                     'country_id' => '1',
-                    'office_zone_id' => NULL,
-                    'created_at' => NULL,
+                    'office_zone_id' => 0,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             18 =>
                 array (
                     'id' => '20',
                     'name' => 'Kusini Pemba',
                     'country_id' => '1',
-                    'office_zone_id' => NULL,
-                    'created_at' => NULL,
+                    'office_zone_id' => 0,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             19 =>
                 array (
@@ -218,9 +218,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Pwani',
                     'country_id' => '1',
                     'office_zone_id' => '2',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             20 =>
                 array (
@@ -228,9 +228,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Rukwa',
                     'country_id' => '1',
                     'office_zone_id' => '7',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             21 =>
                 array (
@@ -238,9 +238,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Ruvuma',
                     'country_id' => '1',
                     'office_zone_id' => '8',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             22 =>
                 array (
@@ -248,9 +248,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Simiyu',
                     'country_id' => '1',
                     'office_zone_id' => '6',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             23 =>
                 array (
@@ -258,9 +258,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Singida',
                     'country_id' => '1',
                     'office_zone_id' => '5',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             24 =>
                 array (
@@ -268,9 +268,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Tabora',
                     'country_id' => '1',
                     'office_zone_id' => '9',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             25 =>
                 array (
@@ -278,49 +278,49 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Tanga',
                     'country_id' => '1',
                     'office_zone_id' => '3',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             26 =>
                 array (
                     'id' => '28',
                     'name' => 'Kaskazini Unguja',
                     'country_id' => '1',
-                    'office_zone_id' => NULL,
-                    'created_at' => NULL,
+                    'office_zone_id' => 0,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             27 =>
                 array (
                     'id' => '29',
                     'name' => 'Kusini Unguja',
                     'country_id' => '1',
-                    'office_zone_id' => NULL,
-                    'created_at' => NULL,
+                    'office_zone_id' => 0,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             28 =>
                 array (
                     'id' => '30',
                     'name' => 'Mjini Magharibi',
                     'country_id' => '1',
-                    'office_zone_id' => NULL,
-                    'created_at' => NULL,
+                    'office_zone_id' => 0,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             29 =>
                 array (
                     'id' => '31',
                     'name' => 'Zanzibar Urban West',
                     'country_id' => '1',
-                    'office_zone_id' => NULL,
-                    'created_at' => NULL,
+                    'office_zone_id' => 0,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    'deleted_at' => '2017-12-07 10:43:50',
+
                 ),
             30 =>
                 array (
@@ -328,9 +328,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Shinyanga',
                     'country_id' => '1',
                     'office_zone_id' => '6',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
             31 =>
                 array (
@@ -338,9 +338,9 @@ class RegionsTableSeeder extends Seeder
                     'name' => 'Songwe',
                     'country_id' => '1',
                     'office_zone_id' => '7',
-                    'created_at' => NULL,
+                    'created_at' => '2024-01-11 10:28:50',
                     'updated_at' => NULL,
-                    
+
                 ),
         ));
 

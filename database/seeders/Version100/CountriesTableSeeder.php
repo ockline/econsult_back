@@ -650,7 +650,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'Ethiopian',
             ),
             70 => array(
                 'id' => 71,
@@ -659,7 +659,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'Fin',
             ),
             71 => array(
                 'id' => 72,
@@ -668,7 +668,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             72 => array(
                 'id' => 73,
@@ -677,7 +677,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             73 => array(
                 'id' => 74,
@@ -686,7 +686,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             74 => array(
                 'id' => 75,
@@ -695,7 +695,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             75 => array(
                 'id' => 76,
@@ -704,7 +704,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             76 => array(
                 'id' => 77,
@@ -713,7 +713,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             77 => array(
                 'id' => 78,
@@ -722,7 +722,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             78 => array(
                 'id' => 79,
@@ -731,7 +731,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             79 => array(
                 'id' => 80,
@@ -740,7 +740,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             80 => array(
                 'id' => 81,
@@ -749,7 +749,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             81 => array(
                 'id' => 82,
@@ -758,7 +758,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             82 => array(
                 'id' => 83,
@@ -767,7 +767,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             83 => array(
                 'id' => 84,
@@ -776,7 +776,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             84 => array(
                 'id' => 85,
@@ -785,7 +785,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             85 => array(
                 'id' => 86,
@@ -794,7 +794,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             86 => array(
                 'id' => 87,
@@ -803,7 +803,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             87 => array(
                 'id' => 88,
@@ -812,7 +812,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             88 => array(
                 'id' => 89,
@@ -821,7 +821,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             89 => array(
                 'id' => 90,
@@ -830,7 +830,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             90 => array(
                 'id' => 91,
@@ -839,7 +839,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             91 => array(
                 'id' => 92,
@@ -848,7 +848,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             92 => array(
                 'id' => 93,
@@ -857,7 +857,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             93 => array(
                 'id' => 94,
@@ -866,7 +866,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             94 => array(
                 'id' => 95,
@@ -875,7 +875,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             95 => array(
                 'id' => 96,
@@ -884,7 +884,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             96 => array(
                 'id' => 97,
@@ -893,7 +893,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             97 => array(
                 'id' => 98,
@@ -902,7 +902,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             98 => array(
                 'id' => 99,
@@ -911,7 +911,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             99 => array(
                 'id' => 100,
@@ -920,7 +920,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             100 => array(
                 'id' => 101,
@@ -929,7 +929,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             101 => array(
                 'id' => 102,
@@ -938,7 +938,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             102 => array(
                 'id' => 103,
@@ -947,7 +947,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             103 => array(
                 'id' => 104,
@@ -956,7 +956,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             104 => array(
                 'id' => 105,
@@ -965,7 +965,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             105 => array(
                 'id' => 106,
@@ -974,7 +974,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             106 => array(
                 'id' => 107,
@@ -983,7 +983,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             107 => array(
                 'id' => 108,
@@ -992,7 +992,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             108 => array(
                 'id' => 109,
@@ -1001,7 +1001,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             109 => array(
                 'id' => 110,
@@ -1010,7 +1010,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             110 => array(
                 'id' => 111,
@@ -1019,7 +1019,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             111 => array(
                 'id' => 112,
@@ -1028,7 +1028,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             112 => array(
                 'id' => 113,
@@ -1037,7 +1037,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             113 => array(
                 'id' => 114,
@@ -1046,7 +1046,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             114 => array(
                 'id' => 115,
@@ -1055,7 +1055,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             115 => array(
                 'id' => 116,
@@ -1064,7 +1064,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             116 => array(
                 'id' => 117,
@@ -1073,7 +1073,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             117 => array(
                 'id' => 118,
@@ -1082,7 +1082,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             118 => array(
                 'id' => 119,
@@ -1091,7 +1091,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             119 => array(
                 'id' => 120,
@@ -1100,7 +1100,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             120 => array(
                 'id' => 121,
@@ -1109,7 +1109,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             121 => array(
                 'id' => 122,
@@ -1118,7 +1118,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             122 => array(
                 'id' => 123,
@@ -1127,7 +1127,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             123 => array(
                 'id' => 124,
@@ -1136,7 +1136,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             124 => array(
                 'id' => 125,
@@ -1145,7 +1145,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             125 => array(
                 'id' => 126,
@@ -1154,7 +1154,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             126 => array(
                 'id' => 127,
@@ -1163,7 +1163,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             127 => array(
                 'id' => 128,
@@ -1172,7 +1172,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             128 => array(
                 'id' => 129,
@@ -1181,7 +1181,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             129 => array(
                 'id' => 130,
@@ -1190,7 +1190,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             130 => array(
                 'id' => 131,
@@ -1199,7 +1199,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             131 => array(
                 'id' => 132,
@@ -1208,7 +1208,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             132 => array(
                 'id' => 133,
@@ -1217,7 +1217,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             133 => array(
                 'id' => 134,
@@ -1226,7 +1226,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             134 => array(
                 'id' => 135,
@@ -1235,7 +1235,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             135 => array(
                 'id' => 136,
@@ -1244,7 +1244,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             136 => array(
                 'id' => 137,
@@ -1253,7 +1253,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             137 => array(
                 'id' => 138,
@@ -1262,7 +1262,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             138 => array(
                 'id' => 139,
@@ -1271,7 +1271,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             139 => array(
                 'id' => 140,
@@ -1280,7 +1280,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             140 => array(
                 'id' => 141,
@@ -1289,7 +1289,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             141 => array(
                 'id' => 142,
@@ -1298,7 +1298,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             142 => array(
                 'id' => 143,
@@ -1307,7 +1307,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             143 => array(
                 'id' => 144,
@@ -1316,7 +1316,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             144 => array(
                 'id' => 145,
@@ -1325,7 +1325,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             145 => array(
                 'id' => 146,
@@ -1334,7 +1334,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             146 => array(
                 'id' => 147,
@@ -1343,7 +1343,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             147 => array(
                 'id' => 148,
@@ -1352,7 +1352,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             148 => array(
                 'id' => 149,
@@ -1361,7 +1361,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             149 => array(
                 'id' => 150,
@@ -1370,7 +1370,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             150 => array(
                 'id' => 151,
@@ -1379,7 +1379,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             151 => array(
                 'id' => 152,
@@ -1388,7 +1388,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             152 => array(
                 'id' => 153,
@@ -1397,7 +1397,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             153 => array(
                 'id' => 154,
@@ -1406,7 +1406,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             154 => array(
                 'id' => 155,
@@ -1415,7 +1415,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             155 => array(
                 'id' => 156,
@@ -1424,7 +1424,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             156 => array(
                 'id' => 157,
@@ -1433,7 +1433,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             157 => array(
                 'id' => 158,
@@ -1442,7 +1442,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             158 => array(
                 'id' => 159,
@@ -1451,7 +1451,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             159 => array(
                 'id' => 160,
@@ -1460,7 +1460,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             160 => array(
                 'id' => 161,
@@ -1469,7 +1469,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             161 => array(
                 'id' => 162,
@@ -1478,7 +1478,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             162 => array(
                 'id' => 163,
@@ -1487,7 +1487,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             163 => array(
                 'id' => 164,
@@ -1496,7 +1496,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             164 => array(
                 'id' => 165,
@@ -1505,7 +1505,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             165 => array(
                 'id' => 166,
@@ -1514,7 +1514,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             166 => array(
                 'id' => 167,
@@ -1523,7 +1523,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             167 => array(
                 'id' => 168,
@@ -1532,7 +1532,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             168 => array(
                 'id' => 169,
@@ -1541,7 +1541,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             169 => array(
                 'id' => 170,
@@ -1550,7 +1550,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             170 => array(
                 'id' => 171,
@@ -1559,7 +1559,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             171 => array(
                 'id' => 172,
@@ -1568,7 +1568,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             172 => array(
                 'id' => 173,
@@ -1577,7 +1577,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             173 => array(
                 'id' => 174,
@@ -1586,7 +1586,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             174 => array(
                 'id' => 175,
@@ -1595,7 +1595,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             175 => array(
                 'id' => 176,
@@ -1604,7 +1604,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             176 => array(
                 'id' => 177,
@@ -1613,7 +1613,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             177 => array(
                 'id' => 178,
@@ -1622,7 +1622,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             178 => array(
                 'id' => 179,
@@ -1631,7 +1631,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             179 => array(
                 'id' => 180,
@@ -1640,7 +1640,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             180 => array(
                 'id' => 181,
@@ -1649,7 +1649,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             181 => array(
                 'id' => 182,
@@ -1658,7 +1658,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             182 => array(
                 'id' => 183,
@@ -1667,7 +1667,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             183 => array(
                 'id' => 184,
@@ -1676,7 +1676,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             184 => array(
                 'id' => 185,
@@ -1685,7 +1685,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             185 => array(
                 'id' => 186,
@@ -1694,7 +1694,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             186 => array(
                 'id' => 187,
@@ -1703,7 +1703,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             187 => array(
                 'id' => 188,
@@ -1712,7 +1712,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             188 => array(
                 'id' => 189,
@@ -1721,7 +1721,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             189 => array(
                 'id' => 190,
@@ -1730,7 +1730,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             190 => array(
                 'id' => 191,
@@ -1739,7 +1739,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             191 => array(
                 'id' => 192,
@@ -1748,7 +1748,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             192 => array(
                 'id' => 193,
@@ -1757,7 +1757,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             193 => array(
                 'id' => 194,
@@ -1766,7 +1766,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             194 => array(
                 'id' => 195,
@@ -1775,7 +1775,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             195 => array(
                 'id' => 196,
@@ -1784,7 +1784,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             196 => array(
                 'id' => 197,
@@ -1793,7 +1793,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             197 => array(
                 'id' => 198,
@@ -1802,7 +1802,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             198 => array(
                 'id' => 199,
@@ -1811,7 +1811,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             199 => array(
                 'id' => 200,
@@ -1820,7 +1820,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             200 => array(
                 'id' => 201,
@@ -1829,7 +1829,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             201 => array(
                 'id' => 202,
@@ -1838,7 +1838,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             202 => array(
                 'id' => 203,
@@ -1847,7 +1847,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             203 => array(
                 'id' => 204,
@@ -1856,7 +1856,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             204 => array(
                 'id' => 205,
@@ -1865,7 +1865,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             205 => array(
                 'id' => 206,
@@ -1874,7 +1874,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             206 => array(
                 'id' => 207,
@@ -1883,7 +1883,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             207 => array(
                 'id' => 208,
@@ -1892,7 +1892,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             208 => array(
                 'id' => 209,
@@ -1901,7 +1901,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             209 => array(
                 'id' => 210,
@@ -1910,7 +1910,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             210 => array(
                 'id' => 211,
@@ -1919,7 +1919,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             211 => array(
                 'id' => 212,
@@ -1928,7 +1928,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             212 => array(
                 'id' => 213,
@@ -1937,7 +1937,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             213 => array(
                 'id' => 214,
@@ -1946,7 +1946,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             214 => array(
                 'id' => 215,
@@ -1955,7 +1955,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             215 => array(
                 'id' => 216,
@@ -1964,7 +1964,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             216 => array(
                 'id' => 217,
@@ -1973,7 +1973,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             217 => array(
                 'id' => 218,
@@ -1982,7 +1982,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             218 => array(
                 'id' => 219,
@@ -1991,7 +1991,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             219 => array(
                 'id' => 220,
@@ -2000,7 +2000,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             220 => array(
                 'id' => 221,
@@ -2009,7 +2009,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             221 => array(
                 'id' => 222,
@@ -2018,7 +2018,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             222 => array(
                 'id' => 223,
@@ -2027,7 +2027,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             223 => array(
                 'id' => 224,
@@ -2036,7 +2036,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             224 => array(
                 'id' => 225,
@@ -2045,7 +2045,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             225 => array(
                 'id' => 226,
@@ -2054,7 +2054,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             226 => array(
                 'id' => 227,
@@ -2063,7 +2063,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             227 => array(
                 'id' => 228,
@@ -2072,7 +2072,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             228 => array(
                 'id' => 229,
@@ -2081,7 +2081,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
 
             229 => array(
@@ -2091,7 +2091,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             230 => array(
                 'id' => 231,
@@ -2100,7 +2100,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             231 => array(
                 'id' => 232,
@@ -2109,7 +2109,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             232 => array(
                 'id' => 233,
@@ -2118,7 +2118,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             233 => array(
                 'id' => 234,
@@ -2127,7 +2127,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             234 => array(
                 'id' => 235,
@@ -2136,7 +2136,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             235 => array(
                 'id' => 236,
@@ -2145,7 +2145,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             236 => array(
                 'id' => 237,
@@ -2154,7 +2154,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             237 => array(
                 'id' => 238,
@@ -2163,7 +2163,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             238 => array(
                 'id' => 239,
@@ -2172,7 +2172,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             239 => array(
                 'id' => 240,
@@ -2181,7 +2181,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             240 => array(
                 'id' => 241,
@@ -2190,7 +2190,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             241 => array(
                 'id' => 242,
@@ -2199,7 +2199,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             242 => array(
                 'id' => 243,
@@ -2208,7 +2208,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             243 => array(
                 'id' => 244,
@@ -2217,7 +2217,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             244 => array(
                 'id' => 245,
@@ -2226,7 +2226,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             245 => array(
                 'id' => 246,
@@ -2235,7 +2235,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             246 => array(
                 'id' => 247,
@@ -2244,7 +2244,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             247 => array(
                 'id' => 248,
@@ -2253,7 +2253,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
             248 => array(
                 'id' => 249,
@@ -2262,7 +2262,7 @@ class CountriesTableSeeder extends Seeder
                 'created_at' => '2024-01-09 14:33:47',
                 'updated_at' => null,
                 'deleted_at' => null,
-                'description' => NULL,
+                'description' => 'country_name',
             ),
         ));
         $this->enableForeignKeys("countries");

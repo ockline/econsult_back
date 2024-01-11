@@ -19,74 +19,92 @@ class OfficeZoneTableSeeder extends Seeder
     public function run()
     {
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 1],
-            ['name' => 'Laison Office',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Laison Office',
+                'created_at' => '2024-01-11 10:30:35',
+
+                'updated_at' => null,
             ]
         );
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 2],
-            ['name' => 'Da es Salaam Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Da es Salaam Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 3],
-            ['name' => 'Northern Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Northern Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 4],
-            ['name' => 'Eastern Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Eastern Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 5],
-            ['name' => 'Central Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Central Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 6],
-            ['name' => 'Lake Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Lake Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 7],
-            ['name' => 'Southern Highland Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Southern Highland Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 8],
-            ['name' => 'Southern Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Southern Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
 
-        $code= OfficeZone::updateOrCreate(
+        $code = OfficeZone::updateOrCreate(
             ['id' => 9],
-            ['name' => 'Western Zone',
-                'created_at' => '2019-06-04 17:30:35',
+            [
+                'name' => 'Western Zone',
+                'created_at' => '2024-01-11 10:30:35',
+                'updated_at' => null,
             ]
         );
-
-
     }
 }

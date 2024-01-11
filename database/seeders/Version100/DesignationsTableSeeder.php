@@ -31,6 +31,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:21:51',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 1,
                 ),
             1 =>
@@ -41,6 +43,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:21:51',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 2,
                 ),
             2 =>
@@ -51,6 +55,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:22:34',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 2,
                 ),
             3 =>
@@ -61,6 +67,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:22:34',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             4 =>
@@ -71,6 +79,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:09',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 3,
                 ),
             5 =>
@@ -81,6 +91,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:09',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 4,
                 ),
             6 =>
@@ -91,6 +103,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:36',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 5,
                 ),
             7 =>
@@ -101,6 +115,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:36',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             8 =>
@@ -111,6 +127,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:47',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             9 =>
@@ -121,6 +139,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:47',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             10 =>
@@ -131,6 +151,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:47',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             11 =>
@@ -141,6 +163,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:47',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             12 =>
@@ -151,6 +175,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:47',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
             13 =>
@@ -161,6 +187,8 @@ class DesignationsTableSeeder extends Seeder
                     'created_at' => '2017-04-18 08:23:47',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,
+                    'status' =>  1,
+                    'description' => null,
                     'level' => 6,
                 ),
         ));

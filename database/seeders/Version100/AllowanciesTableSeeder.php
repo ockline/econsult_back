@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\TruncateTable;
 use Database\DisableForeignKeys;
 
-class MaritalStatusesTableSeeder extends Seeder
+class AllowanciesTableSeeder extends Seeder
 {
 
     use DisableForeignKeys, TruncateTable;
@@ -18,14 +18,16 @@ class MaritalStatusesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("marital_statuses");
-        $this->delete('marital_statuses');
+        $this->disableForeignKeys("allowances");
+        $this->delete('allowances');
 
-        \DB::table('marital_statuses')->insert(array(
+        \DB::table('allowances')->insert(array(
             0 =>
             array(
                 'id'  => 1,
-                'name' => 'Married',
+                'name' => 'House',
+                'descriptions' => null,
+                'status' => null,
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -33,7 +35,9 @@ class MaritalStatusesTableSeeder extends Seeder
             1 =>
             array(
                 'id'  => 2,
-                'name' => 'Widowed',
+                'name' => 'Meal',
+                'descriptions' => null,
+                'status' => null,
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -41,7 +45,9 @@ class MaritalStatusesTableSeeder extends Seeder
             2 =>
             array(
                 'id'  => 3,
-                'name' => 'Separated',
+                'name' => 'Bush',
+                'descriptions' => null,
+                'status' => null,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -49,7 +55,9 @@ class MaritalStatusesTableSeeder extends Seeder
             3 =>
             array(
                 'id'  => 4,
-                'name' => 'Divorced',
+                'name' => 'Transport',
+                'descriptions' => null,
+                'status' => null,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -57,13 +65,25 @@ class MaritalStatusesTableSeeder extends Seeder
             4 =>
             array(
                 'id'  => 5,
-                'name' => 'Single',
+                'name' => 'none',
+                'descriptions' => null,
+                'status' => null,
+                'created_at' => '2024-01-11 17:33:54',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+            ),
+            5 =>
+            array(
+                'id'  => 6,
+                'name' => 'Other allowance',
+                'descriptions' => null,
+                'status' => null,
                 'created_at' => '2024-01-11 17:33:54',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
         ));
 
-        $this->enableForeignKeys("marital_statuses");
+        $this->enableForeignKeys("allowances");
     }
 }

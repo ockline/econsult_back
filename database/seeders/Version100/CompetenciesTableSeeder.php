@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\TruncateTable;
 use Database\DisableForeignKeys;
 
-class MaritalStatusesTableSeeder extends Seeder
+class CompetenciesTableSeeder extends Seeder
 {
 
     use DisableForeignKeys, TruncateTable;
@@ -18,14 +18,15 @@ class MaritalStatusesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("marital_statuses");
-        $this->delete('marital_statuses');
+        $this->disableForeignKeys("competencies");
+        $this->delete('competencies');
 
-        \DB::table('marital_statuses')->insert(array(
+        \DB::table('competencies')->insert(array(
             0 =>
             array(
                 'id'  => 1,
-                'name' => 'Married',
+                'name' => 'Core Competencies',
+                'description' => 'Competencie',
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -33,7 +34,8 @@ class MaritalStatusesTableSeeder extends Seeder
             1 =>
             array(
                 'id'  => 2,
-                'name' => 'Widowed',
+                'name' => 'Functional Competencie',
+                'description' => 'Competencie',
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -41,29 +43,23 @@ class MaritalStatusesTableSeeder extends Seeder
             2 =>
             array(
                 'id'  => 3,
-                'name' => 'Separated',
+                'name' => 'Managerial Competencies Mid Senior Mngt. Level',
+                'description' => 'Applied for Personnel ID application',
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            3 =>
+3 =>
             array(
                 'id'  => 4,
-                'name' => 'Divorced',
+                'name' => 'Managerial Competencies Top Mngt. Level',
+                'description' => 'Managerial Competencies top Mngt. Level',
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            4 =>
-            array(
-                'id'  => 5,
-                'name' => 'Single',
-                'created_at' => '2024-01-11 17:33:54',
-                'updated_at' => NULL,
-                'deleted_at' => NULL,
-            ),
-        ));
 
-        $this->enableForeignKeys("marital_statuses");
+     ));
+        $this->enableForeignKeys("competencies");
     }
 }

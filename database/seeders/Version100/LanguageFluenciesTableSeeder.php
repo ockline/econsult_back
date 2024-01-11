@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\TruncateTable;
 use Database\DisableForeignKeys;
 
-class MaritalStatusesTableSeeder extends Seeder
+class LanguageFluenciesTableSeeder extends Seeder
 {
 
     use DisableForeignKeys, TruncateTable;
@@ -18,14 +18,15 @@ class MaritalStatusesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("marital_statuses");
-        $this->delete('marital_statuses');
+        $this->disableForeignKeys("language_fluences");
+        $this->delete('language_fluences');
 
-        \DB::table('marital_statuses')->insert(array(
+        \DB::table('language_fluences')->insert(array(
             0 =>
             array(
                 'id'  => 1,
-                'name' => 'Married',
+                'name' => 'English',
+                'description' => 'United Kingdom',
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -33,7 +34,8 @@ class MaritalStatusesTableSeeder extends Seeder
             1 =>
             array(
                 'id'  => 2,
-                'name' => 'Widowed',
+                'name' => 'Swahili',
+                'description' => 'United state Of Tanzania',
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
@@ -41,29 +43,14 @@ class MaritalStatusesTableSeeder extends Seeder
             2 =>
             array(
                 'id'  => 3,
-                'name' => 'Separated',
+                'name' => 'Arab',
+                'description' => 'U.A.E',
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-            3 =>
-            array(
-                'id'  => 4,
-                'name' => 'Divorced',
-                'created_at' => '2024-01-11 17:33:46',
-                'updated_at' => NULL,
-                'deleted_at' => NULL,
-            ),
-            4 =>
-            array(
-                'id'  => 5,
-                'name' => 'Single',
-                'created_at' => '2024-01-11 17:33:54',
-                'updated_at' => NULL,
-                'deleted_at' => NULL,
-            ),
-        ));
+     ));
 
-        $this->enableForeignKeys("marital_statuses");
+        $this->enableForeignKeys("language_fluences");
     }
 }

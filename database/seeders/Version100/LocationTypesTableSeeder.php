@@ -26,15 +26,17 @@ class LocationTypesTableSeeder extends Seeder
             array (
                 'id' => 1,
                 'name' => 'Surveyed',
-                'created_at' => '2017-04-18 17:37:06',
+                'created_at' => '2024-01-11 10:37:06',
                 'updated_at' => NULL,
+                'description' => 'none',
             ),
             1 =>
             array (
                 'id' => 2,
-                'name' => 'Unsurveyed ',
-                'created_at' => '2017-04-18 17:37:06',
+                'name' => 'Unsurveyed',
+                'created_at' => '2024-01-11 10:37:06',
                 'updated_at' => NULL,
+                 'description' => 'none',
             ),
         ));
 

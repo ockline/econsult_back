@@ -2,7 +2,7 @@
 
 namespace App\Models\Location\Traits\Attribute;
 
-trait RegionAttribute {
+trait DistrictAttribute {
 
     /**
      * @return string

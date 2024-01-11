@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Models\Bank;
+namespace App\Models\Sysdef;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Bank extends Model
+class Shift extends Model
 {
+
+    protected  $table = 'shifts';
     protected $guarded = [];
     public $timestamps = true;
 }

@@ -22,7 +22,7 @@ class QuarterTableSeeder extends Seeder
             ],
             [
                 'name' => 'Quarter 1',
-                'shortcode' => 'Q1',
+                'shortcorde' => 'Q1',
                 'start_date' => Carbon::createFromFormat('m-d Y H:i:s', '07-01 ' . date('Y') . ' 00:00:00')->format('m-d H:i:s'),
                 'end_date' => Carbon::createFromFormat('m-d Y H:i:s', '09-30 ' . date('Y') . ' 23:59:59')->format('m-d H:i:s'),
                 'created_at' => '2024-01-10 12:53:53',
@@ -37,7 +37,7 @@ class QuarterTableSeeder extends Seeder
             ],
             [
                 'name' => 'Quarter 2',
-                'shortcode' => 'Q2',
+                'shortcorde' => 'Q2',
                 'start_date' => Carbon::createFromFormat('m-d Y H:i:s', '10-01 ' . date('Y') . ' 00:00:00')->format('m-d H:i:s'),
                 'end_date' => Carbon::createFromFormat('m-d Y H:i:s', '12-31 ' . date('Y') . ' 23:59:59')->format('m-d H:i:s'),
                 'created_at' => '2024-01-10 12:53:53',
@@ -52,7 +52,7 @@ class QuarterTableSeeder extends Seeder
             ],
             [
                 'name' => 'Quarter 3',
-                'shortcode' => 'Q3',
+                'shortcorde' => 'Q3',
                 'start_date' => Carbon::createFromFormat('m-d Y H:i:s', '01-01 ' . date('Y') . ' 00:00:00')->format('m-d H:i:s'),
                 'end_date' => Carbon::createFromFormat('m-d Y H:i:s', '03-31 ' . date('Y') . ' 23:59:59')->format('m-d H:i:s'),
                 'created_at' => '2024-01-10 12:53:53',
@@ -67,7 +67,7 @@ class QuarterTableSeeder extends Seeder
             ],
             [
                 'name' => 'Quarter 4',
-                'shortcode' => 'Q4',
+                'shortcorde' => 'Q4',
                 'start_date' => Carbon::createFromFormat('m-d Y H:i:s', '04-01 ' . date('Y') . ' 00:00:00')->format('m-d H:i:s'),
                 'end_date' => Carbon::createFromFormat('m-d Y H:i:s', '06-30 ' . date('Y') . ' 23:59:59')->format('m-d H:i:s'),
                 'created_at' => '2024-01-10 12:53:53',

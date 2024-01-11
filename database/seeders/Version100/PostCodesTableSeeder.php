@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\TruncateTable;
 use Database\DisableForeignKeys;
 
-class PostCodesSeeder extends Seeder
+class PostCodesTableSeeder extends Seeder
 {
     use DisableForeignKeys, TruncateTable;
     /**
@@ -12792,7 +12792,7 @@ class PostCodesSeeder extends Seeder
                     'id' => 1416,
                     'district_id' => 71,
                     'postcode' =>   27213,
-                    'ward_name' => NULL,
+                    'ward_name' => 'unknown',
                     'created_at' => NULL,
                     'updated_at' => NULL,
                 ),

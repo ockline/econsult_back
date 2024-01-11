@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\BankBranch;
+namespace App\Models\Bank;
 
 use Illuminate\Database\Eloquent\Model;
 
