@@ -35,6 +35,7 @@ use Database\Seeders\Version100\ShiftsTableSeeder;
 use Database\Seeders\Version100\RankingCreterialsTableSeeder;
 use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\AllowanciesTableSeeder;
+use Database\Seeders\Version100\PackagesTableSeeder;
 // use Database\Seeders\Version100\QuarterTableSeeder;
 
 class Version100TableSeeder extends Seeder
@@ -82,7 +83,7 @@ class Version100TableSeeder extends Seeder
         $this->call(OfficesTableSeeder::class);
         $this->call(OfficeZoneTableSeeder::class);
 
-         /* Hiring */
+         /* Hiring and Registration*/
         $this->call(LanguageFluenciesTableSeeder::class);
         $this->call(ShiftsTableSeeder::class);
         $this->call(RankingCreterialsTableSeeder::class);
@@ -90,6 +91,7 @@ class Version100TableSeeder extends Seeder
         $this->call(AllowanciesTableSeeder::class);
         $this->call(CompetenciesTableSeeder::class);
         $this->call(CompetencySubjectsTableSeeder::class);
+         $this->call(PackagesTableSeeder::class);
 
 
         /* Role & Permission */
