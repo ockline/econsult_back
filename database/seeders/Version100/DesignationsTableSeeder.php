@@ -26,8 +26,8 @@ class DesignationsTableSeeder extends Seeder
             0 =>
                 array (
                     'id' => 1,
-                    'name' => 'Director General',
-                    'short_name' => 'DG',
+                    'name' => 'Managing Director',
+                    'short_name' => 'MD',
                     'created_at' => '2024-01-13 05:21:51',
                     'updated_at' => NULL,
                     'deleted_at' => NULL,

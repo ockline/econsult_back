@@ -22,9 +22,7 @@ use Database\Seeders\Version100\OfficesTableSeeder;
 use Database\Seeders\Version100\DistrictsTableSeeder;
 use Database\Seeders\Version100\DocumentsTableSeeder;
 use Database\Seeders\Version100\LocationTypesTableSeeder;
-
 use Database\Seeders\Version100\MaritalStatusesTableSeeder;
-
 use Database\Seeders\Version100\DependentTypesTableSeeder;
 use Database\Seeders\Version100\DocumentGroupsTableSeeder;
 use Database\Seeders\Version100\DesignationsTableSeeder;
@@ -36,11 +34,16 @@ use Database\Seeders\Version100\RankingCreterialsTableSeeder;
 use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\AllowanciesTableSeeder;
 use Database\Seeders\Version100\PackagesTableSeeder;
+
+use Database\Seeders\Version100\DepartmentsTableSeeder;
+use Database\Seeders\Version100\UnitsTableSeeder;
+use Database\Seeders\Version100\EducationHistoriesTableSeeder;
+use Database\Seeders\Version100\PracticalTestsTableSeeder;
 // use Database\Seeders\Version100\QuarterTableSeeder;
 
 class Version100TableSeeder extends Seeder
 {
-         use \Database\DisableForeignKeys;
+    use \Database\DisableForeignKeys;
     //    use DisableForeignKeys;
     /**
      * Run the database seeds.
@@ -55,13 +58,13 @@ class Version100TableSeeder extends Seeder
         DB::beginTransaction();
 
         /* Banks*/
-         $this->call(BanksTableSeeder::class);
-         $this->call(BankBranchesTableSeeder::class);
+        $this->call(BanksTableSeeder::class);
+        $this->call(BankBranchesTableSeeder::class);
         /* National */
         $this->call(CountriesTableSeeder::class);
         // $this->call(CurrenciesTableSeeder::class);
 
-       /*  Users */
+        /*  Users */
         $this->call(UsersTableSeeder::class);
         $this->call(DependentTypesTableSeeder::class);
         $this->call(MaritalStatusesTableSeeder::class);
@@ -83,7 +86,7 @@ class Version100TableSeeder extends Seeder
         $this->call(OfficesTableSeeder::class);
         $this->call(OfficeZoneTableSeeder::class);
 
-         /* Hiring and Registration*/
+        /* Hiring and Registration*/
         $this->call(LanguageFluenciesTableSeeder::class);
         $this->call(ShiftsTableSeeder::class);
         $this->call(RankingCreterialsTableSeeder::class);
@@ -91,7 +94,11 @@ class Version100TableSeeder extends Seeder
         $this->call(AllowanciesTableSeeder::class);
         $this->call(CompetenciesTableSeeder::class);
         $this->call(CompetencySubjectsTableSeeder::class);
-         $this->call(PackagesTableSeeder::class);
+        $this->call(PackagesTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
+        $this->call(UnitsTableSeeder::class);
+        $this->call(EducationHistoriesTableSeeder::class);
+        $this->call(PracticalTestsTableSeeder::class);
 
 
         /* Role & Permission */
@@ -100,15 +107,15 @@ class Version100TableSeeder extends Seeder
         // $this->call(PermissionDependenciesTableSeeder::class);
         // $this->call(SysdefsTableSeeder::class);
         // $this->call(UnitGroupsTableSeeder::class);
-        // $this->call(UnitsTableSeeder::class);
+
 
         /*postcodes*/
         $this->call(PostCodesTableSeeder::class);
-         /**Quarters */
+        /**Quarters */
         // $this->call(QuarterTableSeeder::class);
 
-       DB::commit();
+        DB::commit();
 
-      Schema::enableForeignKeyConstraints();
+        Schema::enableForeignKeyConstraints();
     }
 }

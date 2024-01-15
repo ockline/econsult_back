@@ -4,7 +4,7 @@ namespace App\Models\Sysdef;
 
 use Illuminate\Database\Eloquent\Model;
 
-class allowance extends Model
+class Allowance extends Model
 {
 
     protected  $table = 'allowances';
