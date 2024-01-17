@@ -72,7 +72,7 @@ class UserRepository extends  BaseRepository
 
     try {
         $input = $request->all();
-    // log::info($request->all());
+    log::info($request->all());
           $creater = 1;
         $this->user->create([
             'samaccountname' => $input['firstname'] . "." . $input['lastname'],
@@ -82,14 +82,14 @@ class UserRepository extends  BaseRepository
             'lastname' => (!empty($input['lastname'])) ? $input['lastname'] : null,
             'phone' => (!empty($input['phone'])) ? $input['phone'] : null,
             'dob' =>  (!empty($input['dob'])) ? $input['dob'] : null,
-            'gender_id'  => (!empty($input['gender_id']))? $input['gender_id'] : null,
+            'gender_id'  => (!empty($input['gender_id']))? $input['gender_id'] : 2,
             'password' => !empty($input['password']) ? $input['password'] : null,
             'email' => !empty($input['email']) ? $input['email'] : null,
             'confirm_password' => !empty($input['confirm_password']) ? $input['confirm_password'] : null,
             'designation_id' => !empty($input['designation_id'])? $input['designation_id'] : null,
             'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
             'section_id' => !empty($input['section_id']) ? $input['section_id'] : null,
-            'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
+            'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : 1,
             'role_id'  => !empty($input['role_id'])? $input['role_id'] : null,
             'project_name'  => !empty($input['project_name']) ?  $input['project_name'] :null,
             'location_project'  => !empty($input['location_project']) ? $input['location_project'] : null,
@@ -102,18 +102,18 @@ class UserRepository extends  BaseRepository
         //    $this->sendNotification($data);
 
         DB::commit();
-Log::info('data saved.');
-        Log::info('*******************');
-        dump('hapaaaa chini');
-        return response()->json(['message' => 'User created successfully'], 201);
-    } catch (\Exception $e) {
-        DB::rollback();
 
-        return response()->json(['message' => 'Failed to create user', 'error' => $e->getMessage()], 500);
-    }
-    // public function updateUser(){
 
-    // }
+        return response()->json(['message' => 'User created successfully', 'status' => 201], 201);
+   } catch (\Exception $e) {
+    DB::rollback();
+    Log::error('Failed to create user', ['error' => $e->getMessage()]);
+
+      return response()->json(['message' => 'Failed to create user', 'status' => 500]);
+
+}
+
+
 }
 
 

@@ -65,8 +65,8 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-         Log::info('hellow ndani');
-           log::info($request->all());
+        //  Log::info('hellow ndani');
+        //    log::info($request->all());
         $validator = Validator::make($request->all(), [
             'firstname' => 'required|string|max:191',
             'middlename' => 'required|max:191',
@@ -77,29 +77,45 @@ class UserController extends Controller
             'password' => 'required|max:50|min:8',
             'department_id' => 'required|max:191',
             'employer_id' => 'required|max:191',
+            'designation_id' => 'required|max:191',
             'confirm_password' => 'required|max:50|min:8',
 
         ]);
 
         if ($validator->fails()) {
-            $return = ['validator_err' => $validator->messages()];
+            $messages = [
+                    'firstname' => 'The Firstname is required.',
+                    'middlename' => 'The Middle name is required',
+                    'lastname' => 'The last name is required',
+                    'dob' => 'The Date of birth is required ',
+                    'phone' => 'The Phone number is required',
+                    'email' => 'The Email address is required and should be unique',
+                    'password' => 'The password must not less than 8
+this should include Capital letter, small, character and number ',
+                    'confirm_password' => 'The Confirm password must be the same, not less than 8
+     this should include Capital letter, small, character and number ',
+                    'department_id' => 'The department name is required ',
+                    'employer_id' => 'The employer name is required ',
+                    'designation_id' => 'The Designation is required',
+            ];
+            $return =  [
+                'validator_err' =>  $messages,
+               ];
         } else {
-            //  log::info('welcom');
-          $data =  $this->user->addUsers($request);
-    Log::info($data);
-if($data){
-            $return = [
-                'status' => 201,
-                'message' => "User Successfuly created",
-            ];
-}else{
-       $return = [
-                'status' => 500,
-                'message' => "Failed to Save",
-            ];
 
-}
-        }
+         $data =   $this->user->addUsers($request);
+         $status = $data->getStatusCode();
+ // Get HTTP status code
+        $responseContent = $data->getContent(); // Get response content as a string
+
+        // If you need to work with the response content as JSON
+          $return = json_decode($responseContent, true);
+            Log::info($return);
+             if($status === 201){
+            $return['success'] = 'User Created Successfully';
+            }
+            }
+
         return response()->json($return);
     }
 

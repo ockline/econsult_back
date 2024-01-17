@@ -19,8 +19,8 @@ class User extends Authenticatable
      */
    protected $fillable = [
     'samaccountname', 'username', 'firstname', 'middlename', 'lastname', 'phone', 'dob', 'gender_id',
-    'password', 'email', 'confirm_password', 'designation_id', 'department_id', 'section_id',
-    'project_name', 'location_project',
+    'password', 'email', 'confirm_password','employer_id', 'designation_id', 'department_id', 'section_id',
+    'project_name', 'location_project', 'created_by','last_login',
 ];
 
 
@@ -31,6 +31,7 @@ class User extends Authenticatable
      */
     protected $hidden = [
         'password',
+        'confirm_password',
         'remember_token',
     ];
 
@@ -42,5 +43,6 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'confirm_password' => 'hashed',
     ];
 }
