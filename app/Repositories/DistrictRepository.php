@@ -48,9 +48,11 @@ class DistrictRepository extends  BaseRepository
 
     public function getDistricts()
     {
-        $districts = $this->district->get();
-        // $districts = District::table('districts')->select('*');
+
+        // $districts = $this->district->get();
+        $districts = DB::table('districts')->select('*')->get();
         // selectRaw(" * , CASE WHEN status = 0 THEN 'Iniactive' ELSE 'Active' END AS Status")->
+    //    Log::info($districts);
         return $districts;
     }
 

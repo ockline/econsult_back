@@ -110,10 +110,7 @@ this should include Capital letter, small, character and number ',
 
         // If you need to work with the response content as JSON
           $return = json_decode($responseContent, true);
-            Log::info($return);
-             if($status === 201){
-            $return['success'] = 'User Created Successfully';
-            }
+
             }
 
         return response()->json($return);

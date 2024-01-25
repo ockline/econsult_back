@@ -76,7 +76,7 @@ class DistrictController extends Controller
             // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'regions' => $districts,
+                'districts' => $districts,
             ]);
         } else {
             // log::info('222');
@@ -89,7 +89,7 @@ class DistrictController extends Controller
     public function getDistrict()
     {
         $get_district =  $this->district->userDistrict();
-        Log::info($get_district);
+        // Log::info($get_district);
         if ($get_district) {
             return response()->json([
                 'status' => 200,
