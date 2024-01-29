@@ -31,15 +31,16 @@ class EmployerController extends Controller
     public function store(Request $request)
     {
         Log::info('hellow ndani');
-        // log::info($request->all());
+        log::info($request->all());
+
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:191',
             'contact_person' => 'required|max:191',
             'contact_person_phone' => 'required|max:191',
-            'phone' => 'required|max:14|min:10',
-            'tin' => 'required|max:191',
+            'phone' => 'required|min:10|max:14',
+            'tin' => 'required|min:2|max:20',
             'email' => 'email|max:191',
-            'osha' => 'required|max:50|min:8',
+            'osha' => 'required|max:50',
             'wcf' => 'required|max:191',
             'nssf' => 'required|max:191',
             'nhif' => 'required|max:191',
@@ -54,52 +55,44 @@ class EmployerController extends Controller
             'region_id' => 'required|max:191',
             'district_id' => 'required|max:191',
             'location_type_id' => 'required|max:191',
+            'cost_center' => 'required|max:191',
             'working_hours' => 'required|max:191',
             'working_days' => 'required|max:191',
             'shift_id' => 'required|max:191',
             'allowance_id' => 'required|max:191',
-
+            // 'tin_doc' => 'required|mimes:pdf|max:3072|file',
+            // 'osha_doc' => 'required|mimes:pdf|max:3072|file',
+            // 'wcf_doc' => 'required|mimes:pdf|max:3072|file',
+            // 'nssf_doc' => 'required|mimes:pdf|max:3072|file',
+            // 'nhif_doc' => 'required|mimes:pdf|max:3072|file',
+            // 'vrn_doc' => 'required|mimes:pdf|max:3072|file',
         ]);
 
         if ($validator->fails()) {
-            $messages = [
-                'name' => 'The Employer name is required',
-                'contact_person' => 'The  Contact Person  name isrequired ',
-                'contact_person_phone' => 'The Contact person number is required ',
-                'phone' => 'The phone number is required ',
-                'tin' => 'The  Tin number is required ',
-                'email' => 'The  email is required',
-                'osha' => 'The osha is required ',
-                'wcf' => 'The wcf number is required ',
-                'nssf' => 'The nssf number is required ',
-                'nhif' => 'The Nhif number is required ',
-                'vrn' => 'The vrn is required ',
-                'telephone' => 'The Telephone number is  required ',
-                'fax' => 'The Fax is required ',
-                'bank_id' => 'The Bank name is required ',
-                'bank_branch_id' => 'The Bank branch is required ',
-                'account_no' => 'The Account number is required ',
-                'account_name' => 'The Account name is required ',
-                'postal_address' => 'The postal address is required ',
-                'region_id' => 'The region is required ',
-                'district_id' => 'The District is required ',
-                'location_type_id' => 'The Location type required ',
-                'working_hours' => 'The  Working hour required ',
-                'working_days' => 'The Working day is required ',
-                'shift_id' => 'The Shift is required ',
-                'allowance_id' => 'The allowance is required ',
-
-            ];
-            $return =  [
-                'validator_err' =>  $messages,
-               ];
+            $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
+            Log::info('ndani ya nyumba');
+            $new_client = $this->employer->addEmployers($request);
 
-         $data  =   $this->employer->addEmployers($request);
-        //  $status = $data->getStatusCode();
+            $status = $new_client->getStatusCode();
+
+            // Get HTTP status code
+            $responseContent = $new_client->getContent();
+
+            if ($status) {
+                // log::info('ndani');
+                $return = [
+                    'status' => 200,
+                    "message" => "Employer Registered Successfully",
+                ];
+            } else {
+                $return = [
+                    'status' => 500,
+                    'message' => 'Sorry! Operation failed'
 
 
-            $return = ['status' => 200];
+                ];
+            }
         }
         return response()->json($return);
     }
@@ -114,18 +107,21 @@ class EmployerController extends Controller
 
     public function edit(string $id)
     {
-        $employer = $this->employer($id);
-        if ($employer) {
-            return response()->json([
+        // Log::info($id);
 
+        // $employerList = $this->employer(); // Assuming $employerList is an array of objects
+
+        $employer = Employer::find($id);
+        //   Log::info($employerList->$employer);
+        if (isset($employer)) {
+            return response()->json([
                 'status' => 200,
                 'employer' => $employer,
             ]);
         } else {
-
             return response()->json([
                 'status' => 404,
-                'message' => "N data found",
+                'message' => "No data found",
 
             ]);
         }
@@ -136,28 +132,36 @@ class EmployerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-
+        // log::info($request);
 
         // $employer = $this->employer($id);
 
-        // if ($employer) {
-        //     $employer->name = $request->input('name');
-        //     $employer->unit = $request->input('unit');
-        //     $employer->status = $request->input('status');
-        //     $employer->update();
-
-        //     return response()->json([
-        //         'status' => '200',
-        //         "message" => "Update Successfully",
-        //     ]);
-        // } else {
-        //     return response()->json([
-        //         'status' => 500,
-        //         'message' => 'Internal server error'
+        $employer = $this->employer->updateDetails($request, $id);
 
 
-        //     ]);
-        // }
+
+        // log::info($employer);
+
+        $status = $employer->getStatusCode();
+        // Log::info($status);
+        // Get HTTP status code
+        $responseContent = $employer->getContent();
+
+
+        if ($status) {
+            // log::info('ndani');
+            return response()->json([
+                'status' => 200,
+                "message" => "Employer Updated Successfully",
+            ]);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Sorry! Operation failed'
+
+
+            ]);
+        }
     }
 
     /**
@@ -165,14 +169,17 @@ class EmployerController extends Controller
      */
     public function destroy(string $id)
     {
+    //    log::info($id);
         // $employer = $this->employer($id);
-        $employer = $this->employer($id);
+        $employer = Employer::find($id);
         // log::info($employer);
-        // log::info('hapaa');
+
+        $mployer_deactivation = $this->employer->deactivateEmployer($id);
+
         if ($employer) {
             return response()->json([
                 "status" =>  200,
-                "employer" => $employer->delete(),
+                "message" => 'Record updated and deleted successfully'
             ]);
         } else {
             return response()->json([
@@ -204,20 +211,21 @@ class EmployerController extends Controller
             ]);
         }
     }
-    public function getEmployer()
-    {
-        $get_employer =  $this->employer->userEmployer();
-        // Log::info($get_employer);
-        if ($get_employer) {
-            return response()->json([
-                'status' => 200,
-                'user_employer' => $get_employer,
-            ]);
-        } else {
-            return response()->json([
-                'status' => 500,
-                'message' => 'Internal server Error',
-            ]);
-        }
-    }
+    // public function getEmployer()
+    // {
+    //     $get_employer =  $this->employer->userEmployer();
+    //     // Log::info($get_employer);
+    //     if ($get_employer) {
+    //         return response()->json([
+    //             'status' => 200,
+    //             'user_employer' => $get_employer,
+    //         ]);
+    //     } else {
+    //         return response()->json([
+    //             'status' => 500,
+    //             'message' => 'Internal server Error',
+    //         ]);
+    //     }
+    // }
+
 }

@@ -114,7 +114,7 @@ Route::prefix('employers')->group(function () {
         Route::post('/add_employer',[EmployerController::class, 'store'])->middleware('api');
         Route::get('/edit_employer/{id}', [EmployerController::class,'edit'])->middleware('api');
         Route::put('/update_employer/{id}',[EmployerController::class, 'update'])->middleware('api');
-        Route::delete('delete_employer/{id}',[EmployerController::class, 'destroy'])->middleware('api');
+        Route::delete('/delete_employer/{id}',[EmployerController::class, 'destroy'])->middleware('api');
 
 });
 
