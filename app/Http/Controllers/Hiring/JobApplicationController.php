@@ -1,21 +1,23 @@
 <?php
 
-namespace App\Http\Controllers\Employer;
+namespace App\Http\Controllers\Hiring;
 
 use Illuminate\Http\Request;
 use App\Models\Employer\Employer;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Hiring\JobApplication\JobVacancy;
 use App\Repositories\EmployerRepositories\EmployerRepository;
+use App\Repositories\HiringRepositories\JobApplicationRepository;
 
-class EmployerController extends Controller
+class JobApplicationController extends Controller
 {
-    protected $employer;
+    protected $vacancy;
 
-    public function __construct(EmployerRepository $employer)
+    public function __construct(JobApplicationRepository $vacancy)
     {
-        $this->employer = $employer;
+        $this->vacancy = $vacancy;
     }
     /**
      * Display a listing of the resource.
@@ -30,54 +32,40 @@ class EmployerController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info('hellow ndani');
+        // Log::info('hellow ndani');
         log::info($request->all());
 
         $validator = Validator::make($request->all(), [
-            'name' => 'required|string|max:191',
-            'contact_person' => 'required|max:191',
-            'contact_person_phone' => 'required|max:191',
-            'phone' => 'required|min:10|max:14',
-            'tin' => 'required|min:2|max:20',
-            'email' => 'email|max:191',
-            'osha' => 'required|max:50',
-            'wcf' => 'required|max:191',
-            'nssf' => 'required|max:191',
-            'nhif' => 'required|max:191',
-            'vrn' => 'required|max:191',
-            'telephone' => 'required|max:191',
-            'fax' => 'required|max:191',
-            'bank_id' => 'required|max:191',
-            'bank_branch_id' => 'required|max:191',
-            'account_no' => 'required|max:191',
-            'account_name' => 'required|max:191',
-            'postal_address' => 'required|max:191',
-            'region_id' => 'required|max:191',
-            'district_id' => 'required|max:191',
-            'location_type_id' => 'required|max:191',
-            'cost_center' => 'required|max:191',
-            'working_hours' => 'required|max:191',
-            'working_days' => 'required|max:191',
-            'shift_id' => 'required|max:191',
-            'allowance_id' => 'required|max:191',
-            // 'tin_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'osha_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'wcf_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'nssf_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'nhif_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'vrn_doc' => 'required|mimes:pdf|max:3072|file',
+                
+            'employer_id' => 'required|max:191',
+            'job_title_id' => 'required|max:191',
+            'department_id' => 'required|max:191',
+            'type_vacancy_id' => 'required|max:191',
+            'position_vacant' => 'required|max:191',
+            'date_application' => 'required|max:191',
+            'deadline_date' => 'required|max:191',
+            'hr_interview_date' => 'required|max:191',
+            'tech_interview_date' => 'required|max:191',
+            'apointment_date' => 'required|max:191',
+            'work_station' => 'required|max:191',
+            'age' => 'required|max:191',
+            'accademic' => 'required|max:191',
+            'professional' => 'required|max:191',
+            'salary_range' => 'required|max:191',
+          
+
         ]);
 
         if ($validator->fails()) {
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
             Log::info('ndani ya nyumba');
-            $new_client = $this->employer->addEmployers($request);
+            $new_vacancy = $this->vacancy->addVacancy($request);
 
-            $status = $new_client->getStatusCode();
+            $status = $new_vacancy->getStatusCode();
 
             // Get HTTP status code
-            $responseContent = $new_client->getContent();
+            $responseContent = $new_vacancy->getContent();
 
             if ($status) {
                 // log::info('ndani');
@@ -96,7 +84,31 @@ class EmployerController extends Controller
         }
         return response()->json($return);
     }
+      
+public function saveJobDescription(){
 
+// Log::info('ndani');
+$request = request()->all();
+
+if($request['name'] === null){
+  log::info('hapa');
+ $return = ["status" => 404, "message" => "No Job description fill please fill it before you submit"];
+
+}else{
+log::info('chini');
+ $job = $this->vacancy->jobDescription();
+
+ $status = $job->getStatusCode();
+
+            // Get HTTP status code
+            $responseContent = $job->getContent();
+if($status){
+$return = ["status" => 200, "message" => "Job description Successful added"];
+}
+}
+  return response()->json([$return]);
+
+}
     /**
      * Display the specified resource.
      */
@@ -109,14 +121,14 @@ class EmployerController extends Controller
     {
         // Log::info($id);
 
-        // $employerList = $this->employer(); // Assuming $employerList is an array of objects
+        // $vacancyList = $this->vacancy(); // Assuming $vacancyList is an array of objects
 
-        $employer = Employer::find($id);
-        //   Log::info($employerList->$employer);
-        if (isset($employer)) {
+        $vacancy = JobVacancy::find($id);
+        //   Log::info($vacancyList->$vacancy);
+        if (isset($vacancy)) {
             return response()->json([
                 'status' => 200,
-                'employer' => $employer,
+                'vacancy' => $vacancy,
             ]);
         } else {
             return response()->json([
@@ -134,25 +146,25 @@ class EmployerController extends Controller
     {
         // log::info($request);
 
-        // $employer = $this->employer($id);
+        // $vacancy = $this->vacancy($id);
 
-        $employer = $this->employer->updateDetails($request, $id);
+        $vacancy = $this->vacancy->updateDetails($request, $id);
 
 
 
-        // log::info($employer);
+        // log::info($vacancy);
 
-        $status = $employer->getStatusCode();
+        $status = $vacancy->getStatusCode();
         // Log::info($status);
         // Get HTTP status code
-        $responseContent = $employer->getContent();
+        $responseContent = $vacancy->getContent();
 
 
         if ($status) {
             // log::info('ndani');
             return response()->json([
                 'status' => 200,
-                "message" => "Employer Updated Successfully",
+                "message" => "Vacancy Updated Successfully",
             ]);
         } else {
             return response()->json([
@@ -170,13 +182,13 @@ class EmployerController extends Controller
     public function destroy(string $id)
     {
     //    log::info($id);
-        // $employer = $this->employer($id);
-        $employer = Employer::find($id);
-        // log::info($employer);
+        // $vacancy = $this->vacancy($id);
+        $vacancy = JobVacancy::find($id);
+        // log::info($vacancy);
 
-        $mployer_deactivation = $this->employer->deactivateEmployer($id);
+        $mployer_deactivation = $this->vacancy->deactivateVacancy($id);
 
-        if ($employer) {
+        if ($vacancy) {
             return response()->json([
                 "status" =>  200,
                 "message" => 'Record updated and deleted successfully'
@@ -184,7 +196,7 @@ class EmployerController extends Controller
         } else {
             return response()->json([
                 "status" =>  404,
-                "employer" => "Action Failed",
+                "vacancy" => "Action Failed",
             ]);
         }
     }
@@ -192,16 +204,16 @@ class EmployerController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function  employer()
+    public function  vacancy()
     {
         // Log::info('anafikaaa mkali');
-        $employer =    $this->employer->getEmployers();
-        // Log::info($employer);
-        if ($employer) {
+        $vacancy=    $this->vacancy->getVacancies();
+        // Log::info($vacancy;
+        if ($vacancy) {
             // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'employers' => $employer,
+                'vacancy' => $vacancy
             ]);
         } else {
             // log::info('222');

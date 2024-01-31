@@ -16,6 +16,12 @@ use App\Http\Controllers\BankBranchController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\WardController;
 use App\Http\Controllers\ShiftController;
+use App\Http\Controllers\Operation\JobTitleController;
+use App\Http\Controllers\Operation\VacancyTypeController;
+use App\Http\Controllers\Hiring\JobApplicationController;
+// use App\Http\Controllers\Hiring\HrInterviewController;
+// use App\Http\Controllers\Hiring\TechnicalInterviewController;
+
 
 
 
@@ -148,3 +154,41 @@ Route::prefix('shifts')->group(function () {
         Route::get('show_shift', [ShiftController::class, 'getShift'])->middleware('api');
 });
 
+//api for Vacancies Type
+Route::prefix('vacancies')->group(function () {
+        Route::get('show_vacancies', [VacancyTypeController::class, 'getVacancies'])->middleware('api');
+});
+//api for Shifts
+Route::prefix('job_titles')->group(function () {
+        Route::get('/show_job_titles', [JobTitleController::class, 'getJobTitle'])->middleware('api');
+});
+
+// ******** Hiring Block  (Both Job Application and Interviews)  *****
+// api for Job Application (Vacancies)
+Route::prefix('hiring')->group(function () {
+        //Job Application       
+        Route::get('job/show_jobs', [JobApplicationController::class, 'vacancy'])->middleware('api');
+        Route::get('job/home_job', [JobApplicationController::class, 'getVacancies'])->middleware('api');
+        Route::post('job/add_job',[JobApplicationController::class, 'store'])->middleware('api');
+        Route::get('job/edit_job/{id}', [JobApplicationController::class,'edit'])->middleware('api');
+        Route::put('job/update_job/{id}',[JobApplicationController::class, 'update'])->middleware('api');
+        Route::delete('job/delete_job/{id}',[JobApplicationController::class, 'destroy'])->middleware('api');
+       Route::post('job/job_description',[JobApplicationController::class, 'saveJobDescription'])->middleware('api');
+
+        // HR Interview
+        // Route::get('/hr_interview/show_candidate', [HrInterviewController::class, 'candidate'])->middleware('api');
+        // Route::get('/hr_interview/home_candidate', [HrInterviewController::class, 'getEmployer'])->middleware('api');
+        // Route::post('/hr_interview/add_employer',[HrInterviewController::class, 'store'])->middleware('api');
+        // Route::get('/hr_interview/edit_employer/{id}', [HrInterviewController::class,'edit'])->middleware('api');
+        // Route::put('/hr_interview/update_employer/{id}',[HrInterviewController::class, 'update'])->middleware('api');
+        // Route::delete('/hr_interview/delete_employer/{id}',[HrInterviewController::class, 'destroy'])->middleware('api');
+
+       // Technical Interview
+        // Route::get('technical_interview/show_employer', [TechnicalInterviewController::class, 'employer'])->middleware('api');
+        // Route::get('technical_interview/home_employer', [TechnicalInterviewController::class, 'getEmployer'])->middleware('api');
+        // Route::post('technical_interview/add_employer',[TechnicalInterviewController::class, 'store'])->middleware('api');
+        // Route::get('technical_interview/edit_employer/{id}', [TechnicalInterviewController::class,'edit'])->middleware('api');
+        // Route::put('technical_interview/update_employer/{id}',[TechnicalInterviewController::class, 'update'])->middleware('api');
+        // Route::delete('technical_interview/delete_employer/{id}',[TechnicalInterviewController::class, 'destroy'])->middleware('api');
+
+});

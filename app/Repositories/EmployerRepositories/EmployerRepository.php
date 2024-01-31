@@ -45,7 +45,7 @@ class EmployerRepository extends  BaseRepository
         // if (!is_null($employers)) {
         //     return $employers;
         // }
-        // throw new GeneralException(trans('exceptions.backend.claim.notification_report_not_found'));
+
     }
 
     public function getEmployers()
@@ -55,11 +55,8 @@ class EmployerRepository extends  BaseRepository
         return $employers;
     }
 
-
-
     public function addEmployers($request)
     {
-
         // Log::info('hapa atumefika');
 
         DB::beginTransaction();
