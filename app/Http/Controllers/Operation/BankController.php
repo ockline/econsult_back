@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Repositories\OperationRepositories\ShiftRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\OperationRepositories\BankRepository;
 
-class ShiftController extends Controller
+class BankController extends Controller
 {
+      protected $bank;
 
- protected $shift;
-
-    public function __construct(ShiftRepository $shift)
+    public function __construct(BankRepository $bank)
     {
-        $this->shift = $shift;
+        $this->bank = $bank;
     }
     /**
      * Display a listing of the resource.
@@ -53,9 +53,10 @@ class ShiftController extends Controller
     {
         //
     }
-    public function getShift(){
-      $shifts =  $this->shift->getdatatable();
+ public function getBank(){
 
-     return response()->json(["status" => 200, "shifts" => $shifts]);
-    }
+    $banks =   $this->bank->getDatatable();
+
+   return response()->json(["status" => 200, "banks" => $banks]);
+}
 }

@@ -1,19 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Repositories\OperationRepositories\WardRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\OperationRepositories\AllowanceRepository;
 
-class WardController extends Controller
+class AllowanceController extends Controller
 {
-   protected $ward;
+ protected $allowance;
 
-     public function __construct(WardRepository $ward)
-     {
-        $this->ward = $ward;
-     }
-
+    public function __construct(AllowanceRepository $allowance)
+    {
+        $this->allowance = $allowance;
+    }
     /**
      * Display a listing of the resource.
      */
@@ -53,9 +53,10 @@ class WardController extends Controller
     {
         //
     }
-  public function getWard(){
+public function getAllowance(){
 
-   $wards = $this->ward->getDatatable();
- return response()->json(["status" => 200, "wards" => $wards]);
+       $allowances =  $this->allowance->getDatatable();
+
+      return response()->json(["status" => 200, "allowances" => $allowances]);
 }
 }

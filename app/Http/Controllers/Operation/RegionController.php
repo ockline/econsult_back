@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Models\Sysdef\District;
+use App\Models\Sysdef\Region;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Repositories\RegionRepository;
 use Illuminate\Support\Facades\Validator;
-use App\Repositories\DistrictRepository;
 
-class DistrictController extends Controller
+class RegionController extends Controller
 {
-    protected $district;
+    protected $region;
 
-    public function __construct(DistrictRepository $district)
+    public function __construct(RegionRepository $region)
     {
-        $this->district = $district;
+        $this->region = $region;
     }
     /**
      * Display a listing of the resource.
@@ -67,16 +68,16 @@ class DistrictController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function  district()
+    public function  region()
     {
         // Log::info('anafikaaa mkali');
-        $districts =    $this->district->getDistricts();
-        // Log::info($districts);
-        if ($districts) {
+        $regions =    $this->region->getRegions();
+        // Log::info($regions);
+        if ($regions) {
             // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'districts' => $districts,
+                'regions' => $regions,
             ]);
         } else {
             // log::info('222');
@@ -86,14 +87,16 @@ class DistrictController extends Controller
             ]);
         }
     }
-    public function getDistrict()
+    public function getRegion()
     {
-        $get_district =  $this->district->userDistrict();
-        // Log::info($get_district);
-        if ($get_district) {
+        $get_region =  $this->region->userRegion();
+        // Log::info($get_region);
+        // Log::info($get_region);
+
+        if ($get_region) {
             return response()->json([
                 'status' => 200,
-                'user_district' => $get_district,
+                'user_region' => $get_region,
             ]);
         } else {
             return response()->json([

@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Repositories\OperationRepositories\BankBranchRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\OperationRepositories\LocationRepository;
 
-class BankBranchController extends Controller
+class LocationController extends Controller
 {
- protected $branches;
+    protected $location;
 
-    public function __construct(BankBranchRepository $branches)
+    public function __construct(LocationRepository $location)
     {
-        $this->branches = $branches;
+        $this->location = $location;
     }
     /**
      * Display a listing of the resource.
@@ -52,10 +53,9 @@ class BankBranchController extends Controller
     {
         //
     }
-  public function bankBranch(){
+   public function locationType(){
+    $locations =  $this->location->getLocation();
 
-    $branches = $this->branches->getDatatable();
-
-    return response()->json(["status" => 200, "branches" => $branches]);
+ return response()->json(["status" => 200, "locations" => $locations]);
 }
 }

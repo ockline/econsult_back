@@ -1,17 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Repositories\OperationRepositories\AllowanceRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\OperationRepositories\ShiftRepository;
 
-class AllowanceController extends Controller
+class ShiftController extends Controller
 {
- protected $allowance;
 
-    public function __construct(AllowanceRepository $allowance)
+ protected $shift;
+
+    public function __construct(ShiftRepository $shift)
     {
-        $this->allowance = $allowance;
+        $this->shift = $shift;
     }
     /**
      * Display a listing of the resource.
@@ -52,10 +54,9 @@ class AllowanceController extends Controller
     {
         //
     }
-public function getAllowance(){
+    public function getShift(){
+      $shifts =  $this->shift->getdatatable();
 
-       $allowances =  $this->allowance->getDatatable();
-
-      return response()->json(["status" => 200, "allowances" => $allowances]);
-}
+     return response()->json(["status" => 200, "shifts" => $shifts]);
+    }
 }

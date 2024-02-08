@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
+use App\Models\Sysdef\Unit;
 use Illuminate\Http\Request;
-use App\Models\Sysdef\Designation;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Repositories\UnitRepository;
 use Illuminate\Support\Facades\Validator;
-use App\Repositories\DesignationRepository;
 
-class DesignationController extends Controller
+class UnitController extends Controller
 {
-    protected $designation;
+    protected $unit;
 
-    public function __construct(DesignationRepository $designation)
+    public function __construct(UnitRepository $unit)
     {
-        $this->designation = $designation;
+        $this->unit = $unit;
     }
     /**
      * Display a listing of the resource.
@@ -30,7 +31,7 @@ class DesignationController extends Controller
     public function store(Request $request)
     {
         // Log::info('hellow ndani');
-        log::info($request->all());
+        // log::info($request->all());
         $validator = Validator::make($request->all(), [
             'name' => 'required|max:191',
             'status'  => 'required',
@@ -41,7 +42,7 @@ class DesignationController extends Controller
             $return  = ['validator_err' => $validator->messages()];
         } else {
 
-            $this->designation->addDesignations($request);
+            $this->unit->addUnits($request);
 
             $return = ['status' => 200];
         }
@@ -58,12 +59,12 @@ class DesignationController extends Controller
 
     public function edit(string $id)
     {
-        $designation = Designation::find($id);
-        if ($designation) {
+        $department = Unit::find($id);
+        if ($department) {
             return response()->json([
 
                 'status' => 200,
-                'designation' => $designation,
+                'department' => $department,
             ]);
         } else {
 
@@ -82,13 +83,13 @@ class DesignationController extends Controller
     {
 
 
-        $designation = Designation::find($id);;
+        $unit = Unit::find($id);;
 
-        if ($designation) {
-            $designation->name = $request->input('name');
-            $designation->unit = $request->input('unit');
-            $designation->status = $request->input('status');
-            $designation->update();
+        if ($unit) {
+            $unit->name = $request->input('name');
+            $unit->unit = $request->input('unit');
+            $unit->status = $request->input('status');
+            $unit->update();
 
             return response()->json([
                 'status' => '200',
@@ -109,19 +110,19 @@ class DesignationController extends Controller
      */
     public function destroy(string $id)
     {
-        // $designation = $this->designation($id);
-        $designation = Designation::find($id);
-        log::info($designation);
-        log::info('hapaa');
-        if ($designation) {
+        // $unit = $this->unit($id);
+        $unit = Unit::find($id);
+        // log::info($department);
+        // log::info('hapaa');
+        if ($unit) {
             return response()->json([
                 "status" =>  200,
-                "designation" => $designation->delete(),
+                "unit" => $unit->delete(),
             ]);
         } else {
             return response()->json([
                 "status" =>  404,
-                "designation" => "Action Failed",
+                "department" => "Action Failed",
             ]);
         }
     }
@@ -129,16 +130,16 @@ class DesignationController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function  designation()
+    public function  unit()
     {
         // Log::info('anafikaaa mkali');
-        $designation =    $this->designation->getDesignations();
-        // Log::info($department);
-        if ($designation) {
+        $section =    $this->unit->getUnits();
+        // Log::info($section);
+        if ($section) {
             // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'designations' => $designation,
+                'sections' => $section,
             ]);
         } else {
             // log::info('222');
@@ -148,14 +149,14 @@ class DesignationController extends Controller
             ]);
         }
     }
-    public function getDesignation()
+    public function getUnit()
     {
-        $get_designation =  $this->designation->userDesignation();
-        Log::info($get_designation);
-        if ($get_designation) {
+        $get_section =  $this->unit->userUnit();
+        // Log::info($get_section);
+        if ($get_section) {
             return response()->json([
                 'status' => 200,
-                'user_designation' => $get_designation,
+                'user_section' => $get_section,
             ]);
         } else {
             return response()->json([

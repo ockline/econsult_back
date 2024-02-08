@@ -54,36 +54,40 @@ class JobApplicationRepository extends  BaseRepository
 
     public function getVacancies()
     {
-         $vacancies = $this->vacancy
-        ->select([
-        DB::Raw('position_vacant'),
-        DB::raw('accademic'),
-        DB::raw('date_application'),
-        DB::raw('deadline_date'),
-        DB::raw('hr_interview_date'),
-        DB::raw('tech_interview_date'),
-        DB::raw('apointment_date'),
-        DB::raw('work_station'),
-        DB::raw('replacement_reason'),
-        DB::raw('age'),
-        DB::raw('professional'),
-        DB::raw('salary_range'),
-        DB::raw('others'),
-        DB::raw('additional_comment'),
-       DB::Raw('e.name as employer'), 
-        DB::Raw('d.name as department'),
-        DB::Raw('jt.name as job_title'),
-        DB::Raw('tv.name as vacancy_type'),
-         DB::Raw('jbt.name as job_desciption'),
-       DB::Raw("CASE WHEN job_vacancies.status = 0 THEN 'Submitted' WHEN job_vacancies.status = 1 THEN 'Initiated' WHEN job_vacancies.status = 2 THEN 'Pending' WHEN job_vacancies.status = 3 THEN 'Approved' ELSE 'Rejected' END AS status")
+        $vacancies = $this->vacancy
+            ->select([
+                DB::raw('job_vacancies.id'),
+                DB::raw('job_vacancies.employer_id'),
+                DB::raw('job_vacancies.job_title_id'),
+                DB::raw('job_vacancies.department_id'),
+                DB::Raw('position_vacant'),
+                DB::raw('accademic'),
+                DB::raw('date_application'),
+                DB::raw('deadline_date'),
+                DB::raw('hr_interview_date'),
+                DB::raw('tech_interview_date'),
+                DB::raw('apointment_date'),
+                DB::raw('work_station'),
+                DB::raw('replacement_reason'),
+                DB::raw('age'),
+                DB::raw('professional'),
+                DB::raw('salary_range'),
+                DB::raw('others'),
+                DB::raw('additional_comment'),
+                DB::Raw('e.name as employer'),
+                DB::Raw('d.name as department'),
+                DB::Raw('jt.name as job_title'),
+                DB::Raw('tv.name as vacancy_type'),
+                DB::Raw('jbt.name'),
+                DB::Raw("CASE WHEN job_vacancies.status = 0 THEN 'Submitted' WHEN job_vacancies.status = 1 THEN 'Initiated' WHEN job_vacancies.status = 2 THEN 'Pending' WHEN job_vacancies.status = 3 THEN 'Approved' ELSE 'Rejected' END AS status")
 
-         ])
-        ->leftJoin('employers as e', 'job_vacancies.employer_id', '=', 'e.id')
-        ->leftJoin('departments as d', 'job_vacancies.department_id', '=', 'd.id')
-        ->leftJoin('job_title as jt', 'job_vacancies.job_title_id','=', 'jt.id')
-        ->leftJoin('type_vacancies as tv','job_vacancies.type_vacancy_id', '=', 'tv.id')
-        ->leftJoin('job_desc_transactions as jbt', 'job_vacancies.id', '=', 'jbt.job_vacancy_id')
-        ->get();
+            ])
+            ->leftJoin('employers as e', 'job_vacancies.employer_id', '=', 'e.id')
+            ->leftJoin('departments as d', 'job_vacancies.department_id', '=', 'd.id')
+            ->leftJoin('job_title as jt', 'job_vacancies.job_title_id', '=', 'jt.id')
+            ->leftJoin('type_vacancies as tv', 'job_vacancies.type_vacancy_id', '=', 'tv.id')
+            ->leftJoin('job_desc_transactions as jbt', 'job_vacancies.id', '=', 'jbt.job_vacancy_id')
+            ->get();
         // $employers = DB::table('employers')->select('*')->get();
         return $vacancies;
     }
@@ -110,8 +114,8 @@ class JobApplicationRepository extends  BaseRepository
 
             $this->vacancy->create([
                 'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
-                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id']: null,
-                'department_id' => !empty($input['department_id']) ? $input['department_id']: null,
+                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
                 'type_vacancy_id' => !empty($input['type_vacancy_id']) ? $input['type_vacancy_id'] : null,
                 'position_vacant' => !empty($input['position_vacant']) ? $input['position_vacant'] : null,
                 'date_application' => !empty($input['date_application']) ? $input['date_application'] : null,
@@ -190,10 +194,10 @@ class JobApplicationRepository extends  BaseRepository
     }
     public function updateDetails($request, $id)
     {
-        // log::info('ndani');
-        // Log::info($request);
-        // Log::info("*************");
+
         $vacancy = JobVacancy::find($id);
+
+
         if (isset($vacancy)) {
             // $department = $this->department->id; // Assuming you have an 'id' field in your request
 
@@ -209,8 +213,6 @@ class JobApplicationRepository extends  BaseRepository
                 // $fileName = time().'.'.$request->file->extension();
 
                 // $request->file->move(public_path('uploads'), $fileName);
-
-
                 $vacancy->employer_id = $request->input('employer_id');
                 $vacancy->job_title_id = $request->input('job_title_id');
                 $vacancy->department_id = $request->input('department_id');
@@ -241,6 +243,40 @@ class JobApplicationRepository extends  BaseRepository
 
                 return response()->json(['message' => 'Failed to Update user', 'status' => 500]);
             }
+        }
+    }
+
+    public function updateJobDescription($request, $id)
+    {
+        // Log::info($request['name']);
+        // die;
+        DB::beginTransaction();
+
+        try {
+
+            $description = Purifier::clean($request['name']);
+            $last_job = $this->getVacancies()->find($id);
+            //  Log::info($last_job['id']);
+            $job_description = new JobDescTransaction();
+
+          JobDescTransaction::where('job_vacancy_id', $last_job->id)
+          ->update([
+                'name' => !empty($description) ? $description : $last_job['name'],
+                'job_title_id' => !empty($last_job['job_title_id']) ? $last_job['job_title_id'] : $last_job['id'],
+                'employer_id' => !empty($last_job['employer_id']) ? $last_job['employer_id'] : 2,
+                'job_vacancy_id' => !empty($last_job['id']) ? $last_job['id'] : 2,
+                'description' => !empty($last_job['additional_comment']) ? $last_job['additional_comment'] : null,
+                'status' => 1,
+            ]);
+            DB::commit();
+
+            // Log::info('updated done');
+            return response()->json(['message' => 'Job Description updated successfully', 'status' => 200], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create user', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to update Job description', 'status' => 500]);
         }
     }
 

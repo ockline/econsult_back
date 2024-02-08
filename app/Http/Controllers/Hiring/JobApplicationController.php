@@ -33,10 +33,10 @@ class JobApplicationController extends Controller
     public function store(Request $request)
     {
         // Log::info('hellow ndani');
-        log::info($request->all());
+        // log::info($request->all());
 
         $validator = Validator::make($request->all(), [
-                
+
             'employer_id' => 'required|max:191',
             'job_title_id' => 'required|max:191',
             'department_id' => 'required|max:191',
@@ -52,7 +52,7 @@ class JobApplicationController extends Controller
             'accademic' => 'required|max:191',
             'professional' => 'required|max:191',
             'salary_range' => 'required|max:191',
-          
+
 
         ]);
 
@@ -84,37 +84,50 @@ class JobApplicationController extends Controller
         }
         return response()->json($return);
     }
-      
-public function saveJobDescription(){
 
-// Log::info('ndani');
-$request = request()->all();
+    public function saveJobDescription()
+    {
 
-if($request['name'] === null){
-  log::info('hapa');
- $return = ["status" => 404, "message" => "No Job description fill please fill it before you submit"];
+        // Log::info('ndani');
+        $request = request()->all();
 
-}else{
-log::info('chini');
- $job = $this->vacancy->jobDescription();
+        if ($request['name'] === null) {
+            log::info('hapa');
+            $return = ["status" => 404, "message" => "No Job description fill please fill it before you submit"];
+        } else {
+            log::info('chini');
+            $job = $this->vacancy->jobDescription();
 
- $status = $job->getStatusCode();
+            $status = $job->getStatusCode();
 
             // Get HTTP status code
             $responseContent = $job->getContent();
-if($status){
-$return = ["status" => 200, "message" => "Job description Successful added"];
-}
-}
-  return response()->json([$return]);
-
-}
+            if ($status) {
+                $return = ["status" => 200, "message" => "Job description Successful added"];
+            }
+        }
+        return response()->json([$return]);
+    }
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+        $details = $this->vacancy->getVacancies();
+        $formData = $details->find($id);
+        if (isset($formData)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'formData' => $formData
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
     }
 
     public function edit(string $id)
@@ -144,15 +157,7 @@ $return = ["status" => 200, "message" => "Job description Successful added"];
      */
     public function update(Request $request, string $id)
     {
-        // log::info($request);
-
-        // $vacancy = $this->vacancy($id);
-
         $vacancy = $this->vacancy->updateDetails($request, $id);
-
-
-
-        // log::info($vacancy);
 
         $status = $vacancy->getStatusCode();
         // Log::info($status);
@@ -160,7 +165,7 @@ $return = ["status" => 200, "message" => "Job description Successful added"];
         $responseContent = $vacancy->getContent();
 
 
-        if ($status) {
+        if ($status === 200) {
             // log::info('ndani');
             return response()->json([
                 'status' => 200,
@@ -176,13 +181,39 @@ $return = ["status" => 200, "message" => "Job description Successful added"];
         }
     }
 
+
+    public function updateDescription(Request $request, string $id)
+    {
+        //    Log::info($request->all());
+        $job_description = $this->vacancy->updateJobDescription($request, $id);
+
+        $status = $job_description->getStatusCode();
+        // Log::info($status);
+        // Get HTTP status code
+        $responseContent = $job_description->getContent();
+
+
+        if ($status === 200) {
+            // log::info('ndani');
+            return response()->json([
+                'status' => 200,
+                "message" => "Job Description Updated Successfully",
+            ]);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Sorry! Operation failed'
+
+
+            ]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
-    //    log::info($id);
-        // $vacancy = $this->vacancy($id);
+
         $vacancy = JobVacancy::find($id);
         // log::info($vacancy);
 
@@ -207,7 +238,7 @@ $return = ["status" => 200, "message" => "Job description Successful added"];
     public function  vacancy()
     {
         // Log::info('anafikaaa mkali');
-        $vacancy=    $this->vacancy->getVacancies();
+        $vacancy =    $this->vacancy->getVacancies();
         // Log::info($vacancy;
         if ($vacancy) {
             // Log::info('111');
@@ -223,21 +254,24 @@ $return = ["status" => 200, "message" => "Job description Successful added"];
             ]);
         }
     }
-    // public function getEmployer()
-    // {
-    //     $get_employer =  $this->employer->userEmployer();
-    //     // Log::info($get_employer);
-    //     if ($get_employer) {
-    //         return response()->json([
-    //             'status' => 200,
-    //             'user_employer' => $get_employer,
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'status' => 500,
-    //             'message' => 'Internal server Error',
-    //         ]);
-    //     }
-    // }
-
+    public function downloadJob(string $id)
+    {
+        // log::info('ndanioiaiaiai');
+        $details = $this->vacancy->getVacancies();
+        $vacancy = $details->find($id);
+        //  Log::info($vacancy);
+        if (isset($vacancy)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'vacancy' => $vacancy
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+    }
 }

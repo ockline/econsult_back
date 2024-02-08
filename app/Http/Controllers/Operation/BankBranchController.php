@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Repositories\OperationRepositories\BankRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\OperationRepositories\BankBranchRepository;
 
-class BankController extends Controller
+class BankBranchController extends Controller
 {
-      protected $bank;
+ protected $branches;
 
-    public function __construct(BankRepository $bank)
+    public function __construct(BankBranchRepository $branches)
     {
-        $this->bank = $bank;
+        $this->branches = $branches;
     }
     /**
      * Display a listing of the resource.
@@ -52,10 +53,10 @@ class BankController extends Controller
     {
         //
     }
- public function getBank(){
+  public function bankBranch(){
 
-    $banks =   $this->bank->getDatatable();
+    $branches = $this->branches->getDatatable();
 
-   return response()->json(["status" => 200, "banks" => $banks]);
+    return response()->json(["status" => 200, "branches" => $branches]);
 }
 }

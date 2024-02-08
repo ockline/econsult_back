@@ -1,17 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Repositories\OperationRepositories\LocationRepository;
+use App\Http\Controllers\Controller;
+use App\Repositories\OperationRepositories\PackageRepository;
 
-class LocationController extends Controller
+class PackageController extends Controller
 {
-    protected $location;
+ protected $package;
 
-    public function __construct(LocationRepository $location)
+    public function __construct(PackageRepository $package)
     {
-        $this->location = $location;
+        $this->package = $package;
     }
     /**
      * Display a listing of the resource.
@@ -52,9 +53,10 @@ class LocationController extends Controller
     {
         //
     }
-   public function locationType(){
-    $locations =  $this->location->getLocation();
+public function getPackage(){
 
- return response()->json(["status" => 200, "locations" => $locations]);
+       $packages =  $this->package->getDatatable();
+
+      return response()->json(["status" => 200, "packages" => $packages]);
 }
 }

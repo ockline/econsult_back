@@ -1,20 +1,21 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Operation;
 
 use Illuminate\Http\Request;
-use App\Models\Sysdef\Region;
+use App\Models\Sysdef\District;
 use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use App\Repositories\DistrictRepository;
 use Illuminate\Support\Facades\Validator;
-use App\Repositories\RegionRepository;
 
-class RegionController extends Controller
+class DistrictController extends Controller
 {
-    protected $region;
+    protected $district;
 
-    public function __construct(RegionRepository $region)
+    public function __construct(DistrictRepository $district)
     {
-        $this->region = $region;
+        $this->district = $district;
     }
     /**
      * Display a listing of the resource.
@@ -67,16 +68,16 @@ class RegionController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function  region()
+    public function  district()
     {
         // Log::info('anafikaaa mkali');
-        $regions =    $this->region->getRegions();
-        // Log::info($regions);
-        if ($regions) {
+        $districts =    $this->district->getDistricts();
+        // Log::info($districts);
+        if ($districts) {
             // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'regions' => $regions,
+                'districts' => $districts,
             ]);
         } else {
             // log::info('222');
@@ -86,16 +87,14 @@ class RegionController extends Controller
             ]);
         }
     }
-    public function getRegion()
+    public function getDistrict()
     {
-        $get_region =  $this->region->userRegion();
-        // Log::info($get_region);
-        // Log::info($get_region);
-
-        if ($get_region) {
+        $get_district =  $this->district->userDistrict();
+        // Log::info($get_district);
+        if ($get_district) {
             return response()->json([
                 'status' => 200,
-                'user_region' => $get_region,
+                'user_district' => $get_district,
             ]);
         } else {
             return response()->json([
