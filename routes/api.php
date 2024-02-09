@@ -185,7 +185,7 @@ Route::prefix('hiring')->group(function () {
     Route::get('job/download_job/{id}', [JobApplicationController::class, 'downloadJob'])->middleware('api');
 
     // HR Interview
-    Route::get('/hr_interview/show_candidate', [HrInterviewController::class, 'candidate'])->middleware('api');
+    Route::get('/hr_interview/show_candidate', [HrInterviewController::class, 'assessedCandidate'])->middleware('api');
     Route::get('/hr_interview/home_candidate', [HrInterviewController::class, 'getCandidate'])->middleware('api');
     Route::post('/hr_interview/add_assessment', [HrInterviewController::class, 'store'])->middleware('api');
     Route::get('/hr_interview/edit_assessment/{id}', [HrInterviewController::class, 'edit'])->middleware('api');

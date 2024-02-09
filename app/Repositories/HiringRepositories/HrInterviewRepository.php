@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Hiring\Interview\CompetencyInterview;
+use App\Models\Hiring\Interview\CompetencyTransaction;
 use App\Models\Hiring\JobApplication\JobDescTransaction;
 use App\Repositories\EmployerRepositories\EmployerRepository;
 
@@ -46,7 +47,7 @@ class HrInterviewRepository extends  BaseRepository
     public function addAssessment($request, $overall)
     {
         // Log::info($overall);
-        Log::info('************************************8');
+        // Log::info('************************************8');
 
         $candidate_number = $this->generateCandidateNo();
         //   log::info($candidate_number);
@@ -55,16 +56,16 @@ class HrInterviewRepository extends  BaseRepository
 
         try {
             $input = $request->all();
-            // Log::info($input);
+            // Log::info($input['surgery_operation']);
             //    Log::info($overall);
-            log::info('mwamba juu');
+            // log::info('mwamba juu');
             // log::info($employer_number);
             // log::info('mwamba chini');
             // $fileName = time().'.'.$request->file->extension();
 
             // $request->file->move(public_path('uploads'), $fileName);
 
-       $assessment =  $this->assessment->create([
+            $assessment =  $this->assessment->create([
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                 'cost_center_id' => !empty($input['cost_center_id']) ? $input['cost_center_id'] : null,
                 'cost_number' => !empty($input['cost_number']) ? $input['cost_number'] : null,
@@ -115,8 +116,8 @@ class HrInterviewRepository extends  BaseRepository
                 'mgt_senior_remark' => !empty($input['mgt_senior_remark']) ? $input['mgt_senior_remark'] : null,
                 'mgt_top_competence_id' => !empty($input['mgt_top_competence_id']) ? $input['mgt_top_competence_id'] : null,
                 'mgt_top_remark' => !empty($input['mgt_top_remark']) ? $input['mgt_top_remark'] : null,
-                'surgery_operation' => !empty($input['surgery_operation']) ? $input['surgery_operation'] : 2,
-                'candidate_name' => !empty($input['candidate_name']) ? ($input['firstname'] . " " . $input['middlename'] . " " . $input['lastname']) : 2,
+                'surgery_operation' => !empty($input['surgery_operation']) ? 1 : 2,
+                'candidate_name' =>  ($input['firstname'] . " " . $input['middlename'] . " " . $input['lastname']),
                 'overall_rating' => !empty($overall) ? $overall : 3,
                 'interview_number' => !empty($candidate_number) ? $candidate_number : 22202,
                 'downloaded' => 0, // default before download
@@ -125,9 +126,9 @@ class HrInterviewRepository extends  BaseRepository
                 'status' => 0, // submitted
 
             ]);
-               Log::info('vita iendeleee');
-                 $assessment_id = $assessment->id;
-                 $this->updateCompetencyTransaction($request,$assessment_id);
+            // Log::info('vita iendeleee');
+            $assessment_id = $assessment->id;
+            $this->updateCompetencyTransaction($request, $assessment_id);
 
             DB::commit();
 
@@ -161,27 +162,33 @@ class HrInterviewRepository extends  BaseRepository
 
         return  $uniqueNumber;
     }
-/**
+    /**
      * @param $id
      * @return mixed
      * @competency transactions
      */
-  public function updateCompetencyTransaction($request,$assessment_id)
-{
-     Log::info('unyama sana');
-      log::info($assessment_id);
-      Log::info('###############');
-      Log::info($request);
+    public function updateCompetencyTransaction($request, $assessment_id)
+    {
+        // Log::info('unyama sana');
+        // log::info($assessment_id);
+        // Log::info('###############');
+        // Log::info($request);
 
-//   DB::beginTransaction();
+        DB::beginTransaction();
 
         try {
             $input = $request->all();
             // Log::info($input);
             //    Log::info($overall);
-            log::info('mwamba juu');
+            // log::info('mwamba competencies');
 
-         $this->assessment->create([
+            $competency = new CompetencyTransaction();
+
+            $competency->create([
+                'competency_id' => !empty($request['competency_id']) ? $request['competency_id'] : null,
+                'competency__subject_id' => !empty($request['competency__subject_id']) ?: null,
+                'competency_interview_id' => $assessment_id,
+                'description' => !empty($request['description']) ? $request['description'] : null,
                 'interactive_communication' => !empty($request['interactive_communication']) ? $request['interactive_communication'] : 0,
                 'accountability' => !empty($request['accountability']) ? $request['accountability'] : 0,
                 'work_excellence' => !empty($request['work_excellence']) ? $request['work_excellence'] : 0,
@@ -201,43 +208,89 @@ class HrInterviewRepository extends  BaseRepository
                 'delegating_managing' => !empty($request['delegating_managing']) ? $request['delegating_managing'] : 0,
                 'managing_change' => !empty($request['managing_change']) ? $request['managing_change'] : 0,
                 'strategic_conceptual_thinking' => !empty($request['strategic_conceptual_thinking']) ? $request['strategic_conceptual_thinking'] : 0,
-                'interactive_communication_remark' => !empty($input['interactive_communication_remark']) ? $input['interactive_communication_remark']: null,
-                'accountability_remark' => !empty($input['accountability_remark']) ? $input['accountability_remark']: null,
-                'work_excellence_remark' => !empty($input['work_excellence_remark']) ?$input['work_excellence_remark'] : null,
-                'planning_organizing_remark' => !empty($input['planning_organizing_remark']) ?$input['planning_organizing_remark'] : null,
+                'interactive_communication_remark' => !empty($input['interactive_communication_remark']) ? $input['interactive_communication_remark'] : null,
+                'accountability_remark' => !empty($input['accountability_remark']) ? $input['accountability_remark'] : null,
+                'work_excellence_remark' => !empty($input['work_excellence_remark']) ? $input['work_excellence_remark'] : null,
+                'planning_organizing_remark' => !empty($input['planning_organizing_remark']) ? $input['planning_organizing_remark'] : null,
                 'problem_solving_remark' => !empty($input['problem_solving_remark']) ? $input['problem_solving_remark'] : null,
-                'analytical_ability_remark' => !empty($input['analytical_ability_remark']) ? $input['analytical_ability_remark']: null,
+                'analytical_ability_remark' => !empty($input['analytical_ability_remark']) ? $input['analytical_ability_remark'] : null,
                 'attention_Details_remark' => !empty($input['attention_Details_remark']) ? $input['attention_Details_remark'] : null,
-                'initiative_remark' => !empty($input['initiative_remark']) ? $input['initiative_remark']: null,
-                'multi_tasking_remark' => !empty($input['multi_tasking_remark']) ?$input['multi_tasking_remark'] : null,
+                'initiative_remark' => !empty($input['initiative_remark']) ? $input['initiative_remark'] : null,
+                'multi_tasking_remark' => !empty($input['multi_tasking_remark']) ? $input['multi_tasking_remark'] : null,
                 'continuous_improvement_remark' => !empty($input['continuous_improvement_remark']) ? $input['continuous_improvement_remark'] : null,
                 'compliance_remark' => !empty($input['compliance_remark']) ? $input['compliance_remark'] : null,
-                'creativity_innovation_remark' => !empty($input['creativity_innovation_remark']) ?$input['creativity_innovation_remark'] : null,
-                'negotiation_remark' => !empty($input['negotiation_remark']) ?$input['negotiation_remark'] : null,
-                'team_work_remark' => !empty($input['team_work_remark']) ?$input['team_work_remark']: null,
-                'adaptability_flexibility_remark' => !empty($input['adaptability_flexibility_remark']) ? $input['adaptability_flexibility_remark']: null,
-                'leadership_remark' => !empty($input['leadership_remark']) ? $input['leadership_remark']: null,
-                'delegating_managing_remark' => !empty($input['delegating_managing_remark']) ? $input['delegating_managing_remark']: null,
-                'managing_change_remark' => !empty($input['managing_change_remark']) ? $input['managing_change_remark']: null,
-                'strategic_conceptual_thinking_remark' => !empty($input['strategic_conceptual_thinking_remark']) ?$input['strategic_conceptual_thinking_remark'] : null,
+                'creativity_innovation_remark' => !empty($input['creativity_innovation_remark']) ? $input['creativity_innovation_remark'] : null,
+                'negotiation_remark' => !empty($input['negotiation_remark']) ? $input['negotiation_remark'] : null,
+                'team_work_remark' => !empty($input['team_work_remark']) ? $input['team_work_remark'] : null,
+                'adaptability_flexibility_remark' => !empty($input['adaptability_flexibility_remark']) ? $input['adaptability_flexibility_remark'] : null,
+                'leadership_remark' => !empty($input['leadership_remark']) ? $input['leadership_remark'] : null,
+                'delegating_managing_remark' => !empty($input['delegating_managing_remark']) ? $input['delegating_managing_remark'] : null,
+                'managing_change_remark' => !empty($input['managing_change_remark']) ? $input['managing_change_remark'] : null,
+                'strategic_conceptual_thinking_remark' => !empty($input['strategic_conceptual_thinking_remark']) ? $input['strategic_conceptual_thinking_remark'] : null,
 
-         ]);
-         return response()->json(['message' => 'data creasaved successfully', 'status' => 201], 201);
+            ]);
+            DB::commit();
+
+            return response()->json(['message' => 'Competencie saved successfully', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Failed to create user', ['error' => $e->getMessage()]);
+            Log::error('Failed to save competencies', ['error' => $e->getMessage()]);
 
             return response()->json(['message' => 'Failed to save on competency transactions', 'status' => 500]);
         }
- }
+    }
 
     public function updateDetails($request, $id)
     {
     }
+    /**
+    * Method to fetch HR Interviewed Candidate
+    */
     public function getAssessedCandidate()
     {
-        return $this->assessment->get();
+        // return $this->assessment->get();
 
+    return  DB::table('competency_interviews as ci')
+         ->select([
+            DB::raw('ci.date'),
+            DB::raw('ci.interview_number'),
+            DB::raw('ci.status'),
+            DB::raw('ci.candidate_name'),
+           DB::raw('jt.name as job_title'),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+            // DB::raw(''),
+         ])
+        ->leftJoin('job_title as jt', 'ci.job_title_id', '=', 'jt.id')->get();
+    //  log::info($assessed_candidate);
+    //  return $assessed_candidate;
     }
 
     // mzigo wa transaction

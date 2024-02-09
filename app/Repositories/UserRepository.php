@@ -50,10 +50,11 @@ class UserRepository extends  BaseRepository
 
     public function getAllUser()
     {
-        $users =    DB::table('users as u')
-            ->select('u.id', 'u.name as user', 'u.email', 'u.phone', 'u.dob', 'u.designation_id', 'd.name as department')
-            ->join('departments as d', 'u.department_id', '=', 'd.id')
-            ->get();
+        $users =  $this->user->get();
+//    DB::table('users as u')
+//             ->select('u.id', 'u.name as user', 'u.email', 'u.phone', 'u.dob', 'u.designation_id', 'd.name as department')
+//             ->join('departments as d', 'u.department_id', '=', 'd.id')
+//             ->get();
 
         return $users;
     }

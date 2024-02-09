@@ -33,7 +33,7 @@ class HrInterviewController extends Controller
      */
     public function store(Request $request)
     {
-        Log::info('hellow ndani');
+        // Log::info('hellow ndani');
         // log::info($request->all());
 
         $validator = Validator::make($request->all(), [
@@ -61,20 +61,20 @@ class HrInterviewController extends Controller
         if ($validator->fails()) {
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
-            Log::info('ndani ya nyumba');
-          $overall =  $this->competenciesResult($request);
+            // Log::info('ndani ya nyumba');
+            $overall =  $this->competenciesResult($request);
             $new_assessment = $this->assessment->addAssessment($request, $overall);
 
             $status = $new_assessment->getStatusCode();
 
             // Get HTTP status code
             $responseContent = $new_assessment->getContent();
-
-            if ($status) {
+            //  log::info($status);
+            if ($status === 201) {
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employer Registered Successfully",
+                    "message" => "Candidate assessement submitted",
                 ];
             } else {
                 $return = [
@@ -87,7 +87,7 @@ class HrInterviewController extends Controller
         }
         return response()->json($return);
     }
-     /**
+    /**
      * to calculate overall rating automatically .
      */
     public function competenciesResult(Request $request)
@@ -115,7 +115,7 @@ class HrInterviewController extends Controller
         $str = !empty($request['strategic_conceptual_thinking']) ? $request['strategic_conceptual_thinking'] : 0;
 
         $total_num = 19;
-        $sum_competencies = ($int + $acc + $wor + $pl + $pr + $an + $att + $in +  $mu+ $con+ $com + $cr + $ne + $tea + $ada + $lea + $de+$ma + $str);
+        $sum_competencies = ($int + $acc + $wor + $pl + $pr + $an + $att + $in +  $mu + $con + $com + $cr + $ne + $tea + $ada + $lea + $de + $ma + $str);
         $overall = $sum_competencies / $total_num;
 
         return round($overall);
@@ -248,7 +248,7 @@ class HrInterviewController extends Controller
      * Remove the specified resource from storage.
      */
 
-    public function  assessment()
+    public function  assessedCandidate()
     {
         // Log::info('anafikaaa mkali');
         $assessment =    $this->assessment->getAssessedCandidate();
