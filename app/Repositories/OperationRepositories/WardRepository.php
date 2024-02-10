@@ -46,19 +46,10 @@ class WardRepository extends  BaseRepository
 
  public function getDatatable()
 {
-  $wards = collect();
+//   $wards = collect();
 
-    DB::table('postcodes')->select('id','ward_name')->orderBy('id')->chunk(50, function ($chunk) use ($wards) {
-        // Process each chunk of 100 records here
-
-            // If you want to collect all chunks, you can append them to a collection
-        $wards->push($chunk);
-    });
-
-    // After the chunks are processed, you can log or return the entire collection
-    // Log::info($wards);
-
-    // Example: Return the entire collection as a JSON response
+  $wards =  DB::table('postcodes')->select('id','ward_name')->get();
+    
     return $wards;
 
 }

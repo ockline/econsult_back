@@ -100,7 +100,7 @@ class HrInterviewController extends Controller
         $pl = !empty($request['planning_organizing']) ? $request['planning_organizing'] : 0;
         $pr = !empty($request['problem_solving']) ? $request['problem_solving'] : 0;
         $an = !empty($request['analytical_ability']) ? $request['analytical_ability'] : 0;
-        $att = !empty($request['attention_Details']) ? $request['attention_Details'] : 0;
+        $att = !empty($request['attention_details']) ? $request['attention_details'] : 0;
         $in = !empty($request['initiative']) ? $request['initiative'] : 0;
         $mu = !empty($request['multi_tasking']) ? $request['multi_tasking'] : 0;
         $con = !empty($request['continuous_improvement']) ? $request['continuous_improvement'] : 0;
@@ -143,18 +143,18 @@ class HrInterviewController extends Controller
     //     }
     // }
 
-    public function edit(string $id)
+    public function editAssessedCandidate(string $id)
     {
-        // Log::info($id);
+        Log::info($id);
 
         // $assessmentList = $this->assessment(); // Assuming $assessmentList is an array of objects
 
-        $assessment = CompetencyInterview::find($id);
-        //   Log::info($assessmentList->$assessment);
-        if (isset($assessment)) {
+        $assessed_candidate = CompetencyInterview::find($id);
+        //   Log::info($assessmentList->$assessed_candidate);
+        if (isset($assessed_candidate)) {
             return response()->json([
                 'status' => 200,
-                'assessment' => $assessment,
+                'assessed_candidate' => $assessed_candidate,
             ]);
         } else {
             return response()->json([

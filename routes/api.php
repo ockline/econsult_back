@@ -188,7 +188,7 @@ Route::prefix('hiring')->group(function () {
     Route::get('/hr_interview/show_candidate', [HrInterviewController::class, 'assessedCandidate'])->middleware('api');
     Route::get('/hr_interview/home_candidate', [HrInterviewController::class, 'getCandidate'])->middleware('api');
     Route::post('/hr_interview/add_assessment', [HrInterviewController::class, 'store'])->middleware('api');
-    Route::get('/hr_interview/edit_assessment/{id}', [HrInterviewController::class, 'edit'])->middleware('api');
+    Route::get('/hr_interview/edit_assessment/{id}', [HrInterviewController::class, 'editAssessedCandidate'])->middleware('api');
     Route::put('/hr_interview/update_assessment/{id}', [HrInterviewController::class, 'update'])->middleware('api');
     Route::delete('/hr_interview/delete_assessment/{id}', [HrInterviewController::class, 'destroy'])->middleware('api');
 
