@@ -124,28 +124,28 @@ class HrInterviewController extends Controller
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     $details = $this->assessment->getVacancies();
-    //     $formData = $details->find($id);
-    //     if (isset($formData)) {
-    //         // Log::info('111');
-    //         return response()->json([
-    //             'status' => 200,
-    //             'formData' => $formData
-    //         ]);
-    //     } else {
-    //         // log::info('222');
-    //         return response()->json([
-    //             'status' => 500,
-    //             'message' => "Internal server Error"
-    //         ]);
-    //     }
-    // }
+    public function show(string $id)
+    {
+        $details = $this->assessment->getAssessedCandidate();
+        $formData = $details->find($id);
+        if (isset($formData)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'formData' => $formData
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+    }
 
     public function editAssessedCandidate(string $id)
     {
-        Log::info($id);
+        // Log::info($id);
 
         // $assessmentList = $this->assessment(); // Assuming $assessmentList is an array of objects
 
@@ -170,24 +170,26 @@ class HrInterviewController extends Controller
      */
     public function update(Request $request, string $id)
     {
+    //   log::info('tumeeanza');
+// Log::info($request->all());
         $assessment = $this->assessment->updateDetails($request, $id);
 
-        // $status = $assessment->getStatusCode();
+        $status = $assessment->getStatusCode();
         // // Log::info($status);
         // // Get HTTP status code
         // $responseContent = $assessment->getContent();
 
         //$status
-        if ($assessment === 200) {
+        if ($status === 200) {
             // log::info('ndani');
             return response()->json([
                 'status' => 200,
-                "message" => "Assessment Updated Successfully",
+                "message" => "Assessment details Updated Successfully",
             ]);
         } else {
             return response()->json([
                 'status' => 500,
-                'message' => 'Sorry! Operation failed'
+                'message' => 'Update process failed'
 
 
             ]);

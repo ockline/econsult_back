@@ -3,9 +3,11 @@
 namespace App\Models\Hiring\Interview;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompetencyInterview extends Model
 {
+  use SoftDeletes;
 
     protected  $table = 'competency_interviews';
     protected $guarded = [];
