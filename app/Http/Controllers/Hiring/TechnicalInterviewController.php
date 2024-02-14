@@ -12,7 +12,7 @@ use App\Models\Hiring\Interview\CompetencyInterview;
 use App\Repositories\EmployerRepositories\EmployerRepository;
 use App\Repositories\HiringRepositories\HrInterviewRepository;
 
-class HrInterviewController extends Controller
+class TechnicalInterviewController extends Controller
 {
     protected $assessment;
 

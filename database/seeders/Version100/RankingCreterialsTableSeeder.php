@@ -36,7 +36,7 @@ class RankingCreterialsTableSeeder extends Seeder
             array(
                 'id'  => 2,
                 'name' => 'Below Average (1)',
-                'description' => 'low',
+                'description' => 'Doesn’t meet Expectation ',
                 'rate' => 1,
                 'created_at' => '2024-01-11 17:33:33',
                 'updated_at' => NULL,
@@ -46,7 +46,7 @@ class RankingCreterialsTableSeeder extends Seeder
             array(
                 'id'  => 3,
                 'name' => 'Average (2)',
-                'description' => 'Average',
+                'description' => 'Below Expectation ',
                 'rate' => 2,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
@@ -56,7 +56,7 @@ class RankingCreterialsTableSeeder extends Seeder
             array(
                 'id'  => 4,
                 'name' => 'Good (3)',
-                'description' => 'Good',
+                'description' => 'Meet Expectation ',
                 'rate' => 3,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
@@ -66,7 +66,7 @@ class RankingCreterialsTableSeeder extends Seeder
             array(
                 'id'  => 5,
                 'name' => 'V.Good (4)',
-                'description' => 'Very Good',
+                'description' => 'Exceeding expectation',
                 'rate' => 4,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
@@ -76,7 +76,7 @@ class RankingCreterialsTableSeeder extends Seeder
             array(
                 'id'  => 6,
                 'name' => 'Outstanding (5)',
-                'description' => 'Excelent',
+                'description' => 'Exceeding Expectation as Role Model ',
                 'rate' => 5,
                 'created_at' => '2024-01-11 17:33:46',
                 'updated_at' => NULL,
