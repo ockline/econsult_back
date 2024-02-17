@@ -195,8 +195,12 @@ Route::prefix('hiring')->group(function () {
     // Technical Interview
     Route::get('technical_interview/show_candidate', [TechnicalInterviewController::class, 'candidate'])->middleware('api');
     Route::get('technical_interview/home_candidate', [TechnicalInterviewController::class, 'getCandidate'])->middleware('api');
+ Route::get('/technical_interview/show_candidate/{id}', [TechnicalInterviewController::class, 'showCandidate'])->middleware('api');
     Route::post('technical_interview/add_candidate',[TechnicalInterviewController::class, 'store'])->middleware('api');
     Route::post('technical_interview/practical_test',[TechnicalInterviewController::class, 'savePractical'])->middleware('api');
+    Route::get('technical_interview/practical_candidate/{id}', [TechnicalInterviewController::class,'editPracticalCandidate'])->middleware('api');
+    Route::put('technical_interview/update_practical_candidate/{id}', [TechnicalInterviewController::class,'updatePracticalCandidate'])->middleware('api');
+    Route::get('technical_interview/last_candidate/',[TechnicalInterviewController::class, 'lastCandidate'])->middleware('api');
     Route::get('technical_interview/edit_candidate/{id}', [TechnicalInterviewController::class,'editCandidate'])->middleware('api');
     Route::put('technical_interview/update_candidate/{id}',[TechnicalInterviewController::class, 'update'])->middleware('api');
     Route::delete('technical_interview/delete_candidate/{id}',[TechnicalInterviewController::class, 'destroy'])->middleware('api');

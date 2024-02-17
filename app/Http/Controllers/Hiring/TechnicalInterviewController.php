@@ -4,10 +4,13 @@ namespace App\Http\Controllers\Hiring;
 
 use Illuminate\Http\Request;
 use App\Models\Employer\Employer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Hiring\JobApplication\JobVacancy;
+use App\Models\Hiring\Interview\PracticalTestTranc;
+use App\Models\Hiring\Interview\TechnicalInterview;
 use App\Models\Hiring\Interview\CompetencyInterview;
 use App\Repositories\EmployerRepositories\EmployerRepository;
 use App\Repositories\HiringRepositories\TechnicalInterviewRepository;
@@ -120,40 +123,51 @@ class TechnicalInterviewController extends Controller
         }
         return response()->json($return);
     }
+public function lastCandidate()
+{
 
+  $overall = $this->candidate->getLastCandidatePracticals();
+ $status = $overall->getStatusCode();
+    //  log::info($status);
+    if($status){
+   return  response()->json(['status' => 200, 'message' => "Action successfull Completed"]);
+        } else {
+
+            return  response()->json(['status' => 500, 'message' => "Failured to update"]);
+        }
+}
 
 
     /**
      * Display the specified resource.
      */
-    // public function show(string $id)
-    // {
-    //     $details = $this->candidate->showDownloadDetails();
-    //     //   log::info($id);
-    //     //  Log::info($details);
-    //     $assessed = $details->where('id', $id)->first();
+    public function showCandidate(string $id)
+    {
+        $details = $this->candidate->showDownloadDetails();
+        //   log::info($id);
+        //  Log::info($details);
+        $assessed = $details->where('id', $id)->first();
 
-    //     // log::info("Date: " . $assessed);
-    //     // log::info("Assessed Candidate: " . json_encode($assessed));
-    //     $assessed_candidate =    json_encode((array)$assessed);
-    //     // Log::info($assessed_candidate);
+        // log::info("Date: " . $assessed);
+        // log::info("Assessed Candidate: " . json_encode($assessed));
+        $assessed_candidate =    json_encode((array)$assessed);
+        // Log::info($assessed_candidate);
 
-    //     // Add more properties as needed
-
-    //     if (isset($assessed_candidate)) {
-    //         // Log::info('111');
-    //         return response()->json([
-    //             'status' => 200,
-    //             'assessed_candidate' => $assessed_candidate
-    //         ]);
-    //     } else {
-    //         // log::info('222');
-    //         return response()->json([
-    //             'status' => 500,
-    //             'message' => "Internal server Error"
-    //         ]);
-    //     }
-    // }
+        // Add more properties as needed
+        if (isset($assessed_candidate)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'assessed_candidate' => $assessed_candidate
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+    }
 
     public function editCandidate(string $id)
     {
@@ -161,7 +175,7 @@ class TechnicalInterviewController extends Controller
 
         // $assessmentList = $this->assessment(); // Assuming $assessmentList is an array of objects
 
-        $assessed_candidate = CompetencyInterview::find($id);
+        $assessed_candidate = TechnicalInterview::find($id);
         //   Log::info($assessmentList->$assessed_candidate);
         if (isset($assessed_candidate)) {
             return response()->json([
@@ -207,34 +221,55 @@ class TechnicalInterviewController extends Controller
             ]);
         }
     }
+   public function editPracticalCandidate(string $id)
+    {
+
+       $practical_candidate = PracticalTestTranc::select(['*',
+                     DB::Raw("CASE WHEN practical_test_tranc.ranking_creterial_id = 0 THEN 'N/A (0)' WHEN practical_test_tranc.ranking_creterial_id = 1 THEN 'Below Average(1)' WHEN practical_test_tranc.ranking_creterial_id = 2 THEN 'Average (2)' WHEN practical_test_tranc.ranking_creterial_id = 3 THEN 'Good'  WHEN practical_test_tranc.ranking_creterial_id = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS ranking_creterial"),])
+                    ->where('technical_interview_id', $id)
+                    ->get();
+        //
+    //   log::info($practical_candidate);
+        if (isset($practical_candidate)) {
+            return response()->json([
+                'status' => 200,
+                'practical_candidate' => $practical_candidate,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "No data found",
+
+            ]);
+        }
+    }
+
+    public function updatePracticalCandidate(Request $request, string $id)
+    {
+           Log::info($request->all());
+        $job_description = $this->candidate->updatePracticalTestTranc($request, $id);
+
+        $status = $job_description->getStatusCode();
+        // Log::info($status);
+        // Get HTTP status code
+        $responseContent = $job_description->getContent();
 
 
-    // public function updateDescription(Request $request, string $id)
-    // {
-    //     //    Log::info($request->all());
-    //     $job_description = $this->assessment->updateJobDescription($request, $id);
-
-    //     $status = $job_description->getStatusCode();
-    //     // Log::info($status);
-    //     // Get HTTP status code
-    //     $responseContent = $job_description->getContent();
-
-
-    //     if ($status === 200) {
-    //         // log::info('ndani');
-    //         return response()->json([
-    //             'status' => 200,
-    //             "message" => "Job Description Updated Successfully",
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'status' => 500,
-    //             'message' => 'Sorry! Operation failed'
+        if ($status === 200) {
+            // log::info('ndani');
+            return response()->json([
+                'status' => 200,
+                "message" => "Job Description Updated Successfully",
+            ]);
+        } else {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Sorry! Operation failed'
 
 
-    //         ]);
-    //     }
-    // }
+            ]);
+        }
+    }
     /**
      * Remove the specified resource from storage.
      */

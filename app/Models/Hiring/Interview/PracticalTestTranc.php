@@ -14,6 +14,6 @@ class PracticalTestTranc extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'practical_test_id','technical_interview_id','practicl_test_remark','ranking_creterial_id','description'
+        'practical_test_id','technical_interview_id', 'test_marks','practicl_test_remark','ranking_creterial_id','description'
     ];
 }
