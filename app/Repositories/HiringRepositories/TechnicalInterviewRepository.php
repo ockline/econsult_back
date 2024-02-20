@@ -393,11 +393,6 @@ class TechnicalInterviewRepository extends  BaseRepository
                 DB::raw('ti.skill_remark'),
                 DB::raw('jt.name as recommended_title'),
                 DB::raw('cc.name as cost_center'),
-                // DB::raw(' ptt.accountability_remark  '),
-                // DB::raw(' ptt.work_excellence_remark '),
-                // DB::raw(' ptt.planning_organizing_remark '),
-                // DB::raw(' ptt.problem_solving_remark  '),
-                // DB::raw(' ptt.analytical_ability_remark '),
                 DB::raw('CONCAT(u.firstname, \' \', u.middlename, \'.\', u.lastname) as interviewer_name'),
             ])
             ->leftJoin('job_title as jt', 'ti.job_title_id', '=', 'jt.id')

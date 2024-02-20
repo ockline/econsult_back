@@ -6,7 +6,9 @@ namespace App\Repositories\EmployerRepositories;
 use Exception;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use Illuminate\Support\Str;
 use App\Models\Employer\Employer;
+use App\Models\Employer\EmployerAttachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseREpository;
@@ -50,14 +52,18 @@ class EmployerRepository extends  BaseRepository
 
     public function getEmployers()
     {
-        $employers = $this->employer->selectRaw(" * , CASE WHEN active = 1 THEN 'Active' ELSE 'Not Active' END AS status")->withTrashed()->get();
+        $employers = $this->employer->selectRaw(" * , CASE WHEN active = 1 THEN 'Active' ELSE 'Not Active' END AS status")
+            // , 'ema.name as document'
+            // ->leftJoin('employer_attachments as ema', 'ema.employer_id', '=', 'employers.id')
+            ->withTrashed()
+            ->get();
         // $employers = DB::table('employers')->select('*')->get();
         return $employers;
     }
 
     public function addEmployers($request)
     {
-        // Log::info('hapa atumefika');
+
 
         DB::beginTransaction();
 
@@ -65,18 +71,12 @@ class EmployerRepository extends  BaseRepository
             $input = $request->all();
             //  Log::info($input);
             $employer_number = $this->generateUniqueNumber();
-            //  log::info('mwamba juu');
-            // log::info($employer_number);
-            // log::info('mwamba chini');
-            // $fileName = time().'.'.$request->file->extension();
 
-            // $request->file->move(public_path('uploads'), $fileName);
-
-            $this->employer->create([
+            $employer =  $this->employer->create([
                 'name' => !empty($input['name']) ? $input['name'] : null,
                 'alia' =>  !empty($input['alias']) ? $input['alias'] : $input['name'], //as alias
-                'contact_person' => !empty($input['contact_person']) ?: null,
-                'contact_person_phone' => !empty($input['contact_person_phone']) ?: null,
+                'contact_person' => !empty($input['contact_person']) ? $input['contact_person'] : null,
+                'contact_person_phone' => !empty($input['contact_person_phone']) ? $input['contact_person_phone'] : null,
                 'phone' => !empty($input['phone']) ? $input['phone'] : null,
                 'tin' => !empty($input['tin']) ? $input['tin'] : null,
                 'email' => !empty($input['email']) ? $input['email'] : null,
@@ -109,8 +109,10 @@ class EmployerRepository extends  BaseRepository
                 'created_by' =>  1, // admin after login will be autheticated user
 
             ]);
+            $employer_id = $employer->id;
 
-
+            $this->saveEmployerDocument($request, $employer_id);
+            // die;
             DB::commit();
 
             Log::info('Saved done');
@@ -133,11 +135,109 @@ class EmployerRepository extends  BaseRepository
 
         return $uniqueNumber;
     }
+    /**
+     * @method to save employer document
+     *@method with the generated employer id
+
+     */
+    public function saveEmployerDocument($request, $employer_id)
+    {
+
+        DB::beginTransaction();
+
+        try {
+
+            $tin = time() . '.' . $request->tin_doc[0]->getClientOriginalName();
+            $osha = time() . '.' . $request->osha_doc[0]->getClientOriginalName();
+            $wcf = time() . '.' . $request->wcf_doc[0]->getClientOriginalName();
+            $nhif = time() . '.' . $request->nhif_doc[0]->getClientOriginalName();
+            $nssf = time() . '.' . $request->nssf_doc[0]->getClientOriginalName();
+            $vrn = time() . '.' . $request->vrn_doc[0]->getClientOriginalName();
+
+
+
+
+            // $documents = [
+            //     ['name' => 'nhif_doc.pdf', 'document_id' => 10, 'document_group_id' => 6, 'employer_id' => $employer_id, 'description' => $nhif, 'size' => null, 'ext' => null, 'mine' => null, 'document_used' => 0],
+            //     ['name' => 'tin_doc.pdf', 'document_id' => 11, 'document_group_id' => 6, 'employer_id' => $employer_id, 'description' => $tin, 'size' => null, 'ext' => null, 'mine' => null, 'document_used' => 0],
+            //     ['name' => 'nssf_doc.pdf', 'document_id' => 12, 'document_group_id' => 6, 'employer_id' => $employer_id, 'description' => $nssf, 'size' => null, 'ext' => null, 'mine' => null, 'document_used' => 0],
+            //     ['name' => 'wcf_doc.pdf', 'document_id' => 13, 'document_group_id' => 6, 'employer_id' => $employer_id, 'description' => $wcf, 'size' => null, 'ext' => null, 'mine' => null, 'document_used' => 0],
+            //     ['name' => 'osha_doc.pdf', 'document_id' => 14, 'document_group_id' => 6, 'employer_id' => $employer_id, 'description' => $osha, 'size' => null, 'ext' => null, 'mine' => null, 'document_used' => 0],
+            //     ['name' => 'vrn_doc.pdf', 'document_id' => 29, 'document_group_id' => 6, 'employer_id' => $employer_id, 'description' => $vrn, 'size' => null, 'ext' => null, 'mine' => null, 'document_used' => 0],
+            // ];
+
+
+
+            $documentTypes = ['nhif_doc', 'tin_doc', 'nssf_doc', 'wcf_doc', 'osha_doc', 'vrn_doc'];
+
+            foreach ($documentTypes as $documentType) {
+                if ($request->has($documentType)) {
+                    $files = $request->file($documentType);
+
+                    foreach ($files as $file) {
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+                        $file->move(public_path('employers'), $fileName);
+
+                        $documents[] = [
+                            'name' => $documentType,
+                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
+                            'description' => $fileName,
+                            'document_group_id' => 6,
+                            'employer_id' => $employer_id,
+                        ];
+                    }
+                }
+            }
+            foreach ($documents as $document) {
+                EmployerAttachment::create($document);
+            }
+
+
+            DB::commit();
+
+            Log::info('Saved document');
+            return response()->json(['message' => 'Document created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to save document', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to save document', 'status' => 500]);
+        }
+    }
+    public function getDocumentId($documentId)
+    {
+        // $document_id = [10, 11, 12, 13, 14, 29];
+        //  $documentTypes = [nhif_doc','tin_doc','nssf_doc','wcf_doc', 'osha_doc','vrn_doc'];
+        switch ($documentId) {
+            case 'nhif_doc';
+                return 10;
+                break;
+            case 'tin_doc';
+                return 11;
+                break;
+            case 'nssf_doc';
+                return 12;
+                break;
+            case 'wcf_doc';
+                return 13;
+                break;
+            case 'osha_doc';
+                return 14;
+                break;
+            case 'vrn_doc';
+                return 29;
+                break;
+            default:
+                return null;
+        }
+    }
+
+
     public function updateDetails($request, $id)
     {
         // log::info('ndani');
-        // Log::info($request);
-        // Log::info("*************");
+        Log::info($request->all());
+        Log::info("*************");
         $employer = Employer::find($id);
         if (isset($employer)) {
             // $department = $this->department->id; // Assuming you have an 'id' field in your request
@@ -150,7 +250,7 @@ class EmployerRepository extends  BaseRepository
 
                 $employer_number = $this->generateUniqueNumber();
                 // log::info($input);
-                // log::info('mwamba chini');
+                log::info('mwamba chini');
                 // $fileName = time().'.'.$request->file->extension();
 
                 // $request->file->move(public_path('uploads'), $fileName);
@@ -192,66 +292,144 @@ class EmployerRepository extends  BaseRepository
                 $employer->created_by =  1; // admin after login will be autheticated user
                 $employer->update();
 
+
+                $this->updateEmployerDocument($request, $employer->id);
+                log::info('hureeeeee');
                 DB::commit();
                 // Log::info('updated done');
                 return response()->json(['message' => 'User Updated successfully', 'status' => 200], 200);
             } catch (\Exception $e) {
                 DB::rollback();
-                Log::error('Failed to create user', ['error' => $e->getMessage()]);
+                Log::error('Failed to update employer', ['error' => $e->getMessage()]);
 
                 return response()->json(['message' => 'Failed to Update user', 'status' => 500]);
             }
         }
     }
+    /**
+     * @method to update employer document
+     *@method with the generated employer id
 
-    public function getDocument(Request $request)
+     */
+    public function updateEmployerDocument($request, $employer_id)
     {
-        $employer = $this->addEmployers($request);
-        $nhif_doc  = 10;
-        $tin_doc =  11;
-        $nssf_doc  = 12;
-        $wcf_doc  = 13;
-        $osha_doc  = 14;
-        $vrn_doc  = 29;
+        Log::info($request->all());
+        DB::beginTransaction();
+
+        try {
+
+            $tin = time() . '.' . $request->tin_doc[0]->getClientOriginalName();
+            $osha = time() . '.' . $request->osha_doc[0]->getClientOriginalName();
+            $wcf = time() . '.' . $request->wcf_doc[0]->getClientOriginalName();
+            $nhif = time() . '.' . $request->nhif_doc[0]->getClientOriginalName();
+            $nssf = time() . '.' . $request->nssf_doc[0]->getClientOriginalName();
+            $vrn = time() . '.' . $request->vrn_doc[0]->getClientOriginalName();
+
+            $documentTypes = ['nhif_doc', 'tin_doc', 'nssf_doc', 'wcf_doc', 'osha_doc', 'vrn_doc'];
+
+            foreach ($documentTypes as $documentType) {
+                if ($request->has($documentType)) {
+                    $files = $request->file($documentType);
+
+                    foreach ($files as $file) {
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+                        $file->move(public_path('employers'), $fileName);
+
+                        $documents[] = [
+                            'name' => $documentType,
+                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
+                            'description' => $fileName,
+                            'document_group_id' => 6,
+                            'employer_id' => $employer_id,
+                        ];
+                    }
+                }
+            }
+            foreach ($documents as $document) {
+                Log::info('tunaanza kuwekaaaaa');
+                EmployerAttachment::update($document);
+            }
 
 
-        // $data = [
-        //    'name'
-        //    'employer_id'
-        //    'document_id'
-        //   'document_group_id'
-        //   'description'
-        //    ];
+            DB::commit();
 
+            Log::info('Saved document');
+            return response()->json(['message' => 'Document updated successfully', 'status' => 200], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to update document', ['error' => $e->getMessage()]);
 
-
+            return response()->json(['message' => 'Failed to update document', 'status' => 500]);
+        }
     }
 
-public function deactivateEmployer($id)
-{
-// log::info('hapaa');
-//         Log::info(request()->all());
-//       Log::info('katiiiii');
-      $input = request()->all();
-$activate_reason = $input['activate_reason'];
-$deact_reason = !empty($input['deactivate_reason']) ? $input['deactivate_reason']: null;
+    public function deactivateEmployer($id)
+    {
+        // log::info('hapaa');
+        //         Log::info(request()->all());
+        //       Log::info('katiiiii');
+        $input = request()->all();
+        $activate_reason = $input['activate_reason'];
+        $deact_reason = !empty($input['deactivate_reason']) ? $input['deactivate_reason'] : null;
 
 
-if(isset($activate_reason)){
-   Employer::where('id', $id)->update(['active' => 1, 'activate_reason' => $activate_reason, 'activate_date' => now() ]);
-}else if(isset($deact_reason)){
-    Employer::where('id', $id)->update(['active' => 2, 'deactivate_reason' => $deact_reason, 'deactivate_date' => now() ]);
+        if (isset($activate_reason)) {
+            Employer::where('id', $id)->update(['active' => 1, 'activate_reason' => $activate_reason, 'activate_date' => now()]);
+        } else if (isset($deact_reason)) {
+            Employer::where('id', $id)->update(['active' => 2, 'deactivate_reason' => $deact_reason, 'deactivate_date' => now()]);
 
-    // Delete the record
-    $employer = Employer::find($id);
-    if ($employer) {
-        $employer->delete();
-        return response()->json(['status' => 200, 'message' => 'Record updated and deleted successfully']);
-    } else {
-        return response()->json(['status' => 'error', 'message' => 'Record not found'], 404);
+            // Delete the record
+            $employer = Employer::find($id);
+            if ($employer) {
+                $employer->delete();
+                return response()->json(['status' => 200, 'message' => 'Record updated and deleted successfully']);
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'Record not found'], 404);
+            }
+        }
+        return true;
     }
-
-}
- return true;
-}
+    public function getSpecificEmployer(string $id)
+    {
+        return $this->employer->select([
+            '*',
+           DB::raw('employers.name as employer_name'),
+            DB::raw('b.name as bank'),
+            DB::raw('bb.name as bank_branch'),
+            DB::raw('r.name as region'),
+            DB::raw('d.name as district'),
+            DB::raw('lt.name as location'),
+            DB::raw('st.name as shift_name'),
+            DB::raw('al.name as allowance'),
+            DB::raw('wd.ward_name as ward'),
+            // DB::raw('ea.name as doc_name'),
+            // DB::raw('ea.size as size'),
+            // DB::raw('ea.updated_at as doc_updated'),
+        ])
+            ->leftJoin('banks as b', 'employers.bank_id', '=', 'b.id')
+            ->leftJoin('bank_branches as bb', 'employers.bank_branch_id', '=', 'bb.id')
+            ->leftJoin('regions as r', 'employers.region_id', '=', 'r.id')
+            ->leftJoin('districts as d', 'employers.district_id', '=', 'd.id')
+            ->leftJoin('postcodes as wd', 'wd.district_id', '=', 'wd.id')
+            ->leftJoin('location_types as lt', 'employers.location_type_id', '=', 'lt.id')
+            ->leftJoin('shifts as st', 'employers.shift_id', '=', 'st.id')
+            ->leftJoin('allowances as al', 'employers.allowance_id', '=', 'al.id')
+            // ->orderBy('employers.id', 'DESC')
+            ->where('employers.id', $id)
+            ->first();
+    }
+    public function getEmployerDocument(string $id)
+    {
+        return DB::table('employer_attachments as ea')->select([
+            DB::raw('ea.size as size'),
+            DB::raw('ea.description'),
+            DB::raw('ea.employer_id'),
+            DB::raw('ea.updated_at as doc_updated'),
+            DB::raw('d.name doc_name'),
+        ])
+            ->leftJoin('documents as d', 'ea.document_id', '=', 'd.id')
+            ->leftJoin('employers as e', 'ea.employer_id', '=', 'e.id')
+            ->where('ea.employer_id', $id)
+            ->get();
+    }
 }

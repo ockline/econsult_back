@@ -24,14 +24,73 @@ class EmployerController extends Controller
     {
         //
     }
+    /**
+     *@method to cross check if  employer with that emeil or TIN  Exist
+     */
+    // public function checkEmployerExist(Request $request)
+    // {
+    //     //   log::info($request->email);
+    //     //   log::info('wanjiiiii');
+    //     $check_employer = $this->employer->getEmployers();
+    //     //    Log::info($check_employer);
+
+    //     $employer_exist = [];
+    //     $employer_tin = [];
+    //     foreach ($check_employer as $check) {
+    //         $employer_exist[] = $check->email;
+    //         $employer_tin[] = $check->tin;
+    //     }
+    //     if ($request->email === $employer_exist) {
+
+    //         $return = [
+    //             'status' => 404,
+    //             'message' => 'Sorry! Client created already exists'
+
+
+    //         ];
+    //     }
+    //     if ($request->tin === $employer_tin) {
+
+    //         $return = [
+    //             'status' => 404,
+    //             'message' => 'Sorry! Client created already exists'
+
+
+    //         ];
+    //     }
+    //     return response()->json($return);
+    // }
+    public function checkEmployerExist(Request $request)
+    {
+        $check_employer = $this->employer->getEmployers();
+
+        $employer_exist = [];
+        $employer_tin = [];
+
+        foreach ($check_employer as $check) {
+            $employer_exist[] = $check->email;
+            $employer_tin[] = $check->tin;
+        }
+
+        $return = []; // Initialize $return here
+
+        if (in_array($request->email, $employer_exist)) {
+
+            $return = 404;
+        } elseif (in_array($request->tin, $employer_tin)) {
+
+            $return = 405;
+        }
+        return $return;
+    }
+
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        Log::info('hellow ndani');
-        log::info($request->all());
+        $employer_check = $this->checkEmployerExist($request);
 
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:191',
@@ -54,22 +113,27 @@ class EmployerController extends Controller
             'postal_address' => 'required|max:191',
             'region_id' => 'required|max:191',
             'district_id' => 'required|max:191',
-            'location_type_id' => 'required|max:191',
-            'cost_center' => 'required|max:191',
+            // 'location_type_id' => 'required|max:191',
             'working_hours' => 'required|max:191',
             'working_days' => 'required|max:191',
             'shift_id' => 'required|max:191',
             'allowance_id' => 'required|max:191',
-            // 'tin_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'osha_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'wcf_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'nssf_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'nhif_doc' => 'required|mimes:pdf|max:3072|file',
-            // 'vrn_doc' => 'required|mimes:pdf|max:3072|file',
+            'tin_doc' => 'required|max:3072',
+            'osha_doc' => 'required|max:3072',
+            'wcf_doc' => 'required|max:3072',
+            'nssf_doc' => 'required|max:3072',
+            'nhif_doc' => 'required|max:3072',
+            'vrn_doc' => 'required|max:3072',
         ]);
 
         if ($validator->fails()) {
             $return = ['validator_err' => $validator->errors()->toArray()];
+        } elseif (in_array($employer_check, [404, 405])) {
+            Log::info('hureeeeeeee' . ' ' . $employer_check);
+            $return = [
+                'status' => 404,
+                "message" => "Client you want to create already exists",
+            ];
         } else {
             Log::info('ndani ya nyumba');
             $new_client = $this->employer->addEmployers($request);
@@ -78,8 +142,8 @@ class EmployerController extends Controller
 
             // Get HTTP status code
             $responseContent = $new_client->getContent();
-
-            if ($status) {
+            //    log::info('je?'. ' '. $status);
+            if ($status === 201) {
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
@@ -97,12 +161,28 @@ class EmployerController extends Controller
         return response()->json($return);
     }
 
+
     /**
      * Display the specified resource.
      */
     public function show(string $id)
     {
-        //
+      $employer = $this->employer->getSpecificEmployer($id);
+       // Add more properties as needed
+
+        if (isset($employer)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'employer' => $employer,
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
     }
 
     public function edit(string $id)
@@ -132,8 +212,8 @@ class EmployerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        // log::info($request);
-
+        Log::info('Form data received: ' . json_encode($request->all()));
+        Log::info('welimbaaaaaa');
         // $employer = $this->employer($id);
 
         $employer = $this->employer->updateDetails($request, $id);
@@ -143,13 +223,13 @@ class EmployerController extends Controller
         // log::info($employer);
 
         $status = $employer->getStatusCode();
-        // Log::info($status);
+        Log::info($status);
         // Get HTTP status code
         $responseContent = $employer->getContent();
 
 
-        if ($status) {
-            // log::info('ndani');
+        if ($status === 200) {
+            log::info('ndani');
             return response()->json([
                 'status' => 200,
                 "message" => "Employer Updated Successfully",
@@ -169,7 +249,7 @@ class EmployerController extends Controller
      */
     public function destroy(string $id)
     {
-    //    log::info($id);
+        //    log::info($id);
         // $employer = $this->employer($id);
         $employer = Employer::find($id);
         // log::info($employer);
@@ -210,6 +290,28 @@ class EmployerController extends Controller
                 'message' => "Internal server Error"
             ]);
         }
+    }
+
+    public function getDocument(string $id)
+    {
+    //    log::info($id);
+        $employer_document = $this->employer->getEmployerDocument($id);
+    //   log::info('data'. " ". $employer_document);
+
+
+        if (isset($employer_document)) {
+
+            return response()->json([
+                'status' => 200,
+                'employer_document' => $employer_document,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No document found',
+            ]);
+        }
+
     }
     // public function getEmployer()
     // {

@@ -114,11 +114,12 @@ Route::prefix('districts')->group(function () {
 
 // api for Employer
 Route::prefix('employers')->group(function () {
-    Route::get('show_employer', [EmployerController::class, 'employer'])->middleware('api');
-    Route::get('home_employer', [EmployerController::class, 'getEmployer'])->middleware('api');
+    Route::get('show_all_employer', [EmployerController::class, 'employer'])->middleware('api');
+    Route::get('show_employer/{id}', [EmployerController::class, 'show'])->middleware('api');
     Route::post('/add_employer', [EmployerController::class, 'store'])->middleware('api');
     Route::get('/edit_employer/{id}', [EmployerController::class, 'edit'])->middleware('api');
     Route::put('/update_employer/{id}', [EmployerController::class, 'update'])->middleware('api');
+    Route::get('/get_employer_document/{id}', [EmployerController::class, 'getDocument'])->middleware('api');
     Route::delete('/delete_employer/{id}', [EmployerController::class, 'destroy'])->middleware('api');
 });
 
