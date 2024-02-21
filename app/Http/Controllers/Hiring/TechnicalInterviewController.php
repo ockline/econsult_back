@@ -194,7 +194,7 @@ public function lastCandidate()
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateCandidate(Request $request, string $id)
     {
         //   log::info('tumeeanza');
         // Log::info($request->all());

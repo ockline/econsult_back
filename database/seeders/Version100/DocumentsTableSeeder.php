@@ -2,8 +2,9 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
+use DB;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
 
 class DocumentsTableSeeder extends Seeder
@@ -21,7 +22,7 @@ class DocumentsTableSeeder extends Seeder
         $this->disableForeignKeys('documents');
         $this->delete('documents');
 
-        \DB::table('documents')->insert(array(
+        DB::table('documents')->insert(array(
             0 =>
             array(
                 'id' => 1,
@@ -89,9 +90,9 @@ class DocumentsTableSeeder extends Seeder
             4 =>
             array(
                 'id' => 5,
-                'name' => 'job request',
+                'name' => 'Job Application Request',
                 'document_group_id' => '3',
-                'description' => NULL,
+                'description' => 'job_request_doc',
                 'isrecurring' => '0',
                 'ismandatory' => '1',
                 'isactive' => '1',
@@ -105,9 +106,9 @@ class DocumentsTableSeeder extends Seeder
             5 =>
             array(
                 'id' => 6,
-                'name' => 'job form',
+                'name' => 'Shortlisted Candidate',
                 'document_group_id' => '3',
-                'description' => NULL,
+                'description' => 'shortlisted_doc',
                 'isrecurring' => '0',
                 'ismandatory' => '1',
                 'isactive' => '1',
@@ -123,7 +124,7 @@ class DocumentsTableSeeder extends Seeder
                 'id' => 7,
                 'name' => 'Driving Licence',
                 'document_group_id' => '4',
-                'description' => NULL,
+                'description' => 'driving_licence',
                 'isrecurring' => '0',
                 'ismandatory' => '1',
                 'isactive' => '1',
@@ -139,7 +140,7 @@ class DocumentsTableSeeder extends Seeder
                 'id' => 8,
                 'name' => 'Practical test',
                 'document_group_id' => '4',
-                'description' => NULL,
+                'description' => 'practical_test_doc',
                 'isrecurring' => '0',
                 'ismandatory' => '1',
                 'isactive' => '1',
@@ -476,6 +477,54 @@ class DocumentsTableSeeder extends Seeder
                 'name' => 'vrn certificate',
                 'document_group_id' => '6',
                 'description' => NULL,
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-01-11 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+   29 =>
+            array(
+                'id' => 30,
+                'name' => 'Military Attachment',
+                'document_group_id' => '5',
+                'description' => 'military_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-01-11 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+  30 =>
+            array(
+                'id' => 31,
+                'name' => 'Hr Signed Form',
+                'document_group_id' => '5',
+                'description' => 'hr_signed_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-01-11 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+ 31 =>
+            array(
+                'id' => 32,
+                'name' => 'Technical Signed Document',
+                'document_group_id' => '4',
+                'description' => 'technical_signed_doc',
                 'isrecurring' => '0',
                 'ismandatory' => '1',
                 'isactive' => '1',

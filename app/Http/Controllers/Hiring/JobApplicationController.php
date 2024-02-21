@@ -155,8 +155,9 @@ class JobApplicationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateJob(Request $request, string $id)
     {
+    //   Log::info($id);
         $vacancy = $this->vacancy->updateDetails($request, $id);
 
         $status = $vacancy->getStatusCode();

@@ -14,6 +14,7 @@ use App\Repositories\BaseREpository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Hiring\Interview\CompetencyInterDoc;
 use App\Models\Hiring\Interview\CompetencyInterview;
 use App\Models\Hiring\Interview\CompetencyTransaction;
 use App\Models\Hiring\JobApplication\JobDescTransaction;
@@ -130,8 +131,8 @@ class HrInterviewRepository extends  BaseRepository
             ]);
             // Log::info('vita iendeleee');
             $assessment_id = $assessment->id;
-            $this->saveCompetencyTransaction($request, $assessment_id);
-
+            $this->saveCompetencyTransaction($request, $assessment_id); //to save compotencies
+            $this->saveCompetencyDocument($request, $assessment_id); // To save
             DB::commit();
 
             Log::info('Saved done');
@@ -240,7 +241,77 @@ class HrInterviewRepository extends  BaseRepository
 
             return response()->json(['message' => 'Failed to save on competency transactions', 'status' => 500]);
         }
-        die;
+    }
+    /**
+     *@method to save hr cometency attachment
+
+     */
+    public function saveCompetencyDocument($request, $assessment_id)
+    {
+        Log::info($request->all());
+
+        DB::beginTransaction();
+
+        try {
+
+            $documents = [];
+
+            $documentTypes = ['military_doc'];
+
+            foreach ($documentTypes as $documentType) {
+                if ($request->hasFile($documentType) && $assessment_id) {
+                    $file = $request->file($documentType);
+
+
+                    if ($file) {
+                        //  log::info($file); next time i want to add id of employer  as pass to reach interview candidate document
+                        //   log::info($assessment_id);
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+                        $file->move(public_path('hiring/hrInterview'), $fileName);
+                        // log::info('hureee'. json_encode($fileName));
+                        $documents[] = [
+                            'name' => $documentType,
+                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
+                            'description' => $fileName,
+                            'document_group_id' => 5,
+                            'competency_interview_id' => $assessment_id,
+                        ];
+                    }
+                }
+            }
+            // log::info('document:'. ' '. $documents);
+            foreach ($documents as $document) {
+                // log::info('document: ******************');
+                CompetencyInterDoc::create($document);
+            }
+
+
+
+            DB::commit();
+
+            Log::info('Saved document ');
+            return response()->json(['message' => 'Document created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to save document', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to save document', 'status' => 500]);
+        }
+    }
+    public function getDocumentId($documentId)
+    {
+        // $document_id = [29, 30];
+        //  $documentTypes = [job_request_doc','shortlisted_doc'];
+        switch ($documentId) {
+            case 'military_doc';
+                return 30;
+                break;
+            case 'hr_signed_doc';
+                return 31;
+                break;
+            default:
+                return null;
+        }
     }
     /**
      * Method to Update assessed Candidate details
@@ -248,10 +319,10 @@ class HrInterviewRepository extends  BaseRepository
     public function updateDetails($request, $id)
     {
         // Log::info('*******************************');
-
+        //    Log::info($request->all());
         $candidate_details = $this->assessment::where('id', $id)->first();
 
-        //    die;
+        $candidate_number = $candidate_details->interview_number;
         if (isset($candidate_details)) {
 
 
@@ -262,9 +333,6 @@ class HrInterviewRepository extends  BaseRepository
                 $input = $request->all();
 
                 // $candidate_details->additional_comment = $request->input('additional_comment');
-
-                //     $candidate_details->update();
-
                 $candidate_details->update([
                     'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                     'cost_center_id' => !empty($input['cost_center_id']) ? $input['cost_center_id'] : null,
@@ -306,7 +374,7 @@ class HrInterviewRepository extends  BaseRepository
                     'social_insuarance_status' => !empty($input['social_insuarance_status']) ? $input['social_insuarance_status'] : 2,
                     'work_site' => !empty($input['work_site']) ? $input['work_site'] : 2,
                     'reallocation_place' => !empty($input['reallocation_place']) ? $input['reallocation_place'] : 2,
-                    'recruiter_recommendations' => !empty($input['recruiter_recommendations']) ? $input['recruiter_recommendations'] : 'null',
+                    'recruiter_recommendations' => !empty($input['recruiter_recommendations']) ? $input['recruiter_recommendations'] : 2,
                     'recommended_title' => !empty($input['recommended_title']) ? $input['recommended_title'] : $input['job_title_id'],
                     'ranking_creterial_id' => !empty($input['ranking_creterial_id']) ? $input['ranking_creterial_id'] : null,
                     'core_competence_id' => !empty($input['core_competence_id']) ? $input['core_competence_id'] : null,
@@ -321,7 +389,7 @@ class HrInterviewRepository extends  BaseRepository
                     'surgery_operation_remark' => !empty($input['surgery_operation_remark']) ? $input['surgery_operation_remark'] : null,
                     'candidate_name' => ($input['firstname'] . " " . $input['middlename'] . " " . $input['lastname']),
                     'overall_rating' => !empty($overall) ? $overall : 3,
-                    'interview_number' => !empty($candidate_number) ? $candidate_number : 22202,
+                    'interview_number' => !empty($candidate_number) ? $candidate_number : 200002, //system number
                     'downloaded' => 0, // default before download
                     'uploaded' => 0,
                     'uploaded_date' => null,
@@ -329,8 +397,10 @@ class HrInterviewRepository extends  BaseRepository
 
                 ]);
 
+
                 $interview_id = $candidate_details->id;
                 $this->updateCompetencyTransaction($request, $interview_id);
+                $this->updateCompetencyDocument($request, $interview_id);
 
                 DB::commit();
                 Log::info('updated done');
@@ -421,6 +491,64 @@ class HrInterviewRepository extends  BaseRepository
             return response()->json(['message' => 'Failed to update on competency transactions', 'status' => 500]);
         }
     }
+    /**
+     *@method to update hr cometency attachment
+
+     */
+    public function updateCompetencyDocument($request, $interview_id)
+    {
+        Log::info($request->all());
+
+        DB::beginTransaction();
+
+        try {
+
+            $documents = [];
+
+            $documentTypes = ['military_doc', 'hr_signed_doc'];
+
+            foreach ($documentTypes as $documentType) {
+                if ($request->hasFile($documentType) && $interview_id) {
+                    $files = $request->file($documentType);
+
+
+                    foreach ($files as $file) {
+                        //  log::info($file);
+                        //   log::info($id);
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+                        // $file->move(public_path('hiring/vacancies'), $fileName);
+                        $file->move(public_path('hiring/hrInterview'), $fileName);
+                        // log::info('hureee'. json_encode($fileName));
+                        $documents[] = [
+                            'name' => $documentType,
+                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
+                            'description' => $fileName,
+                            'document_group_id' => 5,
+                            'competency_interview_id' => $interview_id,
+                        ];
+                    }
+                }
+            }
+            // log::info('document:'. ' '. $documents);
+            foreach ($documents as $document) {
+                log::info('document: ******************');
+                CompetencyInterDoc::create($document);
+            }
+
+
+
+            DB::commit();
+
+            Log::info('Saved document ');
+            return response()->json(['message' => 'Document created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to save document', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to save document', 'status' => 500]);
+        }
+    }
+
 
     /**
      * Method to fetch HR Interviewed Candidate
@@ -540,7 +668,7 @@ class HrInterviewRepository extends  BaseRepository
     }
     public function getCompetencyTransactions()
     {
-return  DB::table('competencies_transactions')->select('*')->get();
+        return  DB::table('competencies_transactions')->select('*')->get();
     }
 
     public function showDownloadDetails()

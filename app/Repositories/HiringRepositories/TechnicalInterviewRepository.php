@@ -14,6 +14,7 @@ use App\Repositories\BaseREpository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Hiring\Interview\TechnicalDocument;
 use App\Models\Hiring\Interview\PracticalTestTranc;
 use App\Models\Hiring\Interview\TechnicalInterview;
 use App\Models\Hiring\Interview\CompetencyInterview;
@@ -241,7 +242,6 @@ class TechnicalInterviewRepository extends  BaseRepository
 
             return response()->json(['message' => 'Failed to save on practical transactions', 'status' => 500]);
         }
-
     }
     /**
      * Method to Update assessed Candidate details
@@ -260,7 +260,7 @@ class TechnicalInterviewRepository extends  BaseRepository
             try {
                 $input = $request->all();
 
-               log::info($input);
+                log::info($input);
                 // $candidate_details->additional_comment = $request->input('additional_comment');
 
                 //     $candidate_details->update();
@@ -298,8 +298,10 @@ class TechnicalInterviewRepository extends  BaseRepository
 
                 ]);
 
-                // $interview_id = $candidate_details->id;
+                $interview_id = $candidate_details->id;
                 // $this->updateCompetencyTransaction($request, $interview_id);
+
+                  $this->updateTechnicalDocument($request,$interview_id);
 
                 DB::commit();
                 Log::info('updated done');
@@ -318,10 +320,10 @@ class TechnicalInterviewRepository extends  BaseRepository
      */
     public function updatePracticalTestTranc($request, $interview_id)
     {
-  Log::info('ndaniii');
+        Log::info('ndaniii');
 
-    Log::info($request->all());
-    die;
+        Log::info($request->all());
+        die;
         $saved_data = $this->getPracticalTestTransactions()->where('technical_interview_id', $interview_id)->first();
 
         DB::beginTransaction();
@@ -352,6 +354,84 @@ class TechnicalInterviewRepository extends  BaseRepository
             Log::error('Failed to update competencies', ['error' => $e->getMessage()]);
 
             return response()->json(['message' => 'Failed to update on competency transactions', 'status' => 500]);
+        }
+    }
+    /**
+     *@method to update hr cometency attachment
+
+     */
+    public function updateTechnicalDocument($request, $interview_id)
+    {
+        // Log::info($request->all());
+
+        DB::beginTransaction();
+
+        try {
+
+            $documents = [];
+
+            $documentTypes = ['technical_signed_doc'];
+
+            foreach ($documentTypes as $documentType) {
+                if ($request->hasFile($documentType) && $interview_id) {
+                    $file = $request->file($documentType);
+
+
+                    if(($file)) {
+                         log::info($file);
+                        //   log::info($id);
+                        $fileName = time() . '_' . $file->getClientOriginalName();
+                        // $file->move(public_path('hiring/vacancies'), $fileName);
+                        $file->move(public_path('hiring/technical'), $fileName);
+                        // log::info('hureee'. json_encode($fileName));
+                        $documents[] = [
+                            'name' => $documentType,
+                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
+                            'description' => $fileName,
+                            'document_group_id' => 4,
+                            'technical_interview_id' => $interview_id,
+                        ];
+                    }
+                }
+            }
+            // log::info('document:'. ' '. $documents);
+            foreach ($documents as $document) {
+                // log::info('document: ******************');
+                TechnicalDocument::create($document);
+            }
+
+
+
+            DB::commit();
+
+            Log::info('Saved document  billa');
+            return response()->json(['message' => 'Document created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to save document', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to save document', 'status' => 500]);
+        }
+    }
+    /**
+     * Method to get Document
+     */
+    public function getDocumentId($documentId)
+    {
+        // $document_id = [7, 8, 32];
+        //  $documentTypes = ['practical_test_doc','driving_licence', 'technial_signed_doc'];
+        switch ($documentId) {
+            case 'practical_test_doc';
+                return 7;
+                break;
+            case 'driving_licence';
+                return 8;
+                break;
+            case 'technical_signed_doc';
+                return 32;
+                break;
+            default:
+                return null;
         }
     }
 
@@ -406,13 +486,13 @@ class TechnicalInterviewRepository extends  BaseRepository
     public function getPracticalTestTransactions()
     {
         return  DB::table('practical_test_tranc as ptt')
-                        ->select(['ptt.*', DB::Raw("CASE WHEN ptt.ranking_creterial_id = 0 THEN 'N/A (0)' WHEN ptt.ranking_creterial_id = 1 THEN 'Below Average(1)' WHEN ptt.ranking_creterial_id = 2 THEN 'Average (2)' WHEN ptt.ranking_creterial_id = 3 THEN 'Good'  WHEN ptt.ranking_creterial_id = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS ranking_creterial"),])->get();
+            ->select(['ptt.*', DB::Raw("CASE WHEN ptt.ranking_creterial_id = 0 THEN 'N/A (0)' WHEN ptt.ranking_creterial_id = 1 THEN 'Below Average(1)' WHEN ptt.ranking_creterial_id = 2 THEN 'Average (2)' WHEN ptt.ranking_creterial_id = 3 THEN 'Good'  WHEN ptt.ranking_creterial_id = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS ranking_creterial"),])->get();
     }
 
     public function showDownloadDetails()
     {
 
-       return  DB::table('technical_interviews as ti')
+        return  DB::table('technical_interviews as ti')
             ->select([
                 DB::raw('ti.job_title_id'),
                 DB::raw('ti.id'),

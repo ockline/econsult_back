@@ -179,7 +179,7 @@ Route::prefix('hiring')->group(function () {
     Route::get('job/home_job/{id}', [JobApplicationController::class, 'show'])->middleware('api');
     Route::post('job/add_job', [JobApplicationController::class, 'store'])->middleware('api');
     Route::get('job/edit_job/{id}', [JobApplicationController::class, 'edit'])->middleware('api');
-    Route::put('job/update_job/{id}', [JobApplicationController::class, 'update'])->middleware('api');
+    Route::post('job/update_job/{id}', [JobApplicationController::class, 'updateJob'])->middleware('api');
     Route::put('job/update_job_description/{id}', [JobApplicationController::class, 'updateDescription'])->middleware('api');
     Route::delete('job/delete_job/{id}', [JobApplicationController::class, 'destroy'])->middleware('api');
     Route::post('job/job_description', [JobApplicationController::class, 'saveJobDescription'])->middleware('api');
@@ -190,7 +190,7 @@ Route::prefix('hiring')->group(function () {
     Route::get('/hr_interview/show_assessment/{id}', [HrInterviewController::class, 'show'])->middleware('api');
     Route::post('/hr_interview/add_assessment', [HrInterviewController::class, 'store'])->middleware('api');
     Route::get('/hr_interview/edit_assessment/{id}', [HrInterviewController::class, 'editAssessedCandidate'])->middleware('api');
-    Route::put('/hr_interview/update_assessment/{id}', [HrInterviewController::class, 'update'])->middleware('api');
+    Route::post('/hr_interview/update_assessment/{id}', [HrInterviewController::class, 'updateAssessment'])->middleware('api');
     Route::delete('/hr_interview/delete_assessment/{id}', [HrInterviewController::class, 'destroy'])->middleware('api');
 
     // Technical Interview
@@ -203,7 +203,8 @@ Route::prefix('hiring')->group(function () {
     Route::put('technical_interview/update_practical_candidate/{id}', [TechnicalInterviewController::class,'updatePracticalCandidate'])->middleware('api');
     Route::get('technical_interview/last_candidate/',[TechnicalInterviewController::class, 'lastCandidate'])->middleware('api');
     Route::get('technical_interview/edit_candidate/{id}', [TechnicalInterviewController::class,'editCandidate'])->middleware('api');
-    Route::put('technical_interview/update_candidate/{id}',[TechnicalInterviewController::class, 'update'])->middleware('api');
+            //instead of using PUT method on update  candidate  we use post in order to allow amplication/pdf
+    Route::post('technical_interview/update_candidate/{id}',[TechnicalInterviewController::class, 'updateCandidate'])->middleware('api');
     Route::delete('technical_interview/delete_candidate/{id}',[TechnicalInterviewController::class, 'destroy'])->middleware('api');
 
 });

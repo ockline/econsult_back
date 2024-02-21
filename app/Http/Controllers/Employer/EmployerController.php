@@ -90,6 +90,7 @@ class EmployerController extends Controller
      */
     public function store(Request $request)
     {
+       log::info($request->all());
         $employer_check = $this->checkEmployerExist($request);
 
         $validator = Validator::make($request->all(), [
@@ -113,7 +114,7 @@ class EmployerController extends Controller
             'postal_address' => 'required|max:191',
             'region_id' => 'required|max:191',
             'district_id' => 'required|max:191',
-            // 'location_type_id' => 'required|max:191',
+            'location_type_id' => 'required|max:191',
             'working_hours' => 'required|max:191',
             'working_days' => 'required|max:191',
             'shift_id' => 'required|max:191',

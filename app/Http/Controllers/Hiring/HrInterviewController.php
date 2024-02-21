@@ -178,7 +178,7 @@ class HrInterviewController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateAssessment(Request $request, string $id)
     {
     //   log::info('tumeeanza');
 // Log::info($request->all());
