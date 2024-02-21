@@ -55,6 +55,7 @@ class EmployerRepository extends  BaseRepository
         $employers = $this->employer->selectRaw(" * , CASE WHEN active = 1 THEN 'Active' ELSE 'Not Active' END AS status")
             // , 'ema.name as document'
             // ->leftJoin('employer_attachments as ema', 'ema.employer_id', '=', 'employers.id')
+           ->orderBy('id', 'DESC')
             ->withTrashed()
             ->get();
         // $employers = DB::table('employers')->select('*')->get();

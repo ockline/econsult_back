@@ -114,6 +114,8 @@ class JobApplicationController extends Controller
     public function show(string $id)
     {
         $details = $this->vacancy->getVacancies();
+
+        log::info($details);
         $formData = $details->find($id);
         if (isset($formData)) {
             // Log::info('111');

@@ -80,6 +80,8 @@ class JobApplicationRepository extends  BaseRepository
                 DB::Raw('jt.name as job_title'),
                 DB::Raw('tv.name as vacancy_type'),
                 DB::Raw('jbt.name'),
+                DB::Raw('jvd.name as vacancy_doc'),
+               DB::Raw('jvd.description'),
                 DB::Raw("CASE WHEN job_vacancies.status = 0 THEN 'Submitted' WHEN job_vacancies.status = 1 THEN 'Initiated' WHEN job_vacancies.status = 2 THEN 'Pending' WHEN job_vacancies.status = 3 THEN 'Approved' ELSE 'Rejected' END AS status")
 
             ])
@@ -88,6 +90,7 @@ class JobApplicationRepository extends  BaseRepository
             ->leftJoin('job_title as jt', 'job_vacancies.job_title_id', '=', 'jt.id')
             ->leftJoin('type_vacancies as tv', 'job_vacancies.type_vacancy_id', '=', 'tv.id')
             ->leftJoin('job_desc_transactions as jbt', 'job_vacancies.id', '=', 'jbt.job_vacancy_id')
+            ->leftJoin('job_vacancy_documents as jvd','jvd.job_vacancy_id', '=', 'job_vacancies.id')
             ->whereNull('job_vacancies.deleted_at')
             ->get();
 
