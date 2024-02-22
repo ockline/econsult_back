@@ -336,4 +336,25 @@ public function lastCandidate()
     //         ]);
     //     }
     // }
+    public function candidateDocument(string $id)
+{
+  $document = $this->candidate->getCandidateDocument();
+//   log::info($document);
+        $candidate_document = $document->where('technical_interview_id', $id);
+
+
+        if (isset($candidate_document)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'candidate_document' => $candidate_document
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+}
 }

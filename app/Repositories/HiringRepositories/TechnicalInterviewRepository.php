@@ -50,7 +50,7 @@ class TechnicalInterviewRepository extends  BaseRepository
     public function addCandidate($request)
     {
 
-        Log::info($request->all());
+        // Log::info($request->all());
         $candidate_number = $this->generateCandidateNo();
         //   log::info($candidate_number);
 
@@ -248,7 +248,7 @@ class TechnicalInterviewRepository extends  BaseRepository
      */
     public function updateDetails($request, $id)
     {
-        Log::info('*******************************');
+        // Log::info('*******************************');
 
         $candidate_details = $this->candidate::where('id', $id)->first();
 
@@ -477,7 +477,7 @@ class TechnicalInterviewRepository extends  BaseRepository
             ])
             ->leftJoin('job_title as jt', 'ti.job_title_id', '=', 'jt.id')
             ->leftJoin('cost_centers as cc', 'ti.cost_center_id', '=', 'cc.id')
-            ->leftJoin('practical_test_tranc as ptt', 'ptt.technical_interview_id', '=', 'ti.id')
+            // ->leftJoin('practical_test_tranc as ptt', 'ptt.technical_interview_id', '=', 'ti.id')
             ->leftJoin('employers as e', 'ti.employer_id', '=', 'e.id')
             ->leftJoin('users as u', 'u.employer_id', '=', 'e.id')
             ->orderBy('ti.id', 'DESC')
@@ -540,4 +540,10 @@ class TechnicalInterviewRepository extends  BaseRepository
             ->orderBy('ti.id', 'DESC')
             ->get();
     }
+ public function getCandidateDocument()
+{
+    return DB::table('tech_interview_documents as tid')->select('tid.id','tid.technical_interview_id','document_id','tid.description','tid.updated_at as doc_modified', 'd.name as doc_name')
+                                ->leftJoin('documents as d', 'tid.document_id', '=', 'd.id')
+                                ->get();
+}
 }

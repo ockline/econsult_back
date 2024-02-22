@@ -778,4 +778,10 @@ class HrInterviewRepository extends  BaseRepository
             ->orderBy('ci.id', 'DESC')
             ->get();
     }
+    public function getAssessedDocument()
+    {
+        return DB::table('compentency_inter_documents as cid')->select('cid.id','cid.competency_interview_id','document_id','cid.description','cid.updated_at as doc_modified', 'd.name as doc_name')
+                                ->leftJoin('documents as d', 'cid.document_id', '=', 'd.id')
+                                ->get();
+    }
 }

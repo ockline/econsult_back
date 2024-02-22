@@ -299,4 +299,26 @@ class HrInterviewController extends Controller
     //         ]);
     //     }
     // }
+
+    public function assessedDocument(string $id)
+{
+  $document = $this->assessment->getAssessedDocument();
+//   log::info($document);
+        $assessed_document = $document->where('competency_interview_id', $id);
+
+
+        if (isset($assessed_document)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'assessed_document' => $assessed_document
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+}
 }

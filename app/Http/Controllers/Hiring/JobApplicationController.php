@@ -85,18 +85,18 @@ class JobApplicationController extends Controller
         return response()->json($return);
     }
 
-    public function saveJobDescription()
+    public function saveJobDescription($id = null)
     {
 
         // Log::info('ndani');
-        $request = request()->all();
+        $input = request()->all();
 
-        if ($request['name'] === null) {
+        if ($input['name'] === null) {
             log::info('hapa');
             $return = ["status" => 404, "message" => "No Job description fill please fill it before you submit"];
         } else {
-            log::info('chini');
-            $job = $this->vacancy->jobDescription();
+            // log::info('chini');
+            $job = $this->vacancy->jobDescription($id);
 
             $status = $job->getStatusCode();
 
@@ -115,7 +115,7 @@ class JobApplicationController extends Controller
     {
         $details = $this->vacancy->getVacancies();
 
-        log::info($details);
+        // log::info($details);
         $formData = $details->find($id);
         if (isset($formData)) {
             // Log::info('111');
@@ -257,6 +257,29 @@ class JobApplicationController extends Controller
             ]);
         }
     }
+  public function jobDocument(string $id)
+{
+ $document = $this->vacancy->getJobDocument();
+//   log::info($document);
+        $job_document = $document->where('job_vacancy_id', $id);
+
+
+        if (isset($job_document)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'job_document' => $job_document
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+
+}
+
     public function downloadJob(string $id)
     {
         // log::info('ndanioiaiaiai');
