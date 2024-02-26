@@ -320,23 +320,25 @@ class TechnicalInterviewRepository extends  BaseRepository
      */
     public function updatePracticalTestTranc($request, $interview_id)
     {
-        Log::info('ndaniii');
+        // Log::info('ndaniii');
 
-        Log::info($request->all());
-        die;
+        // Log::info($request->all());
+        // die;
         $saved_data = $this->getPracticalTestTransactions()->where('technical_interview_id', $interview_id)->first();
 
         DB::beginTransaction();
 
         try {
             $input = $request->all();
+           $practical_id = $input['practical_test_id'];
+            $technical =  PracticalTestTranc::where('practical_test_id', $practical_id);
 
-            $technical =  PracticalTestTranc::where('technical_interview_id', $interview_id);
 
+    //   log::info($input['practical_test_id']);
             $technical->update([
-                'competency_id' => !empty($input['competency_id']) ? $input['competency_id'] : null,
-                'practical_test_id' => !empty($input['practical_test_id']) ?: null,
-                'technical_interview_id' => $interview_id,
+
+                'practical_test_id' => !empty($input['practical_test_id']) ? $input['practical_test_id']: null,
+                'technical_interview_id' => !empty($input['technical_interview_id']) ? $input['technical_interview_id']: null,
                 'description' => !empty($input['description']) ? $input['description'] : null,
                 'ranking_creterial_id' => !empty($input['ranking_creterial_id']) ? $input['ranking_creterial_id'] : $saved_data->ranking_creterial_id,
                 'practicl_test_remark' => !empty($input['practicl_test_remark']) ? $input['practicl_test_remark'] : $saved_data->practicl_test_remark,
@@ -347,13 +349,13 @@ class TechnicalInterviewRepository extends  BaseRepository
 
 
             DB::commit();
-            //   Log::info('umefika kweli?');
-            return response()->json(['message' => 'Competencie details updaded successfully', 'status' => 201], 201);
+              Log::info('practical test updated');
+            return response()->json(['message' => 'Practical test details updaded successfully', 'status' => 200], 200);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Failed to update competencies', ['error' => $e->getMessage()]);
+            Log::error('Failed to update practical test', ['error' => $e->getMessage()]);
 
-            return response()->json(['message' => 'Failed to update on competency transactions', 'status' => 500]);
+            return response()->json(['message' => 'Failed to update on practical test', 'status' => 500]);
         }
     }
     /**

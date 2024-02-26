@@ -246,7 +246,7 @@ public function lastCandidate()
 
     public function updatePracticalCandidate(Request $request, string $id)
     {
-           Log::info($request->all());
+        //    Log::info($request->all());
         $job_description = $this->candidate->updatePracticalTestTranc($request, $id);
 
         $status = $job_description->getStatusCode();
