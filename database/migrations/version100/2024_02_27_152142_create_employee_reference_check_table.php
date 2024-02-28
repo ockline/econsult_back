@@ -1,0 +1,38 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('employee_reference_check', function (Blueprint $table) {
+            $table->id();
+             $table->unsignedBigInteger('employee_id');
+            $table->integer('referee_id');
+            $table->text('referee_name')->nullable();
+            $table->text('referee_title')->nullable();
+            $table->text('referee_address')->nullable();
+            $table->text('referee_contact')->nullable();
+            $table->text('referee_email')->nullable();
+            $table->string('description')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
+            $table->foreign('employee_id')->references('id')->on('employees')->onUpdate('CASCADE')->onDelete('RESTRICT');
+
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('employee_reference_check');
+    }
+};

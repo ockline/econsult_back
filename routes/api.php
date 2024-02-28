@@ -15,6 +15,8 @@ use App\Http\Controllers\Operation\BankController;
 use App\Http\Controllers\Operation\BankBranchController;
 use App\Http\Controllers\Operation\LocationController;
 use App\Http\Controllers\Operation\WardController;
+use App\Http\Controllers\Operation\EducationController;
+use App\Http\Controllers\Operation\CountryController;
 use App\Http\Controllers\Operation\ShiftController;
 use App\Http\Controllers\Operation\JobTitleController;
 use App\Http\Controllers\Operation\PackageController;
@@ -23,6 +25,7 @@ use App\Http\Controllers\Operation\VacancyTypeController;
 use App\Http\Controllers\Hiring\JobApplicationController;
 use App\Http\Controllers\Hiring\HrInterviewController;
 use App\Http\Controllers\Hiring\TechnicalInterviewController;
+use App\Http\Controllers\Employee\EmployeeController;
 
 
 
@@ -142,6 +145,10 @@ Route::prefix('locations')->group(function () {
 Route::prefix('wards')->group(function () {
     Route::get('show_ward', [WardController::class, 'getWard'])->middleware('api');
 });
+//api for Education Histories
+Route::prefix('education')->group(function () {
+    Route::get('show_educations', [EducationController::class, 'getEducationLevel'])->middleware('api');
+});
 
 // api for Allowances
 Route::prefix('allowances')->group(function () {
@@ -170,6 +177,10 @@ Route::prefix('ranking_criterial')->group(function () {
     Route::get('/show_ranking', [RankingCriterialController::class, 'getRanking'])->middleware('api');
 });
 
+//api for Countries and nationality
+Route::prefix('countries')->group(function () {
+    Route::get('show_countries', [CountryController::class, 'getCountry'])->middleware('api');
+});
 
 // ******** Hiring Block  (Both Job Application and Interviews)  *****
 // api for Job Application (Vacancies)
@@ -198,15 +209,40 @@ Route::prefix('hiring')->group(function () {
     // Technical Interview
     Route::get('technical_interview/show_candidate', [TechnicalInterviewController::class, 'candidate'])->middleware('api');
     Route::get('technical_interview/home_candidate', [TechnicalInterviewController::class, 'getCandidate'])->middleware('api');
- Route::get('/technical_interview/show_candidate/{id}', [TechnicalInterviewController::class, 'showCandidate'])->middleware('api');
-    Route::post('technical_interview/add_candidate',[TechnicalInterviewController::class, 'store'])->middleware('api');
-    Route::post('technical_interview/practical_test',[TechnicalInterviewController::class, 'savePractical'])->middleware('api');
-    Route::get('technical_interview/practical_candidate/{id}', [TechnicalInterviewController::class,'editPracticalCandidate'])->middleware('api');
-    Route::put('technical_interview/update_practical_candidate/{id}', [TechnicalInterviewController::class,'updatePracticalCandidate'])->middleware('api');
-    Route::get('technical_interview/last_candidate/',[TechnicalInterviewController::class, 'lastCandidate'])->middleware('api');
-    Route::get('technical_interview/edit_candidate/{id}', [TechnicalInterviewController::class,'editCandidate'])->middleware('api');
-            //instead of using PUT method on update  candidate  we use post in order to allow amplication/pdf
-    Route::post('technical_interview/update_candidate/{id}',[TechnicalInterviewController::class, 'updateCandidate'])->middleware('api');
-    Route::delete('technical_interview/delete_candidate/{id}',[TechnicalInterviewController::class, 'destroy'])->middleware('api');
-   Route::get('technical_interview/get_candidate_document/{id}', [TechnicalInterviewController::class, 'candidateDocument'])->middleware('api');
+    Route::get('/technical_interview/show_candidate/{id}', [TechnicalInterviewController::class, 'showCandidate'])->middleware('api');
+    Route::post('technical_interview/add_candidate', [TechnicalInterviewController::class, 'store'])->middleware('api');
+    Route::post('technical_interview/practical_test', [TechnicalInterviewController::class, 'savePractical'])->middleware('api');
+    Route::get('technical_interview/practical_candidate/{id}', [TechnicalInterviewController::class, 'editPracticalCandidate'])->middleware('api');
+    Route::put('technical_interview/update_practical_candidate/{id}', [TechnicalInterviewController::class, 'updatePracticalCandidate'])->middleware('api');
+    Route::get('technical_interview/last_candidate/', [TechnicalInterviewController::class, 'lastCandidate'])->middleware('api');
+    Route::get('technical_interview/edit_candidate/{id}', [TechnicalInterviewController::class, 'editCandidate'])->middleware('api');
+    //instead of using PUT method on update  candidate  we use post in order to allow amplication/pdf
+    Route::post('technical_interview/update_candidate/{id}', [TechnicalInterviewController::class, 'updateCandidate'])->middleware('api');
+    Route::delete('technical_interview/delete_candidate/{id}', [TechnicalInterviewController::class, 'destroy'])->middleware('api');
+    Route::get('technical_interview/get_candidate_document/{id}', [TechnicalInterviewController::class, 'candidateDocument'])->middleware('api');
+});
+
+
+// ******** Employees Block  (Both personal, documents, social record, induction and personal Application)  *****
+// api for
+Route::prefix('employees')->group(function () {
+    /** api for Personal Details   */
+    Route::get('show_all_employee', [EmployeeController::class, 'personDetails'])->middleware('api');
+    Route::get('show_employee/{id}', [EmployeeController::class, 'show'])->middleware('api');
+    Route::post('/add_employee', [EmployeeController::class, 'store'])->middleware('api');
+    Route::post('/education_employee', [EmployeeController::class, 'saveEducation'])->middleware('api');
+    Route::post('/employment_employee', [EmployeeController::class, 'saveEmployment'])->middleware('api');
+    Route::post('/reference_check_employee', [EmployeeController::class, 'saveReferenceCheck'])->middleware('api');
+    //update
+    Route::get('/edit_employee/{id}', [EmployeeController::class, 'edit'])->middleware('api');
+    Route::post('/update_employee/{id}', [EmployeeController::class, 'updateEmployee'])->middleware('api');
+    Route::get('/education_history/{id}', [EmployeeController::class, 'editEducationHistory'])->middleware('api');
+    Route::post('/update_education_employee/{id}', [EmployeeController::class, 'updateEducation'])->middleware('api');
+    Route::get('/edit_employment_employee/{id}', [EmployeeController::class, 'editEmployment'])->middleware('api');
+    Route::post('/update_employment_employee/{id}', [EmployeeController::class, 'updateEmployment'])->middleware('api');
+    Route::get('/edit_reference_employee/{id}', [EmployeeController::class, 'editReferenceCheckt'])->middleware('api');
+    Route::post('/update_reference_employee/{id}', [EmployeeController::class, 'updateReferenceCheck'])->middleware('api');
+
+    Route::get('/get_employee_document/{id}', [EmployeeController::class, 'getDocument'])->middleware('api');
+    Route::delete('/delete_employee/{id}', [EmployeeController::class, 'destroy'])->middleware('api');
 });
