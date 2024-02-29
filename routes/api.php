@@ -242,7 +242,6 @@ Route::prefix('employees')->group(function () {
     Route::post('/update_employment_employee/{id}', [EmployeeController::class, 'updateEmployment'])->middleware('api');
     Route::get('/edit_reference_employee/{id}', [EmployeeController::class, 'editReferenceCheckt'])->middleware('api');
     Route::post('/update_reference_employee/{id}', [EmployeeController::class, 'updateReferenceCheck'])->middleware('api');
-
-    Route::get('/get_employee_document/{id}', [EmployeeController::class, 'getDocument'])->middleware('api');
+    Route::get('/get_employee_document/{id}', [EmployeeController::class, 'getEmployeeDocument'])->middleware('api');
     Route::delete('/delete_employee/{id}', [EmployeeController::class, 'destroy'])->middleware('api');
 });

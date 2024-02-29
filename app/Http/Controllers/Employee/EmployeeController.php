@@ -476,7 +476,7 @@ class EmployeeController extends Controller
 
     public function updateReferenceCheck(Request $request, string $id)
     {
-        Log::info($request->all());
+        // Log::info($request->all());
         $reference_check = $this->employee->updateEmploymentReference($request, $id);
 
         $status = $reference_check->getStatusCode();
@@ -545,13 +545,13 @@ class EmployeeController extends Controller
     //     }
     // }
 
-    public function assessedDocument(string $id)
+    public function getEmployeeDocument(string $id)
     {
         $document = $this->employee->getPersonalDocument();
         //   log::info($document);
-        $employee_document = $document->where('competency_interview_id', $id);
+        $employee_document = $document->where('employee_id', $id);
 
-
+        //   log::info($employee_document);
         if (isset($employee_document)) {
             // Log::info('111');
             return response()->json([
