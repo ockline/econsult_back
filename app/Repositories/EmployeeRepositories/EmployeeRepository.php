@@ -715,10 +715,47 @@ class EmployeeRepository extends  BaseRepository
 
         return $data;
     }
-    // public function getPersonalDocument()
-    // {
-    //     return DB::table('compentency_inter_documents as cid')->select('cid.id', 'cid.competency_interview_id', 'document_id', 'cid.description', 'cid.updated_at as doc_modified', 'd.name as doc_name')
-    //         ->leftJoin('documents as d', 'cid.document_id', '=', 'd.id')
-    //         ->get();
-    // }
+    public function getPersonalDetail()
+    {
+        return DB::table('employees as e')
+            ->select([
+                DB::raw('e.* '),
+                DB::raw("CASE WHEN e.military_service = 1 THEN 'Completed' ELSE 'Didnt Attend' END AS military_service "),
+                DB::raw("CASE WHEN e.marital_status  = 1 THEN 'Married' ELSE 'Single' END AS marital"),
+                DB::raw("CASE WHEN e.gender  = 1 THEN 'Male' ELSE 'Female' END AS genders"),
+                DB::raw("CASE WHEN e.relative_working  = 1 THEN 'Yes' ELSE 'No' END AS relative_working "),
+                DB::raw("CASE WHEN e.chronic_disease  = 1 THEN 'Yes' ELSE 'No' END AS chronic_disease "),
+                DB::raw("CASE WHEN e.employed_before  = 1 THEN 'Yes' ELSE 'No' END AS employed_before "),
+                DB::raw("CASE WHEN e.downloaded  = 1 THEN 'Yes' ELSE 'No' END AS downloaded "),
+                DB::raw("CASE WHEN e.uploaded  = 1 THEN 'Yes' ELSE 'No' END AS uploaded "),
+                DB::raw("CASE WHEN e.surgery_operation  = 1 THEN 'Yes' ELSE 'No' END AS surgery_operation "),
+                DB::raw("CASE
+                            WHEN e.driving_licence = 1 THEN 'Light'
+                            WHEN e.driving_licence = 2 THEN 'Heavy'
+                            WHEN e.driving_licence = 3 THEN 'Equipment'
+                            ELSE 'None'
+                        END AS driving"),
+                DB::raw("CASE
+                            WHEN e.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN e.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN e.progressive_stage = 3 THEN 'Social Record'
+                            WHEN e.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN e.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN e.progressive_stage = 6 THEN 'Person ID'
+                            ELSE 'Registration Completed'
+                        END AS stage"),
+                DB::raw('e.surgery_remark '),
+                DB::raw('jt.name as job_title'),
+                DB::raw('jt.name as recommended_title'),
+                DB::raw('cc.name as cost_center'),
+                DB::raw('c.description as nationality'),
+                DB::raw('CONCAT(e.firstname, \' \', e.middlename, \' \', e.lastname) as employee_name'),
+            ])
+            ->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
+            ->leftJoin('cost_centers as cc', 'e.cost_center_id', '=', 'cc.id')
+            ->leftJoin('users as u', 'u.employer_id', '=', 'e.id')
+            ->leftJoin('countries as c', 'e.nationality_id', '=', 'c.id')
+            ->orderBy('e.id', 'DESC')
+            ->get();
+    }
 }

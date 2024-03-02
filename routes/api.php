@@ -26,6 +26,7 @@ use App\Http\Controllers\Hiring\JobApplicationController;
 use App\Http\Controllers\Hiring\HrInterviewController;
 use App\Http\Controllers\Hiring\TechnicalInterviewController;
 use App\Http\Controllers\Employee\EmployeeController;
+use App\Http\Controllers\Employee\UploadDocumentController;
 
 
 
@@ -244,4 +245,10 @@ Route::prefix('employees')->group(function () {
     Route::post('/update_reference_employee/{id}', [EmployeeController::class, 'updateReferenceCheck'])->middleware('api');
     Route::get('/get_employee_document/{id}', [EmployeeController::class, 'getEmployeeDocument'])->middleware('api');
     Route::delete('/delete_employee/{id}', [EmployeeController::class, 'destroy'])->middleware('api');
+
+    /** api for documtn upload */
+    Route::get('document/show_uploaded_document', [UploadDocumentController::class, 'getUpladed'])->middleware('api');
+    Route::post('/document/upload_document/{id}', [UploadDocumentController::class, 'uploadDocument'])->middleware('api');
+    Route::get('/document/get_uploaded_list/{id}', [UploadDocumentController::class, 'getEmployeeUpload'])->middleware('api');
+    Route::get('/document/get_employee_files/{id}/{file_id}', [UploadDocumentController::class, 'getEmployeeFileUpload'])->middleware('api');
 });
