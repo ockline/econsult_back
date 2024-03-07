@@ -426,9 +426,9 @@ class DocumentsTableSeeder extends Seeder
  25 =>
             array(
                 'id' => 26,
-                'name' => 'social record',
+                'name' => 'Social Record Signed ',
                 'document_group_id' => '8',
-                'description' => NULL,
+                'description' => 'social_signed_doc',
                 'isrecurring' => '0',
                 'ismandatory' => '1',
                 'isactive' => '1',
@@ -663,22 +663,40 @@ class DocumentsTableSeeder extends Seeder
                 'isother' => 0,
                 'document_order' => NULL,
             ),
-//  40 =>
-//             array(
-//                 'id' => 41,
-//                 'name' => 'Passport size Photo',
-//                 'document_group_id' => '7',
-//                 'description' => 'passport_doc',
-//                 'isrecurring' => '0',
-//                 'ismandatory' => '1',
-//                 'isactive' => '1',
-//                 'created_at' => '2024-02-27 08:18:07',
-//                 'updated_at' => NULL,
-//                 'deleted_at' => NULL,
-//                 'anysource' => 1,
-//                 'isother' => 0,
-//                 'document_order' => NULL,
-//             ),
+ 40 =>
+
+            array(
+                'id' => 41,
+                'name' => 'Osha Report',
+                'document_group_id' => '8',
+                'description' => 'osha_report_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-03-06 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+ 41 =>
+
+            array(
+                'id' => 42,
+                'name' => 'Children Certificate',
+                'document_group_id' => '8',
+                'description' => 'children_certificate',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-03-06 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
 
 
         ));

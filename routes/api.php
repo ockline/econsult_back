@@ -15,6 +15,7 @@ use App\Http\Controllers\Operation\BankController;
 use App\Http\Controllers\Operation\BankBranchController;
 use App\Http\Controllers\Operation\LocationController;
 use App\Http\Controllers\Operation\WardController;
+use App\Http\Controllers\Operation\DependantTypeController;
 use App\Http\Controllers\Operation\EducationController;
 use App\Http\Controllers\Operation\CountryController;
 use App\Http\Controllers\Operation\ShiftController;
@@ -26,7 +27,8 @@ use App\Http\Controllers\Hiring\JobApplicationController;
 use App\Http\Controllers\Hiring\HrInterviewController;
 use App\Http\Controllers\Hiring\TechnicalInterviewController;
 use App\Http\Controllers\Employee\EmployeeController;
-use App\Http\Controllers\Employee\UploadDocumentController;
+use App\Http\Controllers\Employee\UploadDocumentController; // for required document
+use App\Http\Controllers\Employee\SocialRecordController;
 
 
 
@@ -182,6 +184,10 @@ Route::prefix('ranking_criterial')->group(function () {
 Route::prefix('countries')->group(function () {
     Route::get('show_countries', [CountryController::class, 'getCountry'])->middleware('api');
 });
+//api for Level of relativeness or relationship
+Route::prefix('dependant_types')->group(function () {
+    Route::get('show_relationship', [DependantTypeController::class, 'getRelationship'])->middleware('api');
+});
 
 // ******** Hiring Block  (Both Job Application and Interviews)  *****
 // api for Job Application (Vacancies)
@@ -251,4 +257,20 @@ Route::prefix('employees')->group(function () {
     Route::post('/document/upload_document/{id}', [UploadDocumentController::class, 'uploadDocument'])->middleware('api');
     Route::get('/document/get_uploaded_list/{id}', [UploadDocumentController::class, 'getEmployeeUpload'])->middleware('api');
     Route::get('/document/get_employee_files/{id}/{file_id}', [UploadDocumentController::class, 'getEmployeeFileUpload'])->middleware('api');
+
+  /** api for social record */
+    Route::get('/social/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
+    Route::get('/social/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
+    Route::get('/social/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
+    Route::post('/social/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
+    Route::post('/social/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
+    Route::post('/social/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+       //update
+    Route::get('/social/edit_social_record/{id}', [SocialRecordController::class, 'edit'])->middleware('api');
+    Route::post('/social/update_social_record/{id}', [SocialRecordController::class, 'updateSocialRecord'])->middleware('api');
+    Route::get('/social/relative_detail/{id}', [SocialRecordController::class, 'editRelativeDetail'])->middleware('api');
+    Route::put('/social/update_relative_details/{id}', [SocialRecordController::class, 'updateRelative'])->middleware('api');
+    Route::get('/social/edit_dependant_detail/{id}', [SocialRecordController::class, 'editDependant'])->middleware('api');
+    Route::put('/social/update_dependant_detail/{id}', [SocialRecordController::class, 'updateDependant'])->middleware('api');
+    Route::get('/social/get_social_document/{id}', [SocialRecordController::class, 'getSocialRecordDocument'])->middleware('api');
 });
