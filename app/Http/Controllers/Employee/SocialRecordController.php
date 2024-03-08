@@ -62,8 +62,8 @@ class SocialRecordController extends Controller
      */
     public function storeSocial(Request $request)
     {
-        Log::info('hellow ndani');
-        log::info($request->all());
+        // Log::info('hellow ndani');
+        // log::info($request->all());
 
         $validator = Validator::make($request->all(), [
 
@@ -461,6 +461,7 @@ class SocialRecordController extends Controller
 
     public function getSocialRecordDocument(string $id)
     {
+        //   log::info($id);
         $document = $this->social_record->getPersonalDocument();
         //   log::info($document);
         $employee_document = $document->where('employee_id', $id);

@@ -441,8 +441,9 @@ class SocialRecordRepository extends  BaseRepository
     {
         // return $this->assessment->get();
         return  DB::table('employee_documents as ed')
-            ->select('ed.id', 'ed.employee_id', 'document_id', 'ed.description', 'ed.updated_at as doc_modified', 'd.name as doc_name')
+            ->select('ed.id', 'ed.employee_id', 'ed.document_id', 'ed.document_group_id as group','ed.description', 'ed.updated_at as doc_modified', 'd.name as doc_name')
             ->leftJoin('documents as d', 'ed.document_id', '=', 'd.id')
+            ->where('ed.document_group_id', 8)
             ->get();
     }
 
