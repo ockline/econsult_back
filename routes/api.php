@@ -29,6 +29,7 @@ use App\Http\Controllers\Hiring\TechnicalInterviewController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
 use App\Http\Controllers\Employee\SocialRecordController;
+use App\Http\Controllers\Employee\PersonnelApplicationController;
 
 
 
@@ -273,4 +274,17 @@ Route::prefix('employees')->group(function () {
     Route::get('/social/edit_dependant_detail/{id}', [SocialRecordController::class, 'editDependant'])->middleware('api');
     Route::put('/social/update_dependant_detail/{id}', [SocialRecordController::class, 'updateDependant'])->middleware('api');
     Route::get('/social/get_social_document/{id}', [SocialRecordController::class, 'getSocialRecordDocument'])->middleware('api');
+
+
+ /** api for Personnel Id Application */
+    Route::get('/application/show_application_details', [PersonnelApplicationController::class, 'applicationDetails'])->middleware('api');
+    Route::get('/application/show_application/{id}', [PersonnelApplicationController::class, 'show'])->middleware('api');
+    Route::get('/application/get_application_document/{id}', [PersonnelApplicationController::class, 'getPersonnelDocument'])->middleware('api');
+    Route::post('/application/add_application_record', [PersonnelApplicationController::class, 'storeSocial'])->middleware('api');
+
+       //update
+    Route::get('/application/edit_application_record/{id}', [PersonnelApplicationController::class, 'edit'])->middleware('api');
+    Route::put('/application/update_application_record/{id}', [PersonnelApplicationController::class, 'updatePersonnelApplication'])->middleware('api');
+ Route::post('/application/complete_application_record/{id}', [PersonnelApplicationController::class, 'completePersonnelApplication'])->middleware('api');
+    // Route::get('/application/get_application_document/{id}', [PersonnelApplicationController::class, 'getSocialRecordDocument'])->middleware('api');
 });
