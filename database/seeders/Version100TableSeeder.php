@@ -39,6 +39,7 @@ use Database\Seeders\Version100\DepartmentsTableSeeder;
 use Database\Seeders\Version100\UnitsTableSeeder;
 use Database\Seeders\Version100\EducationHistoriesTableSeeder;
 use Database\Seeders\Version100\PracticalTestsTableSeeder;
+use Database\Seeders\Version100\ContractsTableSeeder;
 // use Database\Seeders\Version100\QuarterTableSeeder;
 
 class Version100TableSeeder extends Seeder
@@ -100,6 +101,8 @@ class Version100TableSeeder extends Seeder
         $this->call(EducationHistoriesTableSeeder::class);
         $this->call(PracticalTestsTableSeeder::class);
 
+        /**  Contracts */
+        $this->call(ContractsTableSeeder::class);
 
         /* Role & Permission */
         // $this->call(PermissionGroupsTableSeeder::class);

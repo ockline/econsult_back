@@ -30,7 +30,7 @@ use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
 use App\Http\Controllers\Employee\SocialRecordController;
 use App\Http\Controllers\Employee\PersonnelApplicationController;
-
+use App\Http\Controllers\ContractManagement\ContractDetailController;
 
 
 
@@ -259,14 +259,14 @@ Route::prefix('employees')->group(function () {
     Route::get('/document/get_uploaded_list/{id}', [UploadDocumentController::class, 'getEmployeeUpload'])->middleware('api');
     Route::get('/document/get_employee_files/{id}/{file_id}', [UploadDocumentController::class, 'getEmployeeFileUpload'])->middleware('api');
 
-  /** api for social record */
+    /** api for social record */
     Route::get('/social/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
     Route::get('/social/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
     Route::get('/social/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
     Route::post('/social/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
     Route::post('/social/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
     Route::post('/social/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
-       //update
+    //update
     Route::get('/social/edit_social_record/{id}', [SocialRecordController::class, 'edit'])->middleware('api');
     Route::post('/social/update_social_record/{id}', [SocialRecordController::class, 'updateSocialRecord'])->middleware('api');
     Route::get('/social/relative_detail/{id}', [SocialRecordController::class, 'editRelativeDetail'])->middleware('api');
@@ -275,16 +275,60 @@ Route::prefix('employees')->group(function () {
     Route::put('/social/update_dependant_detail/{id}', [SocialRecordController::class, 'updateDependant'])->middleware('api');
     Route::get('/social/get_social_document/{id}', [SocialRecordController::class, 'getSocialRecordDocument'])->middleware('api');
 
-
- /** api for Personnel Id Application */
+    /** api for Personnel Id Application */
     Route::get('/application/show_application_details', [PersonnelApplicationController::class, 'applicationDetails'])->middleware('api');
     Route::get('/application/show_application/{id}', [PersonnelApplicationController::class, 'show'])->middleware('api');
     Route::get('/application/get_application_document/{id}', [PersonnelApplicationController::class, 'getPersonnelDocument'])->middleware('api');
-    Route::post('/application/add_application_record', [PersonnelApplicationController::class, 'storeSocial'])->middleware('api');
-
-       //update
+    Route::post('/application/add_application_record', [PersonnelApplicationController::class, 'storePersonnel'])->middleware('api');
+    //update
     Route::get('/application/edit_application_record/{id}', [PersonnelApplicationController::class, 'edit'])->middleware('api');
     Route::put('/application/update_application_record/{id}', [PersonnelApplicationController::class, 'updatePersonnelApplication'])->middleware('api');
- Route::post('/application/complete_application_record/{id}', [PersonnelApplicationController::class, 'completePersonnelApplication'])->middleware('api');
-    // Route::get('/application/get_application_document/{id}', [PersonnelApplicationController::class, 'getSocialRecordDocument'])->middleware('api');
+    Route::post('/application/complete_application_record/{id}', [PersonnelApplicationController::class, 'completePersonnelApplication'])->middleware('api');
+
+});
+
+
+// ******** Contracts Block  (Both required details, fixed, specific, unspecific and term & Conditions)  *****
+// api for
+Route::prefix('contracts')->group(function () {
+    /** api for Employee Required document for Contract */
+    Route::get('/required/show_required_details', [ContractDetailController::class, 'contractDetails'])->middleware('api');
+    Route::get('/required/show_contract_detail/{id}', [ContractDetailController::class, 'show'])->middleware('api');
+    Route::post('/required/add_required_detail', [ContractDetailController::class, 'storeContractDetail'])->middleware('api');
+    Route::get('/required/edit_contract_detail/{id}', [ContractDetailController::class, 'editContractDetail'])->middleware('api');
+    Route::post('/required/update_contract_detail/{id}', [ContractDetailController::class, 'updateContractDetail'])->middleware('api');
+    Route::post('/required/complete_contract_detail/{id}', [ContractDetailController::class, 'completeContractDetail'])->middleware('api');
+    Route::get('/required/get_contract_document/{id}', [ContractDetailController::class, 'getContractDocument'])->middleware('api');
+/** api for fixed Contract */
+    // Route::get('/fixed/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
+    // Route::get('/fixed/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
+    // Route::get('/fixed/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
+    // Route::post('/fixed/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
+    // Route::post('/fixed/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
+    // Route::post('/fixed/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+
+
+/** api for Specific Contract */
+    // Route::get('/specific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
+    // Route::get('/specific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
+    // Route::get('/specific/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
+    // Route::post('/specific/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
+    // Route::post('/specific/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
+    // Route::post('/specific/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+
+ /** api for Unspecific Contract */
+    // Route::get('/unspecific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
+    // Route::get('/unspecific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
+    // Route::get('/unspecific/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
+    // Route::post('/unspecific/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
+    // Route::post('/unspecific/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
+    // Route::post('/unspecific/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+
+    /** api for Term and Conditions Contract */
+    // Route::get('/terms/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
+    // Route::get('/terms/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
+    // Route::get('/terms/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
+    // Route::post('/terms/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
+    // Route::post('/terms/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
+    // Route::post('/terms/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
 });

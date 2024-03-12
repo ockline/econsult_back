@@ -122,10 +122,10 @@ class DocumentGroupsTableSeeder extends Seeder
                 'status' =>  1,
                 'deleted_at' => NULL,
             ),
-            10 =>
+       10 =>
             array(
                 'id' => 11,
-                'name' => 'Performance Review',
+                'name' => 'Contracts Generation',
                 'created_at' => '2024-01-11 01:07:52',
                 'updated_at' => NULL,
                 'short' => NULL,
@@ -135,6 +135,16 @@ class DocumentGroupsTableSeeder extends Seeder
             11 =>
             array(
                 'id' => 12,
+                'name' => 'Performance Review',
+                'created_at' => '2024-01-11 01:07:52',
+                'updated_at' => NULL,
+                'short' => NULL,
+                'status' =>  1,
+                'deleted_at' => NULL,
+            ),
+            12 =>
+            array(
+                'id' => 13,
                 'name' => 'Disciplinary',
                 'created_at' => '2024-01-11 01:07:52',
                 'updated_at' => NULL,
@@ -142,9 +152,9 @@ class DocumentGroupsTableSeeder extends Seeder
                 'status' =>  1,
                 'deleted_at' => NULL,
             ),
-          12 =>
+          13 =>
             array(
-                'id' => 13,
+                'id' => 14,
                 'name' => 'Exit',
                 'created_at' => '2024-01-11 01:07:52',
                 'updated_at' => NULL,
