@@ -731,6 +731,23 @@ class DocumentsTableSeeder extends Seeder
                 'isother' => 0,
                 'document_order' => NULL,
             ),
+44 =>
+
+            array(
+                'id' => 45,
+                'name' => 'Employee Fixed Contract ',
+                'document_group_id' => '11',
+                'description' => 'fixed_contract_signed',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-03-12 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
 
 
         ));

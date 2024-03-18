@@ -31,6 +31,7 @@ use App\Http\Controllers\Employee\UploadDocumentController; // for required docu
 use App\Http\Controllers\Employee\SocialRecordController;
 use App\Http\Controllers\Employee\PersonnelApplicationController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
+use App\Http\Controllers\ContractManagement\FixedContractController;
 
 
 
@@ -299,19 +300,20 @@ Route::prefix('contracts')->group(function () {
     Route::post('/required/update_contract_detail/{id}', [ContractDetailController::class, 'updateContractDetail'])->middleware('api');
     Route::post('/required/complete_contract_detail/{id}', [ContractDetailController::class, 'completeContractDetail'])->middleware('api');
     Route::get('/required/get_contract_document/{id}', [ContractDetailController::class, 'getContractDocument'])->middleware('api');
-/** api for fixed Contract */
-    // Route::get('/fixed/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
-    // Route::get('/fixed/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
-    // Route::get('/fixed/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
-    // Route::post('/fixed/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
-    // Route::post('/fixed/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
-    // Route::post('/fixed/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+
+    /** api for fixed Contract */
+    Route::get('/fixed/show_fixed_contracts', [FixedContractController::class, 'getFixedContracts'])->middleware('api');
+    Route::get('/fixed/show_fixed/{id}', [FixedContractController::class, 'show'])->middleware('api');
+    Route::get('/fixed/get_fixed_contract/{id}', [FixedContractController::class, 'fixedContract'])->middleware('api');
+    Route::post('/fixed/add_fixed_contract', [FixedContractController::class, 'storeFixed'])->middleware('api');
+    Route::get('/fixed/edit_fixed_contract/{id}', [FixedContractController::class, 'editFixed'])->middleware('api');
+    Route::post('/fixed/update_fixed_contract/{id}', [FixedContractController::class, 'updateFixedContract'])->middleware('api');
 
 
 /** api for Specific Contract */
     // Route::get('/specific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
     // Route::get('/specific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
-    // Route::get('/specific/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
+    // Route::get('/specific/get_fixed_contract/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
     // Route::post('/specific/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
     // Route::post('/specific/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
     // Route::post('/specific/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
