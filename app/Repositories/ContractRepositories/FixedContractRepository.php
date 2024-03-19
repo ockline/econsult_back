@@ -139,9 +139,6 @@ class FixedContractRepository extends  BaseRepository
             return response()->json(['message' => 'Failed to create fixed Contract ', 'status' => 500]);
         }
     }
-
-
-
     public function updatePersonaDetail($employee_id)
     {
         return  Employee::where('id', $employee_id)->update(['progressive_stage' => '4']);
@@ -158,24 +155,24 @@ class FixedContractRepository extends  BaseRepository
      */
     public function saveFixedContractDocument($request, $employee_id)
     {
-        //         Log::info($request->all());
+                // Log::info($request->all());
         //  log::info($employee_id);
-
+// die;
         DB::beginTransaction();
 
         try {
 
             $documents = [];
 
-            $documentTypes = ['job_description_doc', 'fixed_contract_signed'];
+            $documentTypes = ['job_description_doc'];
 
             foreach ($documentTypes as $documentType) {
-                if ($request->hasFile($documentType) && $employee_id) {
-                    $files = $request->file($documentType);
+                if ($request->hasFile($documentType) && $employee_id && $request->contract_name) {
+                    $file = $request->file($documentType);
 
 
-                    foreach ($files as $file) {
-                        //  log::info($file); next time i want to add id of employer  as pass to reach interview candidate document
+                    if ($file) {
+                         log::info('HELLOW', $file);  //next time i want to add id of employer  as pass to reach interview candidate document
                         //   log::info($employee_id);
                         $fileName = time() . '_' . $file->getClientOriginalName();
                         $file->move(public_path('contracts/fixed/' . $employee_id), $fileName);
@@ -186,15 +183,22 @@ class FixedContractRepository extends  BaseRepository
                             'description' => $fileName,
                             'document_group_id' => 11,
                             'employee_id' => $employee_id,
+                            'contract_name' => $request->contract_name,
                         ];
-                    }
+                    dump('hellow');
                 }
+              }
             }
             // log::info('document:'. ' '. $documents);
-            foreach ($documents as $document) {
-                // log::info('document: ******************');
-                ContractDocument::create($document);
-            }
+        // Initialize $uploaded as an empty array before the loop
+
+        foreach ($documents as $document) {
+            log::info('document: ******************');
+             ContractDocument::create($document); // Append the created document to $uploaded
+        }
+
+       // log::info('huree', $uploaded); // Now $uploaded contains all the created documents
+
 
             DB::commit();
 
@@ -229,9 +233,7 @@ class FixedContractRepository extends  BaseRepository
      */
     public function updateFixedContract($request, $id)
     {
-
-        if (isset($fixed_contracts)) {
-
+        //   log::info($request->all());
             DB::beginTransaction();
 
             $commencement = $request->commencement_date;
@@ -249,7 +251,7 @@ class FixedContractRepository extends  BaseRepository
 
             try {
                 $input = $request->all();
-
+            //    log::info($input);
                 FixedContract::where('employee_id', $id)->update([
                     'name' => !empty($input['name']) ? $input['name'] : null,
                     'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
@@ -281,7 +283,6 @@ class FixedContractRepository extends  BaseRepository
                     'saturday_from' => !empty($input['saturday_from']) ? $input['saturday_from'] : null,
                     'saturday_to' => !empty($input['saturday_to']) ? $input['saturday_to'] : null,
                     'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
-
                     'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
                     'stage' => 0,
                     'progressive_stage' => 5,
@@ -301,61 +302,46 @@ class FixedContractRepository extends  BaseRepository
 
                 return response()->json(['message' => 'Failed to Update  fixed contract', 'status' => 500]);
             }
-        }
+
     }
 
 
     /**
      * Method to fetch Employee person Details
      */
-    public function getContractDoc()
+    public function getFixedContractDoc()
     {
 
-        return  DB::table('employee_documents as ed')
-            ->select('ed.id', 'ed.employee_id', 'ed.document_id', 'ed.description', 'ed.updated_at as doc_modified', 'd.name as doc_name')
-            ->leftJoin('documents as d', 'ed.document_id', '=', 'd.id')
-            // ->where('ed.document_group_id', 8)
-            ->whereIn('ed.document_id', [43, 44])
+        return  DB::table('contract_documents as cds')
+            ->select('cds.id', 'cds.employee_id', 'cds.contract_name','cds.document_id', 'cds.description', 'cds.updated_at as doc_modified', 'd.name as doc_name')
+            ->leftJoin('documents as d', 'cds.document_id', '=', 'd.id')
+            // ->where('cds.document_group_id', 8)
+            ->whereIn('cds.document_id', [43, 44,45])
             ->get();
     }
 
 
-    public function showDownloadDetails()
+    public function showDownloadFixed()
     {
-        $data =  DB::table('fixed_contracts as cd')
+        $data =  DB::table('contract_fixed as cf')
             ->select([
-                DB::raw('cd.* '),
+                DB::raw('cf.* '),
                 DB::raw("CASE
-                            WHEN cd.progressive_stage = 1 THEN 'Employee Details'
-                            WHEN cd.progressive_stage = 2 THEN 'Supportive Document'
-                            WHEN cd.progressive_stage = 3 THEN 'Social Record'
-                            WHEN cd.progressive_stage = 4 THEN 'Induction Training'
-                            WHEN cd.progressive_stage = 5 THEN 'Contract Processing'
-                            WHEN cd.progressive_stage = 6 THEN 'Person ID'
+                            WHEN cf.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN cf.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN cf.progressive_stage = 3 THEN 'Social Record'
+                            WHEN cf.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN cf.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN cf.progressive_stage = 6 THEN 'Person ID'
                             ELSE 'Registration Completed'
                         END AS progressive"),
-                DB::raw('CONCAT(cd.firstname, \' \', cd.middlename, \' \', cd.lastname) as employee_name'),
+                // DB::raw('CONCAT(e.firstname, \' \', e.middlename, \' \', e.lastname) as employee_name'),
                 DB::raw('e.employee_no as employee'),
-                DB::raw('c.name as contract_type'),
-
-                DB::raw("CASE
-                            WHEN cd.gender = 1 THEN 'Male'
-                            ELSE 'Female'
-                        END AS gender"),
-                DB::raw('em.name as employer'),
                 DB::raw('jt.name as job_title'),
-                // DB::raw("CASE
-                //         WHEN dt.name = 1 THEN 'Male'
-                //         ELSE 'Female'
-                //     END AS gender"),
-                DB::raw('dt.name as relationship'),
             ])
-            ->leftJoin('employees as e', 'cd.employee_id', '=', 'e.id')
-            ->leftJoin('employers as em', 'cd.employer_id', '=', 'em.id')
-            ->leftJoin('contracts as c', 'cd.contract_id', '=', 'c.id')
-            ->leftJoin('job_title as jt', 'cd.job_title_id', '=', 'jt.id')
-            ->leftJoin('dependent_types as dt', 'cd.relationship1', '=', 'dt.id')
-            ->orderBy('cd.id', 'DESC')
+            ->leftJoin('employees as e', 'cf.employee_id', '=', 'e.id')
+            ->leftJoin('job_title as jt', 'cf.job_title_id', '=', 'jt.id')
+            ->orderBy('cf.id', 'DESC')
             ->get();
 
         return $data;
@@ -393,6 +379,7 @@ class FixedContractRepository extends  BaseRepository
                 DB::raw('CONCAT(cd.firstname, \' \', cd.middlename, \' \', cd.lastname) as contract_employee'),
                 DB::raw('cd.created_at as contract_created'),
                 DB::raw('emp.name as employer'),
+
             ])
 
             ->leftJoin('employees as e', 'cd.employee_id', '=', 'e.id')
@@ -402,7 +389,7 @@ class FixedContractRepository extends  BaseRepository
             // ->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
             ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
             ->where('cd.progressive_stage', '>=', 5)
-            ->orderBy('sr.id', 'DESC')
+            ->orderBy('cd.id', 'DESC')
             ->get();
     }
     public function fixedDatatable($id)
@@ -442,10 +429,19 @@ class FixedContractRepository extends  BaseRepository
 
     public function updateStageData($fixed_contracts)
     {
+
         //    log::info('data'.$fixed_contracts);
+
+
         if (!empty($fixed_contracts)) {
-            ContractDetail::where('id', $fixed_contracts->id)->update(['stage' => 1, 'progressive_stage' => 6]);
+            FixedContract::where('id', $fixed_contracts->id)->update(['stage' => 1, 'progressive_stage' => 6]);
             DB::table('induction_training')->where('employee_id', $fixed_contracts->employee_id)->update(['stage' => 1, 'progressive_stage' => 6]);
         }
     }
+/**
+*@method to update table when the fixed document have signed
+ */
+ public function checkSignedFixed($id){
+
+}
 }

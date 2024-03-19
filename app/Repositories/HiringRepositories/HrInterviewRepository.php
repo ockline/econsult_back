@@ -262,7 +262,6 @@ class HrInterviewRepository extends  BaseRepository
                 if ($request->hasFile($documentType) && $assessment_id) {
                     $file = $request->file($documentType);
 
-
                     if ($file) {
                         //  log::info($file); next time i want to add id of employer  as pass to reach interview candidate document
                         //   log::info($assessment_id);

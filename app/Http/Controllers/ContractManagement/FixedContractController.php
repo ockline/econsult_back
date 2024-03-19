@@ -104,7 +104,6 @@ class FixedContractController extends Controller
             'saturday_to' => 'required|max:191',
             'covered_statutory' => 'required|max:191',
 
-
         ]);
 
         if ($validator->fails()) {
@@ -115,7 +114,6 @@ class FixedContractController extends Controller
             $new_fixed_contract = $this->fixed_contract->addFixedContract($request);
 
             $status = $new_fixed_contract->getStatusCode();
-
             // Get HTTP status code
             $responseContent = $new_fixed_contract->getContent();
             //  log::info($status);
@@ -129,7 +127,6 @@ class FixedContractController extends Controller
                 $return = [
                     'status' => 500,
                     'message' => 'Sorry! Operation failed'
-
                 ];
             }
         }
@@ -139,8 +136,7 @@ class FixedContractController extends Controller
     public function getContractDocument(string $id)
     {
         // log::info($id);
-        $document = $this->fixed_contract->getContractDoc();
-
+        $document = $this->fixed_contract->getFixedContractDoc();
 
         $contract_document = $document->where('employee_id', $id);
 
@@ -159,9 +155,6 @@ class FixedContractController extends Controller
             ]);
         }
     }
-
-
-
     /**
      * Display the specified resource.
      */
@@ -169,21 +162,21 @@ class FixedContractController extends Controller
     {
         //  log::info($id);
 
-        $details = $this->fixed_contract->showDownloadDetails();
+        $details = $this->fixed_contract->showDownloadFixed();
 
-        $contract_detail = $details->where('employee_id', $id)->first();
+        $fixed_contract = $details->where('employee_id', $id)->first();
 
-        if (!isset($contract_detail)) {
-            return response()->json([
-                'status' => 404,
-                'message' => "No data Found"
-            ]);
-        } else {
-            if (isset($contract_detail)) {
+        // if (!isset($fixed_contract)) {
+        //     return response()->json([
+        //         'status' => 404,
+        //         'message' => "No data Found"
+        //     ]);
+        // } else {
+            if (isset($fixed_contract)) {
                 // Log::info('111');
                 return response()->json([
                     'status' => 200,
-                    'contract_detail' => $contract_detail,
+                    'fixed_contract' => $fixed_contract,
                 ]);
             } else {
                 // log::info('222');
@@ -192,14 +185,14 @@ class FixedContractController extends Controller
                     'message' => "Internal server Error"
                 ]);
             }
-        }
+
     }
 
     public function editFixed(string $id)
     {
         // Log::info($id);
 
-        $fixed_contract = FixedContract::where('employee_id', $id)->first();
+        $fixed_contract = FixedContract::select('contract_fixed.*','jt.name as job_title')->leftJoin('job_title as jt', 'contract_fixed.job_title_id', '=', 'jt.id')->where('employee_id', $id)->first();
         //   Log::info($fixed_contract);
         if (isset($fixed_contract)) {
 
@@ -221,16 +214,10 @@ class FixedContractController extends Controller
      */
     public function updateFixedContract(Request $request, string $id)
     {
-        log::info($id);
+        // log::info($request->all());
 
         $employee = $this->fixed_contract->updateFixedContract($request, $id);
 
-        if (empty($employee)) {
-            return response()->json([
-                'status' => 404,
-                'message' => 'No Data found to be updated!; kindly register first'
-            ]);
-        } else {
             $status = $employee->getStatusCode();
             // Log::info($status);
             // // Get HTTP status code
@@ -241,43 +228,18 @@ class FixedContractController extends Controller
                     'status' => 200,
                     "message" => "Fixed Contract Updated Successfully",
                 ]);
-            } else {
+            } else if($status === 500){
                 return response()->json([
                     'status' => 500,
                     'message' => 'Update process failed'
-
-
                 ]);
-            }
+            }else {
+            return response()->json([
+                'status' => 404,
+                'message' => 'No Data found to be updated!; kindly register first'
+            ]);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    // public function destroy(string $id)
-    // {
-
-    //     $assessment = CompetencyInterview::find($id);
-    //     // log::info($vacancy);
-
-    //     // $employer_deactivation = $this->assessment->deactivateAssessment($id);
-
-    //     if ($assessment) {
-    //         return response()->json([
-    //             "status" =>  200,
-    //             "message" => 'Record updated and deleted successfully'
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             "status" =>  404,
-    //             "assessment" => "Action Failed",
-    //         ]);
-    //     }
-    // }
-    /**
-     * Remove the specified resource from storage.
-     */
 
     public function  getFixedContracts()
     {
@@ -298,38 +260,34 @@ class FixedContractController extends Controller
             ]);
         }
     }
-
     /**
      *@method to complete Employee Required doc  for Contract  and become ready for initiate workflow
      */
-    public function completeContractDetail(string $id)
+    public function completeFixedContrat(string $id)
     {
-        // log::info('twende');
-        // log::info($id);
-        // $social = SocialRecord::where('id', $id)->first();
-        // log::info($social);
-        $contract_details = ContractDetail::where('employee_id', $id)->first();
+        $fixed_contract = FixedContract::where('employee_id', $id)->where('uploaded', 1)->first();
 
-        if (!empty($contract_details)) {
-            $this->fixed_contract->updateStageData($contract_details);
+// log::info($fixed_contract);
+        if (!empty($fixed_contract)) {
+            $this->fixed_contract->updateStageData($fixed_contract);
 
-            //   Log::info($contract_details);
-            if (isset($contract_details)) {
+            //   Log::info($fixed_contract);
+            if (isset($fixed_contract)) {
                 return response()->json([
                     'status' => 200,
-                    'contract_details' => $contract_details,
+                    'fixed_contract' => $fixed_contract,
                 ]);
             } else {
                 return response()->json([
                     'status' => 500,
                     'message' => "No data found",
-
                 ]);
             }
         } else {
+            // log::info('hapaa');
             return response()->json([
                 'status' => 404,
-                'message' => "No data found",
+                'message' => "You have not uploaded signed fixed Contract",
 
             ]);
         }

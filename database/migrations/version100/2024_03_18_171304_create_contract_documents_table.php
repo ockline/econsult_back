@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('contract_documents', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('contract_name');
             $table->integer('employee_id')->unsigned();
-            $table->integer('contract_id')->unsigned();
             $table->integer('document_id')->unsigned();
             $table->integer('document_group_id')->unsigned();
             $table->text('description')->nullable();
@@ -26,7 +26,7 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('employee_id')->references('id')->on('employees')->onUpdate('CASCADE')->onDelete('RESTRICT');
-            $table->foreign('contract_id')->references('id')->on('contracts')->onUpdate('CASCADE')->onDelete('RESTRICT');
+            // $table->foreign('contract_id')->references('id')->on('contracts')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreign('document_id')->references('id')->on('documents')->onUpdate('CASCADE')->onDelete('RESTRICT');
             $table->foreign('document_group_id')->references('id')->on('document_groups')->onUpdate('CASCADE')->onDelete('RESTRICT');
         });

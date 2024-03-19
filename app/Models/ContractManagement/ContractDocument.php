@@ -19,7 +19,7 @@ class ContractDocument extends Model
     protected $table = 'contract_documents';
 
     protected $fillable = [
-         'name','employee_id','document_id','contract_id','document_group_id','description','size','ext','mine','document_used'
+         'name','employee_id','document_id','contract_name','document_group_id','description','size','ext','mine','document_used'
     ];
 
     /**
@@ -27,10 +27,10 @@ class ContractDocument extends Model
      *
      * @return \Illuminate\Database\Eloquent\Casts\Attribute
      */
-    // protected function name(): Attribute
-    // {
-    //     return Attribute::make(
-    //         get: fn ($value) => url('personal/'.$value),
-    //     );
-    // }
+    protected function name(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => url('fixed/'.$value),
+        );
+    }
 }

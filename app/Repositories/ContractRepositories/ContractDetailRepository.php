@@ -20,6 +20,7 @@ use App\Models\Employee\Social\SocialRecord;
 use App\Models\Employee\Social\RelativeDetail;
 use App\Models\ContractManagement\ContractDetail;
 use App\Models\Employee\Personal\EmployeeDocument;
+use App\Models\ContractManagement\ContractDocument;
 use App\Models\Employee\Personal\EmployeeEducation;
 use App\Models\Employee\Personal\EmploymentHistory;
 use App\Models\Hiring\Interview\CompetencyInterDoc;
@@ -183,7 +184,7 @@ class ContractDetailRepository extends  BaseRepository
             // log::info('document:'. ' '. $documents);
             foreach ($documents as $document) {
                 // log::info('document: ******************');
-                EmployeeDocument::create($document);
+                ContractDocument::create($document);
             }
 
             DB::commit();

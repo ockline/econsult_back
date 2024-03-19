@@ -303,11 +303,14 @@ Route::prefix('contracts')->group(function () {
 
     /** api for fixed Contract */
     Route::get('/fixed/show_fixed_contracts', [FixedContractController::class, 'getFixedContracts'])->middleware('api');
-    Route::get('/fixed/show_fixed/{id}', [FixedContractController::class, 'show'])->middleware('api');
+    Route::get('/fixed/show_fixed_contract/{id}', [FixedContractController::class, 'show'])->middleware('api');
     Route::get('/fixed/get_fixed_contract/{id}', [FixedContractController::class, 'fixedContract'])->middleware('api');
     Route::post('/fixed/add_fixed_contract', [FixedContractController::class, 'storeFixed'])->middleware('api');
     Route::get('/fixed/edit_fixed_contract/{id}', [FixedContractController::class, 'editFixed'])->middleware('api');
     Route::post('/fixed/update_fixed_contract/{id}', [FixedContractController::class, 'updateFixedContract'])->middleware('api');
+ Route::post('/fixed/complete_fixed_contract/{id}', [FixedContractController::class, 'completeFixedContrat'])->middleware('api');
+ Route::get('/fixed/get_contract_document/{id}', [FixedContractController::class, 'getContractDocument'])->middleware('api');
+
 
 
 /** api for Specific Contract */
