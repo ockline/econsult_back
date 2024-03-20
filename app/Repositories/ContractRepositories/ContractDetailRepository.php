@@ -413,4 +413,15 @@ class ContractDetailRepository extends  BaseRepository
             DB::table('induction_training')->where('employee_id', $contract_details->employee_id)->update(['stage' => 1, 'progressive_stage' => 6]);
         }
     }
+public function getContractDatatable(){
+          return DB::table('contract_fixed as cf')->select(['cf.*'
+
+
+
+])
+// ->leftJoin();
+->where('stage', 1)
+->get();
+
+}
 }

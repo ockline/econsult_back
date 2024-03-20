@@ -6,50 +6,27 @@ namespace App\Repositories\ContractRepositories;
 use Exception;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
-use App\Models\Employer\Employer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use Mews\Purifier\Facades\Purifier;
 use App\Repositories\BaseREpository;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Request;
-use App\Models\Employee\Social\Dependant;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Employee\Personal\Employee;
-use App\Models\Employee\Social\SocialRecord;
-use App\Models\Employee\Social\RelativeDetail;
+use App\Models\ContractManagement\SpecificTask;
 use App\Models\ContractManagement\FixedContract;
-use App\Models\ContractManagement\ContractDetail;
-use App\Models\Employee\Personal\EmployeeDocument;
 use App\Models\ContractManagement\ContractDocument;
-use App\Models\Employee\Personal\EmployeeEducation;
-use App\Models\Employee\Personal\EmploymentHistory;
-use App\Models\Hiring\Interview\CompetencyInterDoc;
-use App\Models\Hiring\Interview\CompetencyInterview;
-use App\Models\Employee\Personal\EmploymentReference;
-use App\Models\Hiring\Interview\CompetencyTransaction;
-use App\Models\Hiring\JobApplication\JobDescTransaction;
-use App\Models\Employee\Application\PersonnelApplication;
 
-
-
-
-class FixedContractRepository extends  BaseRepository
+class SpecificTaskRepository extends  BaseRepository
 {
     // use  FileHandler, AttachmentHandler, DefaultTrait;
 
-
-    const MODEL = FixedContract::class;
-
-
-    protected $fixed_contract;
+    const MODEL = SpecificTask::class;
 
 
-    public function __construct(FixedContract $fixed_contract)
+    protected $specific_task;
+
+    public function __construct(SpecificTask $specific_task)
     {
-        $this->fixed_contract = $fixed_contract;
+        $this->specific_task = $specific_task;
     }
-
     /**
      * @param $id
      * @return mixed
@@ -64,50 +41,40 @@ class FixedContractRepository extends  BaseRepository
 
         DB::beginTransaction();
 
-        $commencement = $request->commencement_date;
-
-        // Create a DateTime object from the commencement date string
-        $commencement_date = new \DateTime($commencement);
-
-        // Clone the commencement date to avoid modifying the original object
-        $currentDate = clone $commencement_date;
-
-        // Modify the current date to add one year
-        $end_commencement = $currentDate->modify('+1 year');
-
-        // Format the end commencement date as needed
-        $end_commencement = $end_commencement->format('Y-m-d');
-
-        // Now $end_commencement_formatted contains the end date of the commencement period
-
-
-
 
         try {
             $input = $request->all();
 
-            // log::info('data' . $end_commencement);
-            FixedContract::create([
+
+            SpecificTask::create([
                 'name' => !empty($input['name']) ? $input['name'] : null,
                 'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
                 'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
                 'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'reg_number' => !empty($input['reg_number']) ? $input['reg_number'] : null,
                 'dob' => !empty($input['dob']) ? $input['dob'] : null,
-                'end_commencement_date' => isset($end_commencement) ? $end_commencement  : null,
+                'bank_name' => !empty($input['bank_name']) ? $input['bank_name'] : 0,
+                'bank_account_no' => !empty($input['bank_account_no']) ? $input['bank_account_no'] : 0,
+                'bank_account_name' => !empty($input['bank_account_name']) ? $input['bank_account_name'] : 0,
+                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 0,
+                'night_working_from' => !empty($input['night_working_from']) ? $input['night_working_from'] : 0,
+                'night_working_to' => !empty($input['night_working_to']) ? $input['night_working_to'] : 0,
+                'night_shift_hours' => !empty($input['night_shift_hours']) ? $input['night_shift_hours'] : 0,
+                'expected_end_date' => !empty($input['expected_end_date']) ? $input['expected_end_date']  : null,
                 'basic_salary' => !empty($input['basic_salary']) ? $input['basic_salary'] : null,
-                'remuneration' => !empty($input['remuneration']) ? $input['remuneration'] : 1,
+                'monthly_salary' => !empty($input['monthly_salary']) ? $input['monthly_salary'] : 1,
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
-                'probation_period' => !empty($input['probation_period']) ? $input['probation_period'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
                 'email' => !empty($input['email']) ? $input['email'] : null,
-                'covered_statutory' => !empty($input['covered_statutory']) ? $input['covered_statutory'] : 2,
+                'nssf_number' => !empty($input['nssf_number']) ? $input['nssf_number'] : 2,
                 'phone_number' => !empty($input['phone_number']) ? $input['phone_number'] : null,
                 'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
                 'work_station' => !empty($input['work_station']) ? $input['work_station'] : null,
-                'reporting_to' => !empty($input['reporting_to']) ? $input['reporting_to'] : null,
-                'job_profile' => !empty($input['job_profile']) ? $input['job_profile'] : null,
-                'staff_classfication' => !empty($input['staff_classfication']) ? $input['staff_classfication'] : null,
+                'supervisor' => !empty($input['supervisor']) ? $input['supervisor'] : null,
+                'gender' => !empty($input['gender']) ? $input['gender'] : 'Male',
+                'residence_place' => !empty($input['residence_place']) ? $input['residence_place'] : null,
                 'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                'commencement_date' => !empty($input['commencement_date']) ? $input['commencement_date'] : null,
+                'start_date' => !empty($input['start_date']) ? $input['start_date'] : null,
                 'normal_working' => !empty($input['normal_working']) ? $input['normal_working'] : null,
                 'house_allowance' => !empty($input['house_allowance']) ? $input['house_allowance'] : null,
                 'meal_allowance' => !empty($input['meal_allowance']) ? $input['meal_allowance'] : null,
@@ -115,10 +82,10 @@ class FixedContractRepository extends  BaseRepository
                 'risk_bush_allowance' => !empty($input['risk_bush_allowance']) ? $input['risk_bush_allowance'] : null,
                 'ordinary_working' => !empty($input['ordinary_working']) ? $input['ordinary_working'] : null,
                 'working_from' => !empty($input['working_from']) ? $input['working_from'] : null,
+                'working_to' => !empty($input['working_to']) ? $input['working_to'] : null,
                 'saturday_from' => !empty($input['saturday_from']) ? $input['saturday_from'] : null,
                 'saturday_to' => !empty($input['saturday_to']) ? $input['saturday_to'] : null,
                 'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
-                // 'date_employed' => !empty($input['date_employed']) ? $input['date_employed'] : 0,
                 'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
                 'stage' => 0,
                 'progressive_stage' => 5,
@@ -127,16 +94,16 @@ class FixedContractRepository extends  BaseRepository
             ]);
             // Log::info('vita iendeleee');
             $employee_id = $input['employee_id'];
-            $this->saveFixedContractDocument($request, $employee_id);
+            $this->saveSpecificContractDocument($request, $employee_id);
             DB::commit();
 
             Log::info('Saved done');
-            return response()->json(['message' => 'Fixed Contract  successfully', 'status' => 201], 201);
+            return response()->json(['message' => 'Specific Task Contract  successfully', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Failed to create fixed Contract ', ['error' => $e->getMessage()]);
+            Log::error('Failed to create specific Contract ', ['error' => $e->getMessage()]);
 
-            return response()->json(['message' => 'Failed to create fixed Contract ', 'status' => 500]);
+            return response()->json(['message' => 'Failed to create specific Contract ', 'status' => 500]);
         }
     }
     public function updatePersonaDetail($employee_id)
@@ -146,58 +113,59 @@ class FixedContractRepository extends  BaseRepository
 
     public function getLastSocialRecord()
     {
-        return $this->fixed_contract->select('*')->latest()->first();
+        return $this->specific_task->select('*')->latest()->first();
     }
-
     /**
      *@method to save Contract Details attachment
 
      */
-    public function saveFixedContractDocument($request, $employee_id)
+    public function saveSpecificContractDocument($request, $employee_id)
     {
-                // Log::info($request->all());
-        //  log::info($employee_id);
-// die;
+
+        // die;
         DB::beginTransaction();
 
         try {
 
             $documents = [];
 
-            $documentTypes = ['job_description_doc','fixed_contract_signed'];
+            $documentTypes = ['job_description_doc', 'specific_contract_signed'];
+
 
             foreach ($documentTypes as $documentType) {
+
                 if ($request->hasFile($documentType) && $employee_id && $request->name) {
                     $files = $request->file($documentType);
 
 
                     foreach ($files as $file) {
-                        //  log::info('HELLOW', $file);  //next time i want to add id of employer  as pass to reach interview candidate document
-                        //   log::info($employee_id);
+                        // Handle each file individually
                         $fileName = time() . '_' . $file->getClientOriginalName();
-                        $file->move(public_path('contracts/fixed/' . $employee_id), $fileName);
-                        // log::info('hureee'. json_encode($fileName));
+                        $file->move(public_path('contracts/specific/' . $employee_id), $fileName);
+
+                        // Add file details to $documents array
                         $documents[] = [
                             'name' => $documentType,
-                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
+                            'document_id' => $this->getDocumentId($documentType),
                             'description' => $fileName,
                             'document_group_id' => 11,
                             'employee_id' => $employee_id,
                             'contract_name' => $request->name,
                         ];
-                    // dump('hellow');
+                        // dump('hellow');
+                    }
                 }
-              }
             }
-            // log::info('document:'. ' '. $documents);
-        // Initialize $uploaded as an empty array before the loop
+            //   log::info('documents: ' . json_encode($documents));
 
-        foreach ($documents as $document) {
-            // log::info('document: ******************');
-             ContractDocument::create($document); // Append the created document to $uploaded
-        }
+            // Initialize $uploaded as an empty array before the loop
 
-       // log::info('huree', $uploaded); // Now $uploaded contains all the created documents
+            foreach ($documents as $document) {
+
+                ContractDocument::create($document); // Append the created document to $uploaded
+            }
+
+            // log::info('huree', $uploaded); // Now $uploaded contains all the created documents
 
 
             DB::commit();
@@ -221,8 +189,8 @@ class FixedContractRepository extends  BaseRepository
             case 'job_description_doc';
                 return 43;
                 break;
-            case 'fixed_contract_signed';
-                return 45;
+            case 'specific_contract_signed';
+                return 46;
                 break;
             default:
                 return null;
@@ -231,124 +199,123 @@ class FixedContractRepository extends  BaseRepository
     /**
      * Method to Update assessed Candidate details
      */
-    public function updateFixedContract($request, $id)
+    public function updateSpecificContract($request, $id)
     {
         //   log::info($request->all());
-            DB::beginTransaction();
+        DB::beginTransaction();
 
-            $commencement = $request->commencement_date;
 
-            // Create a DateTime object from the commencement date string
-            $commencement_date = new \DateTime($commencement);
-
-            // Clone the commencement date to avoid modifying the original object
-            $currentDate = clone $commencement_date;
-            // Modify the current date to add one year
-            $end_commencement = $currentDate->modify('+1 year');
-
-            // Format the end commencement date as needed
-            $end_commencement = $end_commencement->format('Y-m-d');
-
-            try {
-                $input = $request->all();
+        try {
+            $input = $request->all();
             //    log::info($input);
-                FixedContract::where('employee_id', $id)->update([
-                    'name' => !empty($input['name']) ? $input['name'] : null,
-                    'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
-                    'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
-                    'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
-                    'dob' => !empty($input['dob']) ? $input['dob'] : null,
-                    'end_commencement_date' => isset($end_commencement) ? $end_commencement  : null,
-                    'basic_salary' => !empty($input['basic_salary']) ? $input['basic_salary'] : null,
-                    'remuneration' => !empty($input['remuneration']) ? $input['remuneration'] : 1,
-                    'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
-                    'probation_period' => !empty($input['probation_period']) ? $input['probation_period'] : null,
-                    'email' => !empty($input['email']) ? $input['email'] : null,
-                    'covered_statutory' => !empty($input['covered_statutory']) ? $input['covered_statutory'] : 2,
-                    'phone_number' => !empty($input['phone_number']) ? $input['phone_number'] : null,
-                    'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                    'work_station' => !empty($input['work_station']) ? $input['work_station'] : null,
-                    'reporting_to' => !empty($input['reporting_to']) ? $input['reporting_to'] : null,
-                    'job_profile' => !empty($input['job_profile']) ? $input['job_profile'] : null,
-                    'staff_classfication' => !empty($input['staff_classfication']) ? $input['staff_classfication'] : null,
-                    'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                    'commencement_date' => !empty($input['commencement_date']) ? $input['commencement_date'] : null,
-                    'normal_working' => !empty($input['normal_working']) ? $input['normal_working'] : null,
-                    'house_allowance' => !empty($input['house_allowance']) ? $input['house_allowance'] : null,
-                    'meal_allowance' => !empty($input['meal_allowance']) ? $input['meal_allowance'] : null,
-                    'transport_allowance' => !empty($input['transport_allowance']) ? $input['transport_allowance'] : null,
-                    'risk_bush_allowance' => !empty($input['risk_bush_allowance']) ? $input['risk_bush_allowance'] : null,
-                    'ordinary_working' => !empty($input['ordinary_working']) ? $input['ordinary_working'] : null,
-                    'working_from' => !empty($input['working_from']) ? $input['working_from'] : null,
-                    'saturday_from' => !empty($input['saturday_from']) ? $input['saturday_from'] : null,
-                    'saturday_to' => !empty($input['saturday_to']) ? $input['saturday_to'] : null,
-                    'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
-                    'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
-                    'stage' => 0,
-                    'progressive_stage' => 5,
-                    'status' => 0,
+            SpecificTask::where('employee_id', $id)->update([
 
-                ]);
+                'name' => !empty($input['name']) ? $input['name'] : null,
+                'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
+                'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
+                'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'reg_number' => !empty($input['reg_number']) ? $input['reg_number'] : null,
+                'dob' => !empty($input['dob']) ? $input['dob'] : null,
+                'bank_name' => !empty($input['bank_name']) ? $input['bank_name'] : 0,
+                'bank_account_no' => !empty($input['bank_account_no']) ? $input['bank_account_no'] : 0,
+                'bank_account_name' => !empty($input['bank_account_name']) ? $input['bank_account_name'] : 0,
+                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 0,
+                'night_working_from' => !empty($input['night_working_from']) ? $input['night_working_from'] : 0,
+                'night_working_to' => !empty($input['night_working_to']) ? $input['night_working_to'] : 0,
+                'working_to' => !empty($input['working_to']) ? $input['working_to'] : 0,
+                'night_shift_hours' => !empty($input['night_shift_hours']) ? $input['night_shift_hours'] : 0,
+                'expected_end_date' => !empty($input['expected_end_date']) ? $input['expected_end_date']  : null,
+                'basic_salary' => !empty($input['basic_salary']) ? $input['basic_salary'] : null,
+                'monthly_salary' => !empty($input['monthly_salary']) ? $input['monthly_salary'] : 1,
+                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
+                'email' => !empty($input['email']) ? $input['email'] : null,
+                'nssf_number' => !empty($input['nssf_number']) ? $input['nssf_number'] : 2,
+                'phone_number' => !empty($input['phone_number']) ? $input['phone_number'] : null,
+                'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
+                'work_station' => !empty($input['work_station']) ? $input['work_station'] : null,
+                'supervisor' => !empty($input['supervisor']) ? $input['supervisor'] : null,
+                'gender' => !empty($input['gender']) ? $input['gender'] : 'Male',
+                'residence_place' => !empty($input['residence_place']) ? $input['residence_place'] : null,
+                'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
+                'start_date' => !empty($input['start_date']) ? $input['start_date'] : null,
+                'normal_working' => !empty($input['normal_working']) ? $input['normal_working'] : null,
+                'house_allowance' => !empty($input['house_allowance']) ? $input['house_allowance'] : null,
+                'meal_allowance' => !empty($input['meal_allowance']) ? $input['meal_allowance'] : null,
+                'transport_allowance' => !empty($input['transport_allowance']) ? $input['transport_allowance'] : null,
+                'risk_bush_allowance' => !empty($input['risk_bush_allowance']) ? $input['risk_bush_allowance'] : null,
+                'ordinary_working' => !empty($input['ordinary_working']) ? $input['ordinary_working'] : null,
+                'working_from' => !empty($input['working_from']) ? $input['working_from'] : null,
+                'saturday_from' => !empty($input['saturday_from']) ? $input['saturday_from'] : null,
+                'saturday_to' => !empty($input['saturday_to']) ? $input['saturday_to'] : null,
+                'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
+                'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
+                'stage' => 0,
+                'progressive_stage' => 5,
+                'status' => 0,
 
-                $this->saveFixedContractDocument($request, $id);
+            ]);
 
-                DB::commit();
-                Log::info('updated done');
+            $this->saveSpecificContractDocument($request, $id);
 
-                return response()->json(['message' => 'Fixed Contract Updated successfully', 'status' => 200], 200);
-            } catch (\Exception $e) {
-                DB::rollback();
-                Log::error('Failed to update fixed contract', ['error' => $e->getMessage()]);
+            DB::commit();
+            Log::info('updated done');
 
-                return response()->json(['message' => 'Failed to Update  fixed contract', 'status' => 500]);
-            }
+            return response()->json(['message' => 'Specific Task Contract Updated successfully', 'status' => 200], 200);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to update specific contract', ['error' => $e->getMessage()]);
 
+            return response()->json(['message' => 'Failed to Update  specific contract', 'status' => 500]);
+        }
     }
 
 
     /**
      * Method to fetch Employee person Details
      */
-    public function getFixedContractDoc()
+    public function getSpecificContractDoc()
     {
 
         return  DB::table('contract_documents as cds')
-            ->select('cds.id', 'cds.employee_id', 'cds.contract_name','cds.document_id', 'cds.description', 'cds.updated_at as doc_modified', 'd.name as doc_name')
+            ->select('cds.id', 'cds.employee_id', 'cds.contract_name', 'cds.document_id', 'cds.description', 'cds.updated_at as doc_modified', 'd.name as doc_name')
             ->leftJoin('documents as d', 'cds.document_id', '=', 'd.id')
             // ->where('cds.document_group_id', 8)
-            ->whereIn('cds.document_id', [43, 44,45])
+            ->whereIn('cds.document_id', [43,44,45])
             ->get();
     }
 
 
-    public function showDownloadFixed()
+    public function showDownloadSpecific()
     {
-        $data =  DB::table('contract_fixed as cf')
+        $data =  DB::table('contract_specific as csc')
             ->select([
-                DB::raw('cf.* '),
+                DB::raw('csc.* '),
                 DB::raw("CASE
-                            WHEN cf.progressive_stage = 1 THEN 'Employee Details'
-                            WHEN cf.progressive_stage = 2 THEN 'Supportive Document'
-                            WHEN cf.progressive_stage = 3 THEN 'Social Record'
-                            WHEN cf.progressive_stage = 4 THEN 'Induction Training'
-                            WHEN cf.progressive_stage = 5 THEN 'Contract Processing'
-                            WHEN cf.progressive_stage = 6 THEN 'Person ID'
+                            WHEN csc.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN csc.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN csc.progressive_stage = 3 THEN 'Social Record'
+                            WHEN csc.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN csc.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN csc.progressive_stage = 6 THEN 'Person ID'
                             ELSE 'Registration Completed'
                         END AS progressive"),
                 // DB::raw('CONCAT(e.firstname, \' \', e.middlename, \' \', e.lastname) as employee_name'),
                 DB::raw('e.employee_no as employee'),
                 DB::raw('jt.name as job_title'),
+                DB::raw('dpt.name as department'),
             ])
-            ->leftJoin('employees as e', 'cf.employee_id', '=', 'e.id')
-            ->leftJoin('job_title as jt', 'cf.job_title_id', '=', 'jt.id')
-            ->orderBy('cf.id', 'DESC')
+            ->leftJoin('employees as e', 'csc.employee_id', '=', 'e.id')
+            ->leftJoin('job_title as jt', 'csc.job_title_id', '=', 'jt.id')
+            ->leftJoin('departments as dpt' , 'csc.department_id', '=', 'dpt.id')
+            ->orderBy('csc.id', 'DESC')
             ->get();
 
         return $data;
     }
 
 
-    public function getFixedContractDetails()
+    public function getSpecificTaskContract()
     {
 
         return DB::table('contract_details as cd')
@@ -389,11 +356,11 @@ class FixedContractRepository extends  BaseRepository
             // ->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
             ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
             ->where('cd.progressive_stage', '>=', 5)
-            ->where('cd.contract_id', 1)
+            ->where('cd.contract_id', 2)
             ->orderBy('cd.id', 'DESC')
             ->get();
     }
-    public function fixedDatatable($id)
+    public function specificDatatable($id)
     {
 
         return DB::table('contract_details as cd')
@@ -415,12 +382,18 @@ class FixedContractRepository extends  BaseRepository
                         END AS gender"),
                 DB::raw('cd.created_at as contract_created'),
                 DB::raw('cd.date_employed as commencement_date'),
+                DB::raw('e.nssf as nssf_number'),
+                DB::raw('e.employee_no as reg_number'),
+                DB::raw('e.account_number as bank_account_no'),
+                DB::raw('e.account_name as bank_account_name'),
+                DB::raw('dpt.name as department'),
                 DB::raw('emp.name as employer_name'),
                 DB::raw('jt.name as job_title'),
                 DB::raw('c.name as name'),
             ])
             ->leftJoin('employees as e', 'cd.employee_id', '=', 'e.id')
             ->leftJoin('job_title as jt', 'cd.job_title_id', '=', 'jt.id')
+            ->leftJoin('departments as dpt', 'e.department_id', '=', 'dpt.id')
             ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
             ->leftJoin('contracts as c', 'cd.contract_id', '=', 'c.id')
             ->where('cd.employee_id', $id)
@@ -439,10 +412,10 @@ class FixedContractRepository extends  BaseRepository
             DB::table('induction_training')->where('employee_id', $fixed_contracts->employee_id)->update(['stage' => 1, 'progressive_stage' => 6]);
         }
     }
-/**
-*@method to update table when the fixed document have signed
- */
- public function checkSignedFixed($id){
-
-}
+    /**
+     *@method to update table when the fixed document have signed
+     */
+    public function checkSignedFixed($id)
+    {
+    }
 }

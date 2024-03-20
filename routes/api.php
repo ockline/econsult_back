@@ -32,6 +32,7 @@ use App\Http\Controllers\Employee\SocialRecordController;
 use App\Http\Controllers\Employee\PersonnelApplicationController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
 use App\Http\Controllers\ContractManagement\FixedContractController;
+use App\Http\Controllers\ContractManagement\SpecificTaskController;
 
 
 
@@ -285,13 +286,15 @@ Route::prefix('employees')->group(function () {
     Route::get('/application/edit_application_record/{id}', [PersonnelApplicationController::class, 'edit'])->middleware('api');
     Route::put('/application/update_application_record/{id}', [PersonnelApplicationController::class, 'updatePersonnelApplication'])->middleware('api');
     Route::post('/application/complete_application_record/{id}', [PersonnelApplicationController::class, 'completePersonnelApplication'])->middleware('api');
-
 });
 
 
 // ******** Contracts Block  (Both required details, fixed, specific, unspecific and term & Conditions)  *****
 // api for
 Route::prefix('contracts')->group(function () {
+    Route::get('/all_contracts/show_contract', [ContractDetailController::class, 'getAllContracts'])->middleware('api');
+
+
     /** api for Employee Required document for Contract */
     Route::get('/required/show_required_details', [ContractDetailController::class, 'contractDetails'])->middleware('api');
     Route::get('/required/show_contract_detail/{id}', [ContractDetailController::class, 'show'])->middleware('api');
@@ -308,20 +311,22 @@ Route::prefix('contracts')->group(function () {
     Route::post('/fixed/add_fixed_contract', [FixedContractController::class, 'storeFixed'])->middleware('api');
     Route::get('/fixed/edit_fixed_contract/{id}', [FixedContractController::class, 'editFixed'])->middleware('api');
     Route::post('/fixed/update_fixed_contract/{id}', [FixedContractController::class, 'updateFixedContract'])->middleware('api');
- Route::post('/fixed/complete_fixed_contract/{id}', [FixedContractController::class, 'completeFixedContrat'])->middleware('api');
- Route::get('/fixed/get_contract_document/{id}', [FixedContractController::class, 'getContractDocument'])->middleware('api');
+    Route::post('/fixed/complete_fixed_contract/{id}', [FixedContractController::class, 'completeFixedContrat'])->middleware('api');
+    Route::get('/fixed/get_contract_document/{id}', [FixedContractController::class, 'getContractDocument'])->middleware('api');
 
 
 
-/** api for Specific Contract */
-    // Route::get('/specific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
-    // Route::get('/specific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
-    // Route::get('/specific/get_fixed_contract/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
-    // Route::post('/specific/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
-    // Route::post('/specific/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
-    // Route::post('/specific/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+    /** api for Specific Contract */
+    Route::get('/specific/show_specific_tasks', [SpecificTaskController::class, 'getSpecificTask'])->middleware('api');
+    Route::get('/specific/show_specific_task/{id}', [SpecificTaskController::class, 'show'])->middleware('api');
+    Route::get('/specific/get_specific_task/{id}', [SpecificTaskController::class, 'specificTask'])->middleware('api');
+    Route::post('/specific/add_specific_task', [SpecificTaskController::class, 'storeSpecificTask'])->middleware('api');
+    Route::get('/specific/edit_specific_task/{id}', [SpecificTaskController::class, 'editSpecificTask'])->middleware('api');
+    Route::post('/specific/update_specific_task/{id}', [SpecificTaskController::class, 'updateSpecificTask'])->middleware('api');
+    Route::post('/specific/complete_specific_task/{id}', [SpecificTaskController::class, 'completeSpecificTask'])->middleware('api');
+    Route::get('/specific/get_specific_document/{id}', [SpecificTaskController::class, 'getSpecificTaskDocument'])->middleware('api');
 
- /** api for Unspecific Contract */
+    /** api for Unspecific Contract */
     // Route::get('/unspecific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
     // Route::get('/unspecific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
     // Route::get('/unspecific/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');

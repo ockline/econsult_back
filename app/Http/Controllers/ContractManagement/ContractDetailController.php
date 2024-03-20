@@ -36,9 +36,21 @@ class ContractDetailController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function getAllContracts()
     {
-        //
+        $all_contracts = $this->contract->getContractDatatable();
+        if (isset($all_contracts)) {
+            return response()->json([
+                'status' => 200,
+                'all_contracts' => $all_contracts,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "No data found",
+
+            ]);
+        }
     }
     public function getSocialRecord(string $id)
     {

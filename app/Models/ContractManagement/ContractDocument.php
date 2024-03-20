@@ -30,7 +30,7 @@ class ContractDocument extends Model
     protected function name(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => url('fixed/'.$value),
+            get: fn ($value) => url('contract/'.$value),
         );
     }
 }
