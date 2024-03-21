@@ -254,7 +254,11 @@ class SpecificTaskController extends Controller
      */
     public function completeSpecificTask(string $id)
     {
-        $specific_task = FixedContract::where('employee_id', $id)->where('uploaded', 1)->first();
+         //it check is doc is uploaded then it update on table and return response
+         $signed = $this->specific_task->checkSignedSpecificDocUploaded($id);
+        //  log::info($signed);
+     if($signed > 0){
+        $specific_task = SpecificTask::where('employee_id', $id)->where('uploaded', 1)->first();
 
 // log::info($specific_task);
         if (!empty($specific_task)) {
@@ -276,9 +280,17 @@ class SpecificTaskController extends Controller
             // log::info('hapaa');
             return response()->json([
                 'status' => 404,
-                'message' => "You have not uploaded signed fixed Contract",
+                'message' => "You have not uploaded signed Specific Contract",
 
             ]);
         }
+    }else{
+return response()->json([
+                'status' => 404,
+                'message' => "You have not uploaded signed Specific Task Contract",
+
+            ]);
+}
     }
+
 }

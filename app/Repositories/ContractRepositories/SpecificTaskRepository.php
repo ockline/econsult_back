@@ -56,7 +56,7 @@ class SpecificTaskRepository extends  BaseRepository
                 'bank_name' => !empty($input['bank_name']) ? $input['bank_name'] : 0,
                 'bank_account_no' => !empty($input['bank_account_no']) ? $input['bank_account_no'] : 0,
                 'bank_account_name' => !empty($input['bank_account_name']) ? $input['bank_account_name'] : 0,
-                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 0,
+                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 'No',
                 'night_working_from' => !empty($input['night_working_from']) ? $input['night_working_from'] : 0,
                 'night_working_to' => !empty($input['night_working_to']) ? $input['night_working_to'] : 0,
                 'night_shift_hours' => !empty($input['night_shift_hours']) ? $input['night_shift_hours'] : 0,
@@ -219,7 +219,7 @@ class SpecificTaskRepository extends  BaseRepository
                 'bank_name' => !empty($input['bank_name']) ? $input['bank_name'] : 0,
                 'bank_account_no' => !empty($input['bank_account_no']) ? $input['bank_account_no'] : 0,
                 'bank_account_name' => !empty($input['bank_account_name']) ? $input['bank_account_name'] : 0,
-                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 0,
+                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 'No',
                 'night_working_from' => !empty($input['night_working_from']) ? $input['night_working_from'] : 0,
                 'night_working_to' => !empty($input['night_working_to']) ? $input['night_working_to'] : 0,
                 'working_to' => !empty($input['working_to']) ? $input['working_to'] : 0,
@@ -258,6 +258,7 @@ class SpecificTaskRepository extends  BaseRepository
 
             $this->saveSpecificContractDocument($request, $id);
 
+            die;
             DB::commit();
             Log::info('updated done');
 
@@ -281,7 +282,7 @@ class SpecificTaskRepository extends  BaseRepository
             ->select('cds.id', 'cds.employee_id', 'cds.contract_name', 'cds.document_id', 'cds.description', 'cds.updated_at as doc_modified', 'd.name as doc_name')
             ->leftJoin('documents as d', 'cds.document_id', '=', 'd.id')
             // ->where('cds.document_group_id', 8)
-            ->whereIn('cds.document_id', [43,44,45])
+            ->whereIn('cds.document_id', [43, 44, 45])
             ->get();
     }
 
@@ -307,7 +308,7 @@ class SpecificTaskRepository extends  BaseRepository
             ])
             ->leftJoin('employees as e', 'csc.employee_id', '=', 'e.id')
             ->leftJoin('job_title as jt', 'csc.job_title_id', '=', 'jt.id')
-            ->leftJoin('departments as dpt' , 'csc.department_id', '=', 'dpt.id')
+            ->leftJoin('departments as dpt', 'csc.department_id', '=', 'dpt.id')
             ->orderBy('csc.id', 'DESC')
             ->get();
 
@@ -317,6 +318,7 @@ class SpecificTaskRepository extends  BaseRepository
 
     public function getSpecificTaskContract()
     {
+        // log::info('hellow');
 
         return DB::table('contract_details as cd')
             ->select([
@@ -338,11 +340,12 @@ class SpecificTaskRepository extends  BaseRepository
                 DB::raw('sr.postal_address'),
                 DB::raw('sr.postal_address'),
                 DB::raw('cd.stage'),
+                DB::raw('csc.stage as stages'),
                 DB::raw("CASE
                             WHEN sr.gender = 1 THEN 'Male'
                             ELSE 'Female'
                         END AS gender"),
-                DB::raw('cf.stage as stages'),
+                // DB::raw('cf.stage as stages'),
                 DB::raw('CONCAT(cd.firstname, \' \', cd.middlename, \' \', cd.lastname) as contract_employee'),
                 DB::raw('cd.created_at as contract_created'),
                 DB::raw('emp.name as employer'),
@@ -353,7 +356,7 @@ class SpecificTaskRepository extends  BaseRepository
             ->leftJoin('social_records as sr', 'sr.employee_id', '=', 'cd.employee_id')
             ->leftJoin('job_title as jt', 'cd.job_title_id', '=', 'jt.id')
             ->leftJoin('contract_fixed as cf', 'cf.employee_id', '=', 'cd.employee_id')
-            // ->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
+            ->leftJoin('contract_specific as csc', 'csc.employee_id', '=', 'cd.employee_id')
             ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
             ->where('cd.progressive_stage', '>=', 5)
             ->where('cd.contract_id', 2)
@@ -401,21 +404,37 @@ class SpecificTaskRepository extends  BaseRepository
     }
 
 
-    public function updateStageData($fixed_contracts)
+    public function updateStageData($specific_contracts)
     {
-
-        //    log::info('data'.$fixed_contracts);
-
-
-        if (!empty($fixed_contracts)) {
-            FixedContract::where('id', $fixed_contracts->id)->update(['stage' => 1, 'progressive_stage' => 6]);
-            DB::table('induction_training')->where('employee_id', $fixed_contracts->employee_id)->update(['stage' => 1, 'progressive_stage' => 6]);
+        // log::info($specific_contracts);
+        // Log::info('magugu');
+        if (!empty($specific_contracts)) {
+            SpecificTask::where('employee_id', $specific_contracts->employee_id)->update(['stage' => 1, 'progressive_stage' => 6]);
+            DB::table('induction_training')->where('employee_id', $specific_contracts->employee_id)->update(['stage' => 1, 'progressive_stage' => 6]);
         }
     }
     /**
-     *@method to update table when the fixed document have signed
+     *@method to update table when the specific document have signed
      */
-    public function checkSignedFixed($id)
+    public function  checkSignedSpecificDocUploaded($id)
     {
+
+        $uploaded = DB::table('contract_documents')
+            ->select('*')->where('employee_id', $id)
+            ->where('document_id', 46)
+            ->latest()
+           ->first();
+
+        // log::info($uploaded);
+        if (isset($uploaded)) {
+            $return =   SpecificTask::where('employee_id', $id)->update(['uploaded' => 1, 'uploaded_date' => $uploaded->created_at]);
+            //  log::info('hureee');
+        } else {
+            $return = [
+                'status' => 500,
+                'message' => "Sorry no Document uploaded",
+            ];
+        }
+        return $return;
     }
 }
