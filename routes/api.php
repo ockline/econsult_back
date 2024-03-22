@@ -33,6 +33,7 @@ use App\Http\Controllers\Employee\PersonnelApplicationController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
 use App\Http\Controllers\ContractManagement\FixedContractController;
 use App\Http\Controllers\ContractManagement\SpecificTaskController;
+use App\Http\Controllers\ContractManagement\TermConditionController;
 
 
 
@@ -326,6 +327,18 @@ Route::prefix('contracts')->group(function () {
     Route::post('/specific/complete_specific_task/{id}', [SpecificTaskController::class, 'completeSpecificTask'])->middleware('api');
     Route::get('/specific/get_specific_document/{id}', [SpecificTaskController::class, 'getSpecificTaskDocument'])->middleware('api');
 
+    /** api for Term and Conditions Contract */
+    Route::get('/terms/show_term_conditions', [TermConditionController::class, 'getTermConditions'])->middleware('api');
+    Route::get('/terms/show_term_condition/{id}', [TermConditionController::class, 'show'])->middleware('api');
+    Route::get('/terms/get_term_condition/{id}', [TermConditionController::class, 'termCondition'])->middleware('api');
+    Route::post('/terms/add_term_condition', [TermConditionController::class, 'storeTermCondition'])->middleware('api');
+    Route::get('/terms/edit_term_condition/{id}', [TermConditionController::class, 'editTermCondition'])->middleware('api');
+    Route::post('/terms/update_term_condition/{id}', [TermConditionController::class, 'updateTermCondition'])->middleware('api');
+    Route::post('/terms/complete_term_condition/{id}', [TermConditionController::class, 'completeTermCondition'])->middleware('api');
+    Route::get('/terms/get_term_document/{id}', [TermConditionController::class, 'getTermConditionDocument'])->middleware('api');
+
+
+
     /** api for Unspecific Contract */
     // Route::get('/unspecific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
     // Route::get('/unspecific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
@@ -334,11 +347,6 @@ Route::prefix('contracts')->group(function () {
     // Route::post('/unspecific/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
     // Route::post('/unspecific/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
 
-    /** api for Term and Conditions Contract */
-    // Route::get('/terms/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
-    // Route::get('/terms/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
-    // Route::get('/terms/get_social_record/{id}', [SocialRecordController::class, 'getSocialRecord'])->middleware('api');
-    // Route::post('/terms/add_social_record', [SocialRecordController::class, 'storeSocial'])->middleware('api');
-    // Route::post('/terms/add_relative', [SocialRecordController::class, 'saveRelativeDetail'])->middleware('api');
-    // Route::post('/terms/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
+/**  ************** End of Contract Block ********************************* */
+
 });

@@ -12,18 +12,19 @@ use App\Repositories\BaseREpository;
 use App\Models\Employee\Personal\Employee;
 use App\Models\ContractManagement\SpecificTask;
 use App\Models\ContractManagement\FixedContract;
+use App\Models\ContractManagement\TermCondition;
 use App\Models\ContractManagement\ContractDocument;
 
-class SpecificTaskRepository extends  BaseRepository
+class TermConditionRepository extends  BaseRepository
 {
     // use  FileHandler, AttachmentHandler, DefaultTrait;
 
-    const MODEL = SpecificTask::class;
+    const MODEL = TermCondition::class;
 
 
     protected $specific_task;
 
-    public function __construct(SpecificTask $specific_task)
+    public function __construct(TermCondition $specific_task)
     {
         $this->specific_task = $specific_task;
     }
@@ -33,9 +34,9 @@ class SpecificTaskRepository extends  BaseRepository
      * @throws GeneralException
      */
 
-    public function addFixedContract($request)
+    public function addTermCondition($request)
     {
-        // log::info($request->all());
+        log::info($request->all());
 
         // die;
 
@@ -46,45 +47,15 @@ class SpecificTaskRepository extends  BaseRepository
             $input = $request->all();
 
 
-            SpecificTask::create([
-                'name' => !empty($input['name']) ? $input['name'] : null,
+            TermCondition::create([
+
                 'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
                 'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
                 'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
                 'reg_number' => !empty($input['reg_number']) ? $input['reg_number'] : null,
-                'dob' => !empty($input['dob']) ? $input['dob'] : null,
-                'bank_name' => !empty($input['bank_name']) ? $input['bank_name'] : 0,
-                'bank_account_no' => !empty($input['bank_account_no']) ? $input['bank_account_no'] : 0,
-                'bank_account_name' => !empty($input['bank_account_name']) ? $input['bank_account_name'] : 0,
-                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 'No',
-                'night_working_from' => !empty($input['night_working_from']) ? $input['night_working_from'] : 0,
-                'night_working_to' => !empty($input['night_working_to']) ? $input['night_working_to'] : 0,
-                'night_shift_hours' => !empty($input['night_shift_hours']) ? $input['night_shift_hours'] : 0,
-                'expected_end_date' => !empty($input['expected_end_date']) ? $input['expected_end_date']  : null,
-                'basic_salary' => !empty($input['basic_salary']) ? $input['basic_salary'] : null,
-                'monthly_salary' => !empty($input['monthly_salary']) ? $input['monthly_salary'] : 1,
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                 'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
-                'email' => !empty($input['email']) ? $input['email'] : null,
-                'nssf_number' => !empty($input['nssf_number']) ? $input['nssf_number'] : 2,
-                'phone_number' => !empty($input['phone_number']) ? $input['phone_number'] : null,
-                'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                'work_station' => !empty($input['work_station']) ? $input['work_station'] : null,
-                'supervisor' => !empty($input['supervisor']) ? $input['supervisor'] : null,
-                'gender' => !empty($input['gender']) ? $input['gender'] : 'Male',
-                'residence_place' => !empty($input['residence_place']) ? $input['residence_place'] : null,
-                'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                'start_date' => !empty($input['start_date']) ? $input['start_date'] : null,
-                'normal_working' => !empty($input['normal_working']) ? $input['normal_working'] : null,
-                'house_allowance' => !empty($input['house_allowance']) ? $input['house_allowance'] : null,
-                'meal_allowance' => !empty($input['meal_allowance']) ? $input['meal_allowance'] : null,
-                'transport_allowance' => !empty($input['transport_allowance']) ? $input['transport_allowance'] : null,
-                'risk_bush_allowance' => !empty($input['risk_bush_allowance']) ? $input['risk_bush_allowance'] : null,
-                'ordinary_working' => !empty($input['ordinary_working']) ? $input['ordinary_working'] : null,
-                'working_from' => !empty($input['working_from']) ? $input['working_from'] : null,
-                'working_to' => !empty($input['working_to']) ? $input['working_to'] : null,
-                'saturday_from' => !empty($input['saturday_from']) ? $input['saturday_from'] : null,
-                'saturday_to' => !empty($input['saturday_to']) ? $input['saturday_to'] : null,
+                'date_contracted' => !empty($input['date_contracted']) ? $input['date_contracted'] : null,
                 'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
                 'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
                 'stage' => 0,
@@ -94,16 +65,16 @@ class SpecificTaskRepository extends  BaseRepository
             ]);
             // Log::info('vita iendeleee');
             $employee_id = $input['employee_id'];
-            $this->saveSpecificContractDocument($request, $employee_id);
+            // $this->saveTermConditionDocument($request, $employee_id); // incase you want to add
             DB::commit();
 
             Log::info('Saved done');
-            return response()->json(['message' => 'Specific Task Contract  successfully', 'status' => 201], 201);
+            return response()->json(['message' => 'Term and Conditions  successfully', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Failed to create specific Contract ', ['error' => $e->getMessage()]);
+            Log::error('Failed to create Term and Conditions  ', ['error' => $e->getMessage()]);
 
-            return response()->json(['message' => 'Failed to create specific Contract ', 'status' => 500]);
+            return response()->json(['message' => 'Failed to create Term and Conditions  ', 'status' => 500]);
         }
     }
     public function updatePersonaDetail($employee_id)
@@ -119,7 +90,7 @@ class SpecificTaskRepository extends  BaseRepository
      *@method to save Contract Details attachment
 
      */
-    public function saveSpecificContractDocument($request, $employee_id)
+    public function saveTermConditionDocument($request, $employee_id)
     {
 
         // die;
@@ -129,7 +100,7 @@ class SpecificTaskRepository extends  BaseRepository
 
             $documents = [];
 
-            $documentTypes = ['job_description_doc', 'specific_contract_signed'];
+            $documentTypes = ['job_description_doc', 'term_condition_signed'];
 
 
             foreach ($documentTypes as $documentType) {
@@ -150,7 +121,7 @@ class SpecificTaskRepository extends  BaseRepository
                             'description' => $fileName,
                             'document_group_id' => 11,
                             'employee_id' => $employee_id,
-                            'contract_name' => $request->name,
+
                         ];
                         // dump('hellow');
                     }
@@ -189,8 +160,8 @@ class SpecificTaskRepository extends  BaseRepository
             case 'job_description_doc';
                 return 43;
                 break;
-            case 'specific_contract_signed';
-                return 46;
+            case 'term_condition_signed';
+                return 47;
                 break;
             default:
                 return null;
@@ -208,46 +179,15 @@ class SpecificTaskRepository extends  BaseRepository
         try {
             $input = $request->all();
             //    log::info($input);
-            SpecificTask::where('employee_id', $id)->update([
+            TermCondition::where('employee_id', $id)->update([
 
-                'name' => !empty($input['name']) ? $input['name'] : null,
-                'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
+               'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
                 'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
                 'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
                 'reg_number' => !empty($input['reg_number']) ? $input['reg_number'] : null,
-                'dob' => !empty($input['dob']) ? $input['dob'] : null,
-                'bank_name' => !empty($input['bank_name']) ? $input['bank_name'] : 0,
-                'bank_account_no' => !empty($input['bank_account_no']) ? $input['bank_account_no'] : 0,
-                'bank_account_name' => !empty($input['bank_account_name']) ? $input['bank_account_name'] : 0,
-                'night_shift' => !empty($input['night_shift']) ? $input['night_shift'] : 'No',
-                'night_working_from' => !empty($input['night_working_from']) ? $input['night_working_from'] : 0,
-                'night_working_to' => !empty($input['night_working_to']) ? $input['night_working_to'] : 0,
-                'working_to' => !empty($input['working_to']) ? $input['working_to'] : 0,
-                'night_shift_hours' => !empty($input['night_shift_hours']) ? $input['night_shift_hours'] : 0,
-                'expected_end_date' => !empty($input['expected_end_date']) ? $input['expected_end_date']  : null,
-                'basic_salary' => !empty($input['basic_salary']) ? $input['basic_salary'] : null,
-                'monthly_salary' => !empty($input['monthly_salary']) ? $input['monthly_salary'] : 1,
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                 'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
-                'email' => !empty($input['email']) ? $input['email'] : null,
-                'nssf_number' => !empty($input['nssf_number']) ? $input['nssf_number'] : 2,
-                'phone_number' => !empty($input['phone_number']) ? $input['phone_number'] : null,
-                'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                'work_station' => !empty($input['work_station']) ? $input['work_station'] : null,
-                'supervisor' => !empty($input['supervisor']) ? $input['supervisor'] : null,
-                'gender' => !empty($input['gender']) ? $input['gender'] : 'Male',
-                'residence_place' => !empty($input['residence_place']) ? $input['residence_place'] : null,
-                'place_recruitment' => !empty($input['place_recruitment']) ? $input['place_recruitment'] : null,
-                'start_date' => !empty($input['start_date']) ? $input['start_date'] : null,
-                'normal_working' => !empty($input['normal_working']) ? $input['normal_working'] : null,
-                'house_allowance' => !empty($input['house_allowance']) ? $input['house_allowance'] : null,
-                'meal_allowance' => !empty($input['meal_allowance']) ? $input['meal_allowance'] : null,
-                'transport_allowance' => !empty($input['transport_allowance']) ? $input['transport_allowance'] : null,
-                'risk_bush_allowance' => !empty($input['risk_bush_allowance']) ? $input['risk_bush_allowance'] : null,
-                'ordinary_working' => !empty($input['ordinary_working']) ? $input['ordinary_working'] : null,
-                'working_from' => !empty($input['working_from']) ? $input['working_from'] : null,
-                'saturday_from' => !empty($input['saturday_from']) ? $input['saturday_from'] : null,
-                'saturday_to' => !empty($input['saturday_to']) ? $input['saturday_to'] : null,
+                'date_contracted' => !empty($input['date_contracted']) ? $input['date_contracted'] : null,
                 'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
                 'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
                 'stage' => 0,
@@ -256,18 +196,18 @@ class SpecificTaskRepository extends  BaseRepository
 
             ]);
 
-            $this->saveSpecificContractDocument($request, $id);
+            $this->saveTermConditionDocument($request, $id);
 
-            
+
             DB::commit();
             Log::info('updated done');
 
-            return response()->json(['message' => 'Specific Task Contract Updated successfully', 'status' => 200], 200);
+            return response()->json(['message' => 'Term and Conditions  Updated successfully', 'status' => 200], 200);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Failed to update specific contract', ['error' => $e->getMessage()]);
+            Log::error('Failed to update Term and Conditions', ['error' => $e->getMessage()]);
 
-            return response()->json(['message' => 'Failed to Update  specific contract', 'status' => 500]);
+            return response()->json(['message' => 'Failed to Update  Term and Conditions', 'status' => 500]);
         }
     }
 
@@ -316,7 +256,7 @@ class SpecificTaskRepository extends  BaseRepository
     }
 
 
-    public function getSpecificTaskContract()
+    public function getTermConditionContract()
     {
         // log::info('hellow');
 
@@ -333,37 +273,29 @@ class SpecificTaskRepository extends  BaseRepository
                             ELSE 'Registration Completed'
                         END AS progressive"),
                 DB::raw('CONCAT(cd.firstname, \' \', cd.middlename, \' \', cd.lastname) as employee_name'),
-                // DB::raw('e.dob'),
-                // DB::raw('e.employee_no as employee'),
                 DB::raw('sr.person_email as email'),
                 DB::raw('sr.mobile_number as phone_number'),
                 DB::raw('sr.postal_address'),
                 DB::raw('sr.postal_address'),
                 DB::raw('cd.stage'),
-                DB::raw('csc.stage as stages'),
                 DB::raw("CASE
                             WHEN sr.gender = 1 THEN 'Male'
                             ELSE 'Female'
                         END AS gender"),
-                // DB::raw('cf.stage as stages'),
                 DB::raw('CONCAT(cd.firstname, \' \', cd.middlename, \' \', cd.lastname) as contract_employee'),
                 DB::raw('cd.created_at as contract_created'),
                 DB::raw('emp.name as employer'),
 
             ])
-
             ->leftJoin('employees as e', 'cd.employee_id', '=', 'e.id')
             ->leftJoin('social_records as sr', 'sr.employee_id', '=', 'cd.employee_id')
             ->leftJoin('job_title as jt', 'cd.job_title_id', '=', 'jt.id')
-            ->leftJoin('contract_fixed as cf', 'cf.employee_id', '=', 'cd.employee_id')
-            ->leftJoin('contract_specific as csc', 'csc.employee_id', '=', 'cd.employee_id')
             ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
-            ->where('cd.progressive_stage', '>=', 5)
-            ->where('cd.contract_id', 2)
+            ->where('cd.progressive_stage', '=', 5)
             ->orderBy('cd.id', 'DESC')
             ->get();
     }
-    public function specificDatatable($id)
+    public function termsDatatable($id)
     {
 
         return DB::table('contract_details as cd')
@@ -403,7 +335,6 @@ class SpecificTaskRepository extends  BaseRepository
             ->first();
     }
 
-
     public function updateStageData($specific_contracts)
     {
         // log::info($specific_contracts);
@@ -416,18 +347,18 @@ class SpecificTaskRepository extends  BaseRepository
     /**
      *@method to update table when the specific document have signed
      */
-    public function  checkSignedSpecificDocUploaded($id)
+    public function  checkSignedTermsDocUploaded($id)
     {
 
         $uploaded = DB::table('contract_documents')
             ->select('*')->where('employee_id', $id)
-            ->where('document_id', 46)
+            ->where('document_id', 47)
             ->latest()
            ->first();
 
         // log::info($uploaded);
         if (isset($uploaded)) {
-            $return =   SpecificTask::where('employee_id', $id)->update(['uploaded' => 1, 'uploaded_date' => $uploaded->created_at]);
+            $return =   TermCondition::where('employee_id', $id)->update(['uploaded' => 1, 'uploaded_date' => $uploaded->created_at]);
             //  log::info('hureee');
         } else {
             $return = [
