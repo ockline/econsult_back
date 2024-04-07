@@ -99,7 +99,7 @@ class SpecificTaskController extends Controller
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
                 // Log::info('ndani ya nyumba');
-            ;
+            
             $new_specific_task = $this->specific_task->addFixedContract($request);
 
             $status = $new_specific_task->getStatusCode();
