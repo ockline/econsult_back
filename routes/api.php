@@ -28,6 +28,7 @@ use App\Http\Controllers\Hiring\HrInterviewController;
 use App\Http\Controllers\Hiring\TechnicalInterviewController;
 use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
+use App\Http\Controllers\Employee\InductionTrainingController;
 use App\Http\Controllers\Employee\SocialRecordController;
 use App\Http\Controllers\Employee\PersonnelApplicationController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
@@ -277,6 +278,19 @@ Route::prefix('employees')->group(function () {
     Route::get('/social/edit_dependant_detail/{id}', [SocialRecordController::class, 'editDependant'])->middleware('api');
     Route::put('/social/update_dependant_detail/{id}', [SocialRecordController::class, 'updateDependant'])->middleware('api');
     Route::get('/social/get_social_document/{id}', [SocialRecordController::class, 'getSocialRecordDocument'])->middleware('api');
+
+  /** *** api for induction training */
+    Route::get('/induction/show_induction_details', [InductionTrainingController::class, 'inductionDetails'])->middleware('api');
+    Route::get('/induction/show_induction/{id}', [InductionTrainingController::class, 'show'])->middleware('api');
+    Route::get('/induction/get_induction_record/{id}', [InductionTrainingController::class, 'getInductionTraining'])->middleware('api');
+    Route::post('/induction/add_induction_training', [InductionTrainingController::class, 'storeTraining'])->middleware('api');
+    //   Route::post('/induction/add_dependant', [InductionTrainingController::class, 'saveDepandant'])->middleware('api');
+    // //update
+    // Route::get('/induction/edit_induction_training/{id}', [InductionTrainingController::class, 'edit'])->middleware('api');
+    // Route::post('/induction/update_induction_training/{id}', [InductionTrainingController::class, 'updateInductionTraining'])->middleware('api');
+    // Route::get('/induction/edit_dependant_detail/{id}', [InductionTrainingController::class, 'editDependant'])->middleware('api');
+    // Route::put('/induction/update_dependant_detail/{id}', [InductionTrainingController::class, 'updateDependant'])->middleware('api');
+    // Route::get('/induction/get_induction_document/{id}', [InductionTrainingController::class, 'getInductionTrainingDocument'])->middleware('api');
 
     /** api for Personnel Id Application */
     Route::get('/application/show_application_details', [PersonnelApplicationController::class, 'applicationDetails'])->middleware('api');

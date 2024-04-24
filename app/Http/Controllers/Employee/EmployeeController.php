@@ -68,7 +68,7 @@ class EmployeeController extends Controller
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
                 // Log::info('ndani ya nyumba');
-            ;
+            
             $new_employee = $this->employee->addEmployee($request);
 
             $status = $new_employee->getStatusCode();
