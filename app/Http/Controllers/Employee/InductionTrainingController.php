@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Validator;
 use App\Models\Employee\Personal\Employee;
+use App\Models\Employee\Social\SocialRecord;
 use App\Models\Hiring\JobApplication\JobVacancy;
 use App\Models\Employee\Personal\EmployeeEducation;
 use App\Models\Employee\Personal\EmploymentHistory;
@@ -38,7 +39,7 @@ class InductionTrainingController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function storeTraining (Request $request)
+    public function storeTraining(Request $request)
     {
         // Log::info('hellow ndani');
         // log::info($request->all());
@@ -59,7 +60,7 @@ class InductionTrainingController extends Controller
         if ($validator->fails()) {
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
-                // Log::info('ndani ya nyumba');
+            // Log::info('ndani ya nyumba');
 
             $new_induction = $this->induction->addInductionTraining($request);
 
@@ -94,16 +95,11 @@ class InductionTrainingController extends Controller
         $details = $this->induction->showDownloadDetails();
         //   log::info($id);
         //  Log::info($details);
-        $induction_training = $details->where('id', $id)->first();
+        $induction_training = $details->where('social_record_id', $id)->first();
 
-        // log::info("Date: " . $induction_training);
-        // log::info("induction_training Candidate: " . json_encode($induction_training));
-        // $induction_training_candidate =    json_encode((array)$induction_training);
-        // // Log::info($assessed_candidate);
+        log::info(json_encode($induction_training));
 
-        // Add more properties as needed
-
-        if (isset($induction_training)) {
+        if (!empty($induction_training)) {
             // Log::info('111');
             return response()->json([
                 'status' => 200,
@@ -118,14 +114,14 @@ class InductionTrainingController extends Controller
         }
     }
 
-    public function edit(string $id)
+    public function editInduction(string $id)
     {
         // Log::info($id);
 
         // $employeeList = $this->induction(); // Assuming $employeeList is an array of objects
 
-        $induction_training = InductionTraining::find($id);
-        //   Log::info($induction_training);
+        $induction_training = InductionTraining::where('social_record_id', $id)->first();
+        //   Log::info(json_encode($induction_training));
         if (isset($induction_training)) {
             return response()->json([
                 'status' => 200,
@@ -143,41 +139,75 @@ class InductionTrainingController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function updateInduction(Request $request, string $id)
+    public function updateInductionTraining(Request $request, string $id)
     {
         //   log::info('tumeeanza');
         // Log::info($request->all());
-        $employee = $this->induction->updateDetails($request, $id);
+        $employee = $this->induction->updateInductionDetails($request, $id);
 
         $status = $employee->getStatusCode();
-        // // Log::info($status);
-        // // Get HTTP status code
-        // $responseContent = $employeee->getContent();
+
 
         //$status
         if ($status === 200) {
             // log::info('ndani');
             return response()->json([
                 'status' => 200,
-                "message" => "Employeee details Updated Successfully",
+                "message" => "Induction Training Updated Successfully",
             ]);
         } else {
             return response()->json([
                 'status' => 500,
                 'message' => 'Update process failed'
-
-
             ]);
         }
     }
+    /**
+     *@method to get complete stage 4 to next stage
+     */
+    public function completeInductionTraining(string $id)
+    {
+        // $social = SocialRecord::where('id', $id)->first();
 
+        $induction_training = InductionTraining::where('social_record_id', $id)->first();
+
+
+        if (!empty($induction_training)) {
+            $data_update = $this->induction->updateStageData($induction_training);
+
+                $status = $data_update->getStatusCode();
+                log::info($status);
+
+                // $status = $data_update->getStatusCode();
+
+            if ($status === 200) {
+                return response()->json([
+                    'status' => 200,
+                    'message' => "Induction Training Complete Successfuly",
+                ]);
+            } else {
+                return response()->json([
+                    'status' => 500,
+                    'message' => "No data found",
+
+                ]);
+            }
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "No data found",
+
+            ]);
+        }
+
+    }
     /**
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
     {
 
-        $assessment = CompetencyInterview::find($id);
+        $assessment = InductionTraining::find($id);
         // log::info($vacancy);
 
         // $mployer_deactivation = $this->assessment->deactivateAssessment($id);
@@ -185,7 +215,7 @@ class InductionTrainingController extends Controller
         if ($assessment) {
             return response()->json([
                 "status" =>  200,
-                "message" => 'Record updated and deleted successfully'
+                "message" => 'Induction updated and deleted successfully'
             ]);
         } else {
             return response()->json([
@@ -202,7 +232,7 @@ class InductionTrainingController extends Controller
     {
         // Log::info('anafikaaa mkali');
         $induction_detail =    $this->induction->getInductionDetail();
-        //   $status = $induction_detail->getStatusCode()
+
         if (!empty($induction_detail)) {
             // Log::info('111');
             return response()->json([
@@ -217,131 +247,6 @@ class InductionTrainingController extends Controller
             ]);
         }
     }
-    // /**
-    //  *Save Education histories
-    //  */
-    // public function saveEducation(Request $request, $id = null)
-    // {
-    //     //  log::info($request->all());
-    //     $validator = Validator::make($request->all(), [
-    //         'education_id' => 'required|max:191',
-    //         'institute_name' => 'required|max:191',
-    //         'major' => 'required|max:191',
-    //         'course' => 'required|max:191',
-    //         'graduation_year' => 'required|max:191',
-
-
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         $return = ['validator_err' => $validator->errors()->toArray()];
-    //     } else {
-    //             // Log::info('ndani ya nyumba');
-    //         ;
-    //         $education_level = $this->induction->addEducation($request, $id);
-
-    //         $status = $education_level->getStatusCode();
-
-    //         // Get HTTP status code
-    //         $responseContent = $education_level->getContent();
-    //         //  log::info($status);
-    //         if ($status === 201) {
-    //             // log::info('ndani');
-    //             $return = [
-    //                 'status' => 200,
-    //                 "message" => "Education History addedd Successfully",
-    //             ];
-    //         } else {
-    //             $return = [
-    //                 'status' => 500,
-    //                 'message' => 'Sorry! Operation failed'
-
-
-    //             ];
-    //         }
-    //     }
-    //     return response()->json($return);
-    // }
-    // public function saveEmployment(Request $request)
-    // {
-    //     //  log::info($request->all());
-    //     $validator = Validator::make($request->all(), [
-    //         'company_name' => 'required|max:191',
-    //         'from_date' => 'required|max:191',
-    //         'to_date' => 'required|max:191',
-
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         $return = ['validator_err' => $validator->errors()->toArray()];
-    //     } else {
-    //             // Log::info('ndani ya nyumba');
-    //         ;
-    //         $employment = $this->induction->addEmployment($request);
-
-    //         $status = $employment->getStatusCode();
-
-    //         // Get HTTP status code
-    //         $responseContent = $employment->getContent();
-    //         //  log::info($status);
-    //         if ($status === 201) {
-    //             // log::info('ndani');
-    //             $return = [
-    //                 'status' => 200,
-    //                 "message" => "Employment History addedd Successfully",
-    //             ];
-    //         } else {
-    //             $return = [
-    //                 'status' => 500,
-    //                 'message' => 'Sorry! Operation failed'
-
-
-    //             ];
-    //         }
-    //     }
-    //     return response()->json($return);
-    // }
-    // public function saveReferenceCheck(Request $request)
-    // {
-    //     //  log::info($request->all());
-    //     $validator = Validator::make($request->all(), [
-    //         'referee_id' => 'required|max:191',
-    //         'referee_name' => 'required|max:191',
-    //         'referee_title' => 'required|max:191',
-    //         'referee_address' => 'required|max:191',
-    //         'referee_contact' => 'required|max:191',
-    //         'referee_email' => 'required|max:191',
-    //     ]);
-
-    //     if ($validator->fails()) {
-    //         $return = ['validator_err' => $validator->errors()->toArray()];
-    //     } else {
-    //             // Log::info('ndani ya nyumba');
-    //         ;
-    //         $employment_reference = $this->induction->addReferenceCheck($request);
-
-    //         $status = $employment_reference->getStatusCode();
-
-    //         // Get HTTP status code
-    //         $responseContent = $employment_reference->getContent();
-    //         //  log::info($status);
-    //         if ($status === 201) {
-    //             // log::info('ndani');
-    //             $return = [
-    //                 'status' => 200,
-    //                 "message" => "Employment Reference check addedd Successfully",
-    //             ];
-    //         } else {
-    //             $return = [
-    //                 'status' => 500,
-    //                 'message' => 'Sorry! Operation failed'
-
-
-    //             ];
-    //         }
-    //     }
-    //     return response()->json($return);
-    // }
 
     // public function editEducationHistory(string $id)
     // {

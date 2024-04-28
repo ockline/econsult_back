@@ -281,15 +281,14 @@ Route::prefix('employees')->group(function () {
 
   /** *** api for induction training */
     Route::get('/induction/show_induction_details', [InductionTrainingController::class, 'inductionDetails'])->middleware('api');
-    Route::get('/induction/show_induction/{id}', [InductionTrainingController::class, 'show'])->middleware('api');
+    Route::get('/induction/show_induction_training/{id}', [InductionTrainingController::class, 'show'])->middleware('api');
     Route::get('/induction/get_induction_record/{id}', [InductionTrainingController::class, 'getInductionTraining'])->middleware('api');
     Route::post('/induction/add_induction_training', [InductionTrainingController::class, 'storeTraining'])->middleware('api');
-    //   Route::post('/induction/add_dependant', [InductionTrainingController::class, 'saveDepandant'])->middleware('api');
-    // //update
-    // Route::get('/induction/edit_induction_training/{id}', [InductionTrainingController::class, 'edit'])->middleware('api');
-    // Route::post('/induction/update_induction_training/{id}', [InductionTrainingController::class, 'updateInductionTraining'])->middleware('api');
-    // Route::get('/induction/edit_dependant_detail/{id}', [InductionTrainingController::class, 'editDependant'])->middleware('api');
-    // Route::put('/induction/update_dependant_detail/{id}', [InductionTrainingController::class, 'updateDependant'])->middleware('api');
+    //update
+    Route::get('/induction/edit_induction_training/{id}', [InductionTrainingController::class, 'editInduction'])->middleware('api');
+    Route::post('/induction/update_induction_training/{id}', [InductionTrainingController::class, 'updateInductionTraining'])->middleware('api');
+    Route::post('/induction/complete_induction_training/{id}', [InductionTrainingController::class, 'completeInductionTraining'])->middleware('api');
+
     // Route::get('/induction/get_induction_document/{id}', [InductionTrainingController::class, 'getInductionTrainingDocument'])->middleware('api');
 
     /** api for Personnel Id Application */

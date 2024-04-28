@@ -765,10 +765,40 @@ class DocumentsTableSeeder extends Seeder
                 'isother' => 0,
                 'document_order' => NULL,
             ),
+46 =>
 
+            array(
+                'id' => 47,
+                'name' => 'Signed Induction Training',
+                'document_group_id' => '9',
+                'description' => 'induction_training_signed',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-03-12 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+47 =>
 
-
-
+            array(
+                'id' => 48,
+                'name' => 'Other Induction Trining Attachment ',
+                'document_group_id' => '9',
+                'description' => 'other_train_attachment',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2024-03-12 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
         ));
 
 

@@ -310,7 +310,7 @@ class PersonnelApplicationRepository extends  BaseRepository
                             ELSE 'Registration Completed'
                         END AS progressive"),
             ])
-            ->leftJoin('employees as e', 'sr.employee_id', '=', 'sr.id')
+            ->leftJoin('employees as e', 'sr.employee_id', '=', 'e.id')
             ->where('sr.progressive_stage', 4)
             ->whereIn('e.progressive_stage', [3, 4])
             ->orderBy('sr.updated_at', 'DESC')

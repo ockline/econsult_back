@@ -301,8 +301,7 @@ class PersonnelApplicationController extends Controller
      */
     public function completePersonnelApplication(string $id)
     {
-        // log::info('twende');
-        // log::info($id);
+
         $social = SocialRecord::where('id', $id)->first();
         // log::info($social);
         $personnel_applications = PersonnelApplication::where('employee_id', $social->employee_id)->first();
@@ -310,7 +309,6 @@ class PersonnelApplicationController extends Controller
         if (!empty($personnel_applications)) {
             $data_update = $this->personnel_application->updateStageData($personnel_applications);
 
-            //   Log::info($personnel_applications);
             if (isset($personnel_applications)) {
                 return response()->json([
                     'status' => 200,
