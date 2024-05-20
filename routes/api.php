@@ -19,6 +19,7 @@ use App\Http\Controllers\Operation\DependantTypeController;
 use App\Http\Controllers\Operation\EducationController;
 use App\Http\Controllers\Operation\CountryController;
 use App\Http\Controllers\Operation\ShiftController;
+use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Operation\JobTitleController;
 use App\Http\Controllers\Operation\PackageController;
 use App\Http\Controllers\Operation\RankingCriterialController;
@@ -49,10 +50,10 @@ use App\Http\Controllers\ContractManagement\TermConditionController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+// Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
-    return $request->user();
-});
+//     return $request->user();
+// });
 
 
 Route::group(['namespace' => 'web'], function () {
@@ -76,6 +77,17 @@ Route::group(['namespace' => 'web'], function () {
     });
     // });
 });
+
+// Log in authentication
+Route::middleware('auth:sanctum')->group(function (){
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::post('/logout',[AuthController::class,'logout']);
+    Route::apiResource('/users', UserController::class);
+});
+
+Route::post('/login',[AuthController::class,'login']);
 
 Route::prefix('users')->group(function () {
     Route::post('/add_user', [UserController::class, 'store'])->middleware('api');
