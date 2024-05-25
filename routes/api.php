@@ -3,39 +3,40 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
-use App\Http\Controllers\Operation\DepartmentController;
-use App\Http\Controllers\Operation\DesignationController;
-use App\Http\Controllers\Operation\UnitController;
-use App\Http\Controllers\Operation\RegionController;
-use App\Http\Controllers\Operation\DistrictController;
-use App\Http\Controllers\Employer\EmployerController;
-use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\Operation\AllowanceController;
-use App\Http\Controllers\Operation\BankController;
-use App\Http\Controllers\Operation\BankBranchController;
-use App\Http\Controllers\Operation\LocationController;
-use App\Http\Controllers\Operation\WardController;
-use App\Http\Controllers\Operation\DependantTypeController;
-use App\Http\Controllers\Operation\EducationController;
-use App\Http\Controllers\Operation\CountryController;
-use App\Http\Controllers\Operation\ShiftController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Operation\JobTitleController;
-use App\Http\Controllers\Operation\PackageController;
-use App\Http\Controllers\Operation\RankingCriterialController;
-use App\Http\Controllers\Operation\VacancyTypeController;
-use App\Http\Controllers\Hiring\JobApplicationController;
-use App\Http\Controllers\Hiring\HrInterviewController;
-use App\Http\Controllers\Hiring\TechnicalInterviewController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Operation\BankController;
+use App\Http\Controllers\Operation\UnitController;
+use App\Http\Controllers\Operation\WardController;
+use App\Http\Controllers\Operation\ShiftController;
+use App\Http\Controllers\Operation\RegionController;
 use App\Http\Controllers\Employee\EmployeeController;
-use App\Http\Controllers\Employee\UploadDocumentController; // for required document
-use App\Http\Controllers\Employee\InductionTrainingController;
+use App\Http\Controllers\Employer\EmployerController;
+use App\Http\Controllers\Operation\CountryController;
+use App\Http\Controllers\Operation\PackageController;
+use App\Http\Controllers\Hiring\HrInterviewController;
+use App\Http\Controllers\Operation\DistrictController;
+use App\Http\Controllers\Operation\JobTitleController;
+use App\Http\Controllers\Operation\LocationController;
+use App\Http\Controllers\Operation\AllowanceController;
+use App\Http\Controllers\Operation\EducationController;
+use App\Http\Controllers\Operation\BankBranchController;
+use App\Http\Controllers\Operation\DepartmentController;
 use App\Http\Controllers\Employee\SocialRecordController;
+use App\Http\Controllers\Hiring\JobApplicationController;
+use App\Http\Controllers\Operation\DesignationController;
+use App\Http\Controllers\Operation\VacancyTypeController;
+use App\Http\Controllers\Operation\DependantTypeController;
+use App\Http\Controllers\Hiring\TechnicalInterviewController;
+use App\Http\Controllers\Employee\InductionTrainingController;
+use App\Http\Controllers\Operation\RankingCriterialController;
 use App\Http\Controllers\Employee\PersonnelApplicationController;
-use App\Http\Controllers\ContractManagement\ContractDetailController;
-use App\Http\Controllers\ContractManagement\FixedContractController;
 use App\Http\Controllers\ContractManagement\SpecificTaskController;
+use App\Http\Controllers\ContractManagement\FixedContractController;
 use App\Http\Controllers\ContractManagement\TermConditionController;
+use App\Http\Controllers\ContractManagement\ContractDetailController;
+use App\Http\Controllers\Employee\UploadDocumentController; // for required document
 
 
 
@@ -68,18 +69,18 @@ Route::group(['namespace' => 'web'], function () {
 
     /*
             * These routes require no user to be logged in
-            */
-    Route::group(['middleware' => 'guest'], function () {
-        // Authentication Routes
-        Route::get('/', [LoginController::class, 'showLoginForm']);
-        Route::post('/login', [LoginController::class, 'authenticate']);
-        // Route::get('/testmail', 'testMail');
-    });
-    // });
-});
+//             */
+//     Route::group(['middleware' => 'guest'], function () {
+//         // Authentication Routes
+//         Route::get('/', [LoginController::class, 'showLoginForm']);
+//         Route::post('/login', [LoginController::class, 'authenticate']);
+//         // Route::get('/testmail', 'testMail');
+//     });
+//     // });
+// });
 
 // Log in authentication
-Route::middleware('auth:sanctum')->group(function (){
+Route::middleware('auth:sanctum',)->group(function (){
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
@@ -361,6 +362,13 @@ Route::prefix('contracts')->group(function () {
     Route::post('/terms/update_term_condition/{id}', [TermConditionController::class, 'updateTermCondition'])->middleware('api');
     Route::post('/terms/complete_term_condition/{id}', [TermConditionController::class, 'completeTermCondition'])->middleware('api');
     Route::get('/terms/get_term_document/{id}', [TermConditionController::class, 'getTermConditionDocument'])->middleware('api');
+
+});
+// api for retrive contracted employees for normal dashboard
+Route::prefix('home')->group(function () {
+    Route::get('/normal/show_employees', [HomeController::class, 'getAllEmployee'])->middleware('api');
+
+});
 
 
 

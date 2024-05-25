@@ -90,7 +90,7 @@ class EmployerController extends Controller
      */
     public function store(Request $request)
     {
-       log::info($request->all());
+
         $employer_check = $this->checkEmployerExist($request);
 
         $validator = Validator::make($request->all(), [
@@ -136,7 +136,7 @@ class EmployerController extends Controller
                 "message" => "Client you want to create already exists",
             ];
         } else {
-            Log::info('ndani ya nyumba');
+
             $new_client = $this->employer->addEmployers($request);
 
             $status = $new_client->getStatusCode();
@@ -213,18 +213,11 @@ class EmployerController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        Log::info('Form data received: ' . json_encode($request->all()));
-        Log::info('welimbaaaaaa');
-        // $employer = $this->employer($id);
-
         $employer = $this->employer->updateDetails($request, $id);
 
 
-
-        // log::info($employer);
-
         $status = $employer->getStatusCode();
-        Log::info($status);
+
         // Get HTTP status code
         $responseContent = $employer->getContent();
 

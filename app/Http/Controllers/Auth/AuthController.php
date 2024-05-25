@@ -17,7 +17,7 @@ class AuthController extends Controller
 
 public function login(LoginRequest $request)
     {
-      log::info('wajumbe');
+
         $credential = $request->validated();
         if (!Auth::attempt($credential)){
         log::info('hapaaa nimefeli');
@@ -27,7 +27,7 @@ public function login(LoginRequest $request)
         }else{
         /** @var User $user */
         $user = Auth::user();
-        log::info($user);
+        // log::info($user);
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user','token'));
             log::info('imekubali ');
@@ -58,16 +58,25 @@ public function login(LoginRequest $request)
     //     // ])->withCookie($cookie);
     // }
 
-    public function logout(Request $request)
-    {
-        $request->user()->currentAccessToken()->delete();
+    // public function logout(Request $request)
+    // {
+    //     $request->user()->currentAccessToken()->delete();
 
-        $cookie = cookie()->forget('token');
+    //     $cookie = cookie()->forget('token');
 
-        return response()->json([
-            'message' => 'Logged out successfully!'
-        ])->withCookie($cookie);
-    }
+    //     return response()->json([
+    //         'message' => 'Logged out successfully!'
+    //     ])->withCookie($cookie);
+    // }
+
+public function logout(Request $request)
+{
+    // Revoke the token that was used to authenticate the current request
+    $request->user()->currentAccessToken()->delete();
+
+    return response()->json(['message' => 'Successfully logged out']);
+}
+
 
     public function user(Request $request)
     {
