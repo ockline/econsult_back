@@ -367,7 +367,7 @@ Route::prefix('contracts')->group(function () {
 // api for retrive contracted employees for normal dashboard
 Route::prefix('home')->group(function () {
     Route::get('/normal/show_employees', [HomeController::class, 'getAllEmployee'])->middleware('api');
-
+      Route::get('/excecutive/employee_count', [HomeController::class, 'getEmployedCount'])->middleware('api');
 });
 
 

@@ -27,7 +27,7 @@ class RolesTableSeeder extends Seeder
                 array (
                     'id' => '1',
                     'name' => 'Developer',
-                    'alias' => 'DV',
+                    'alias' => 'DEV',
                     //'desciption' => 'All Module',
                     'status' => '1',
                     'created_at' => '2024-05-24 09:28:50',
@@ -338,7 +338,7 @@ array (
                 array (
                     'id' => '28',
                     'name' => 'Id initiator',
-                    'alias' => 'IDI',
+                    'alias' => 'IDIN',
                     //'desciption' => 'Initiate id application ',
                     'status' => '1',
                     'created_at' => '2024-05-24 09:28:50',
@@ -370,7 +370,18 @@ array (
                     'deleted_at' => NULL,
 
                 ),
+     29 =>
+                array (
+                    'id' => '31',
+                     'name' => 'All User',
+                    'alias' => 'ALL',
+                    //'desciption' => 'User can only view',
+                    'status' => '1',
+                    'created_at' => '2024-05-24 09:28:50',
+                    'updated_at' => '2024-05-24 09:28:50',
+                    'deleted_at' => NULL,
 
+                ),
         ));
 
         $this->enableForeignKeys('roles');

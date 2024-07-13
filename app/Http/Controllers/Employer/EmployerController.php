@@ -27,39 +27,7 @@ class EmployerController extends Controller
     /**
      *@method to cross check if  employer with that emeil or TIN  Exist
      */
-    // public function checkEmployerExist(Request $request)
-    // {
-    //     //   log::info($request->email);
-    //     //   log::info('wanjiiiii');
-    //     $check_employer = $this->employer->getEmployers();
-    //     //    Log::info($check_employer);
 
-    //     $employer_exist = [];
-    //     $employer_tin = [];
-    //     foreach ($check_employer as $check) {
-    //         $employer_exist[] = $check->email;
-    //         $employer_tin[] = $check->tin;
-    //     }
-    //     if ($request->email === $employer_exist) {
-
-    //         $return = [
-    //             'status' => 404,
-    //             'message' => 'Sorry! Client created already exists'
-
-
-    //         ];
-    //     }
-    //     if ($request->tin === $employer_tin) {
-
-    //         $return = [
-    //             'status' => 404,
-    //             'message' => 'Sorry! Client created already exists'
-
-
-    //         ];
-    //     }
-    //     return response()->json($return);
-    // }
     public function checkEmployerExist(Request $request)
     {
         $check_employer = $this->employer->getEmployers();
@@ -241,23 +209,28 @@ class EmployerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request,  string $id)
     {
         //    log::info($id);
         // $employer = $this->employer($id);
         $employer = Employer::find($id);
         // log::info($employer);
 
-        $mployer_deactivation = $this->employer->deactivateEmployer($id);
+        $employer_deactivation = $this->employer->deactivateEmployer($request, $id);
 
-        if ($employer) {
+log::info($employer_deactivation);
+
+            $status = $employer_deactivation->getStatusCode();
+// log::info($status);
+//        die;
+        if ($status === 200) {
             return response()->json([
                 "status" =>  200,
-                "message" => 'Record updated and deleted successfully'
+                "message" => 'Record updated and deactivated successfully'
             ]);
         } else {
             return response()->json([
-                "status" =>  404,
+                "status" =>  500,
                 "employer" => "Action Failed",
             ]);
         }

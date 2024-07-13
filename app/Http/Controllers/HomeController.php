@@ -95,7 +95,27 @@ class HomeController extends Controller
         }
     }
 
+public function getEmployedCount()
+{
 
+        $employed_count =    $this->employee->countAllEmployed();
+       Log::info($employed_count);
+        if ($employed_count) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'employed_count' => $employed_count,
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 404,
+                'message' => "Sorry! No data found"
+            ]);
+        }
+
+
+}
 
 
 }

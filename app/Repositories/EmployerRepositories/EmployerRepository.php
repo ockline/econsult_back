@@ -364,14 +364,14 @@ class EmployerRepository extends  BaseRepository
         }
     }
 
-    public function deactivateEmployer($id)
+    public function deactivateEmployer($request, $id)
     {
-        // log::info('hapaa');
-        //         Log::info(request()->all());
-        //       Log::info('katiiiii');
-        $input = request()->all();
-        $activate_reason = $input['activate_reason'];
-        $deact_reason = !empty($input['deactivate_reason']) ? $input['deactivate_reason'] : null;
+        log::info('hapaa');
+                Log::info($request->all());
+              Log::info('katiiiii');
+        // $input = request()->all();
+        $activate_reason = $request->activate_reason;
+        $deact_reason = !empty($request->deactivate_reason) ? $request->deactivate_reason : null;
 
 
         if (isset($activate_reason)) {

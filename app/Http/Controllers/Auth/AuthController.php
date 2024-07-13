@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
 // use App\Http\Requests\LoginRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -27,9 +28,12 @@ public function login(LoginRequest $request)
         }else{
         /** @var User $user */
         $user = Auth::user();
-        // log::info($user);
+
+$user_roles = DB::table('role_user as ru')->select('r.name')
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->first();
+        log::info(json_encode($user_roles));
         $token = $user->createToken('main')->plainTextToken;
-        return response(compact('user','token'));
+        return response(compact('user','token','user_roles'));
             log::info('imekubali ');
             // return response()->json([ 'status' => 200 , 'token' =>$token]);
         }
