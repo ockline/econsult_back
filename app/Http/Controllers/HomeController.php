@@ -99,7 +99,7 @@ public function getEmployedCount()
 {
 
         $employed_count =    $this->employee->countAllEmployed();
-       Log::info($employed_count);
+
         if ($employed_count) {
             // Log::info('111');
             return response()->json([

@@ -15,26 +15,6 @@ class LoginController extends Controller
     /**
      * Handle an authentication attempt.
      */
-    // public function authenticate(Request $request): RedirectResponse
-    // {
-
-    //     $credentials = $request->validate([
-    //         'email' => ['required', 'email'],
-    //         'password' => ['required'],
-    //     ]);
-
-    //     //   dump('ngoma ');
-    //     if (Auth::attempt($credentials)) {
-
-    //         // $request->session()->regenerate();
-    //         log::info('helloe  ndani');
-    //         return redirect()->intended('dashboard');
-    //     }
-    //     Log::info('password mchongo');
-    //     return back()->withErrors([
-    //         'email' => 'The provided credentials do not match our records.',
-    //     ])->onlyInput('email');
-    // }
 
     public function authenticate(Request $request): RedirectResponse
     {
@@ -44,8 +24,6 @@ class LoginController extends Controller
         ]);
 
         $authenticationResult = $this->performAuthentication($credentials);
-
-
 
         if ($authenticationResult['status'] === 200) {
             // Authentication successful, redirect to intended page

@@ -29,8 +29,8 @@ public function login(LoginRequest $request)
         /** @var User $user */
         $user = Auth::user();
 
-$user_roles = DB::table('role_user as ru')->select('r.name')
-            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->first();
+     $user_roles = DB::table('role_user as ru')->select('r.name','r.alias')
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->get();
         log::info(json_encode($user_roles));
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user','token','user_roles'));
@@ -39,39 +39,6 @@ $user_roles = DB::table('role_user as ru')->select('r.name')
         }
 
     }
-    // public function login(LoginRequest $request)
-    // {
-    //  log::info('ndaniii');
-    //     // $data = $request->validated();
-
-    //     // $user = User::where('email', $data['email'])->first();
-
-    //     // if (!$user || !Hash::check($data['password'], $user->password)) {
-    //     //     return response()->json([
-    //     //         'message' => 'Email or password is incorrect!'
-    //     //     ], 401);
-    //     // }
-
-    //     // $token = $user->createToken('auth_token')->plainTextToken;
-
-    //     // $cookie = cookie('token', $token, 60 * 24); // 1 day
-
-    //     // return response()->json([
-    //     //     'status' => 200,
-    //     //     'user' => $user,
-    //     // ])->withCookie($cookie);
-    // }
-
-    // public function logout(Request $request)
-    // {
-    //     $request->user()->currentAccessToken()->delete();
-
-    //     $cookie = cookie()->forget('token');
-
-    //     return response()->json([
-    //         'message' => 'Logged out successfully!'
-    //     ])->withCookie($cookie);
-    // }
 
 public function logout(Request $request)
 {
