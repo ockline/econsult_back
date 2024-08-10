@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Operation\BankController;
@@ -37,6 +38,7 @@ use App\Http\Controllers\ContractManagement\FixedContractController;
 use App\Http\Controllers\ContractManagement\TermConditionController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
+use App\Http\Controllers\RolePermission\RoleController;
 
 
 
@@ -81,14 +83,15 @@ Route::group(['namespace' => 'web'], function () {
 
 // Log in authentication
 Route::middleware('auth:sanctum',)->group(function (){
-    Route::get('/user', function (Request $request) {
-        return $request->user();
-    });
+    // Route::get('/user', function (Request $request) {
+    //     return $request->user();
+    // });
     Route::post('/logout',[AuthController::class,'logout']);
-    Route::apiResource('/users', UserController::class);
+    // Route::apiResource('/users', UserController::class);
 });
 
 Route::post('/login',[AuthController::class,'login']);
+Route::post('/reset_password', [ResetPasswordController::class, 'reset']);
 
 Route::prefix('users')->group(function () {
     Route::post('/add_user', [UserController::class, 'store'])->middleware('api');
@@ -97,6 +100,13 @@ Route::prefix('users')->group(function () {
     Route::delete('delete_user/{id}', [UserController::class, 'destroy'])->middleware('api');
     Route::get('/admin_panel', [UserController::class, 'admin'])->middleware('api');
     Route::get('/get_users', [UserController::class, 'getUsers'])->middleware('api');
+});
+Route::prefix('roles')->group(function () {
+    Route::get('/retrive_roles', [RoleController::class, 'retriveAllRoles'])->middleware('api');
+    Route::post('/add_user_roles', [RoleController::class, 'store'])->middleware('api');
+    // Route::put('update_user/{id}', [RoleController::class, 'update'])->middleware('api');
+    Route::delete('delete_role/{id}', [RoleController::class, 'destroy'])->middleware('api');
+
 });
 // api for department
 Route::prefix('departments')->group(function () {

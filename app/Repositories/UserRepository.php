@@ -50,11 +50,13 @@ class UserRepository extends  BaseRepository
 
     public function getAllUser()
     {
+
         $users =  $this->user->get();
 //    DB::table('users as u')
 //             ->select('u.id', 'u.name as user', 'u.email', 'u.phone', 'u.dob', 'u.designation_id', 'd.name as department')
 //             ->join('departments as d', 'u.department_id', '=', 'd.id')
 //             ->get();
+
 
         return $users;
     }
@@ -62,19 +64,18 @@ class UserRepository extends  BaseRepository
     public function addUsers($request)
     {
 
-        Log::info('hapaa');
+
 
         // $initialLetter = strtoupper(substr($input['firstname'], 0, 1));
 
-    //    $creater = auth()->user()->id;
+       $creater = auth()->user()->id;
 
         // Continue processing with the $input data
        DB::beginTransaction();
 
     try {
         $input = $request->all();
-    log::info($request->all());
-          $creater = 1;
+  
         $this->user->create([
             'samaccountname' => $input['firstname'] . "." . $input['lastname'],
             'username' => $input['firstname'] . "." . $input['lastname'],

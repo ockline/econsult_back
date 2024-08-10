@@ -204,7 +204,7 @@ this should include Capital letter, small, character and number ',
     }
     public function admin()
     {
-        Log::info('tumefika');
+        // Log::info('tumefika');
         return 123;
     }
     public function getUsers()
