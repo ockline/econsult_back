@@ -76,10 +76,41 @@ public function getUserRoles()
     ->leftJoin('users as u', 'ru.user_id', '=', 'u.id')
     ->leftJoin('roles as r', 'ru.role_id', '=', 'r.id')
     ->groupBy('ru.user_id', 'u.firstname', 'u.lastname', 'u.active')
+->whereNull('ru.deleted_at')
     ->get();
 
 
 return $users;
 }
 
+public function removeUserRoles($request)
+{
+    DB::beginTransaction();
+
+    try {
+        // Ensure role_id is an array
+        if (!is_array($request->role_id)) {
+            $request->role_id = [$request->role_id];
+        }
+
+        // Delete the roles for the given user
+        DB::table('role_user')
+            ->where('user_id', $request->user_id)
+            ->whereIn('role_id', $request->role_id)
+            ->update([
+                'updated_at' => Carbon::now(),
+                'deleted_at' => Carbon::now(),
+            ]);
+
+        DB::commit();
+
+        Log::info('Roles removed successfully');
+        return response()->json(['message' => 'Role removed successfully', 'status' => 201], 201);
+    } catch (\Exception $e) {
+        DB::rollback();
+        Log::error('Failed to remove roles', ['error' => $e->getMessage()]);
+
+        return response()->json(['message' => 'Failed to remove roles', 'status' => 500]);
+    }
+}
 }

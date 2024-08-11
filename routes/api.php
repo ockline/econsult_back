@@ -106,7 +106,7 @@ Route::prefix('roles')->group(function () {
     Route::post('/add_user_roles', [RoleController::class, 'store'])->middleware('api');
     Route::get('/get_user_roles', [RoleController::class, 'getUserRoles']);
     // Route::put('update_user/{id}', [RoleController::class, 'update'])->middleware('api');
-    Route::delete('delete_role/{id}', [RoleController::class, 'destroy'])->middleware('api');
+    Route::delete('/remove_user_roles', [RoleController::class, 'destroy'])->middleware('api');
 
 });
 // api for department
