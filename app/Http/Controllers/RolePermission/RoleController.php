@@ -48,8 +48,8 @@ class RoleController extends Controller
         }
     }
 
-public function getAssignedRoleCount()
-{
+    public function getAssignedRoleCount()
+    {
 
         // $employed_count =    $this->roles->countAllEmployed();
 
@@ -68,30 +68,44 @@ public function getAssignedRoleCount()
         // }
 
 
-}
-/**
-*@method to  create roles to users
- */
+    }
+    /**
+     *@method to  create roles to users
+     */
 
- public function store(Request $request)
-{
+    public function store(Request $request)
+    {
 
+        $data = $this->roles->saveUserRoles($request);
 
+        $status = $data->getStatusCode();
 
+        if ($status === 201) {
+            return response()->json(['status' => 200, 'message' => 'Role created Successfully']);
+        }
+        return response()->json(['status' => 500, 'message' => 'Sorry! Operation Failed']);
+    }
 
+    /***
+     *@method to get all user assigned roles
+     */
+    public function getUserRoles()
+    {
 
-
-$data = $this->roles->saveUserRoles($request);
-
-$status = $data->getStatusCode();
-
-if($status === 201){
-return response()->json(['status' => 200, 'message' => 'Role created Successfully']);
-
-}
-return response()->json(['status' => 500, 'message' => 'Sorry! Operation Failed']);
-
-}
-
-
+        $user_roles =    $this->roles->getUserRoles();
+        // Log::info($employee);
+        if ($user_roles) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'user_roles' => $user_roles,
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 404,
+                'message' => "Sorry! No data found"
+            ]);
+        }
+    }
 }

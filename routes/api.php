@@ -104,6 +104,7 @@ Route::prefix('users')->group(function () {
 Route::prefix('roles')->group(function () {
     Route::get('/retrive_roles', [RoleController::class, 'retriveAllRoles'])->middleware('api');
     Route::post('/add_user_roles', [RoleController::class, 'store'])->middleware('api');
+    Route::get('/get_user_roles', [RoleController::class, 'getUserRoles']);
     // Route::put('update_user/{id}', [RoleController::class, 'update'])->middleware('api');
     Route::delete('delete_role/{id}', [RoleController::class, 'destroy'])->middleware('api');
 

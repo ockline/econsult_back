@@ -38,28 +38,22 @@ class RolePermissionRepository extends  BaseRepository
         return  $details;
     }
 
-public function saveUserRoles($request)
-{
-  DB::beginTransaction();
+    public function saveUserRoles($request)
+    {
+        DB::beginTransaction();
 
-        try {
-          ;
-        if($request){
-        foreach($request->role_id as $role){
-            DB::table('role_user')->insert([
-      'user_id' => !empty($request->user_id) ? $request->user_id : 0,
-        'role_id' => !empty($role) ? $role : 0,
-        'created_at' => Carbon::now()
+        try {;
+            if ($request) {
+                foreach ($request->role_id as $role) {
+                    DB::table('role_user')->insert([
+                        'user_id' => !empty($request->user_id) ? $request->user_id : 0,
+                        'role_id' => !empty($role) ? $role : 0,
+                        'created_at' => Carbon::now()
 
-]);
-
-
+                    ]);
+                }
             }
-
-      }
-
-
- DB::commit();
+            DB::commit();
 
             Log::info('Saved done');
             return response()->json(['message' => 'User role created successfully', 'status' => 201], 201);
@@ -69,9 +63,23 @@ public function saveUserRoles($request)
 
             return response()->json(['message' => 'Failed to create User role', 'status' => 500]);
         }
+    }
+public function getUserRoles()
+{
+      $users = DB::table('role_user as ru')
+    ->select(
+        'ru.user_id',
+        DB::raw("CONCAT(u.firstname, ' ', u.lastname) as user_name"),
+        'u.active as status',
+        DB::raw("STRING_AGG(r.name, ', ') as role_names")
+    )
+    ->leftJoin('users as u', 'ru.user_id', '=', 'u.id')
+    ->leftJoin('roles as r', 'ru.role_id', '=', 'r.id')
+    ->groupBy('ru.user_id', 'u.firstname', 'u.lastname', 'u.active')
+    ->get();
 
 
-
+return $users;
 }
 
 }
