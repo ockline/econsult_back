@@ -135,7 +135,7 @@ array (
                 array (
                     'id' => '10',
                      'name' => 'Vacancy Initiator',
-                    'alias' => 'VI',
+                    'alias' => 'VI', //supervisor initiate
                     //'desciption' => 'Initiate Job  anouncement',
                     'status' => '1',
                     'created_at' => '2024-05-24 09:28:50',
@@ -147,7 +147,7 @@ array (
                 array (
                     'id' => '11',
                     'name' => 'Vacancy Approval',
-                    'alias' => 'VA',
+                    'alias' => 'VA',//HR MAnager
                     //'desciption' => 'Approve Job Vacancy',
                     'status' => '1',
                     'created_at' => '2024-05-24 09:28:50',
@@ -376,6 +376,18 @@ array (
                      'name' => 'All User',
                     'alias' => 'ALL',
                     //'desciption' => 'User can only view',
+                    'status' => '1',
+                    'created_at' => '2024-05-24 09:28:50',
+                    'updated_at' => '2024-05-24 09:28:50',
+                    'deleted_at' => NULL,
+
+                ),
+          30 =>
+                array (
+                    'id' => '32',
+                     'name' => 'Vacancy Reviewer',
+                    'alias' => 'VI', //Direct Manager
+                    //'desciption' => 'Initiate Job  anouncement',
                     'status' => '1',
                     'created_at' => '2024-05-24 09:28:50',
                     'updated_at' => '2024-05-24 09:28:50',
