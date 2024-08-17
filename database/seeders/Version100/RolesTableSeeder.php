@@ -386,7 +386,7 @@ array (
                 array (
                     'id' => '32',
                      'name' => 'Vacancy Reviewer',
-                    'alias' => 'VI', //Direct Manager
+                    'alias' => 'VR', //Direct Manager
                     //'desciption' => 'Initiate Job  anouncement',
                     'status' => '1',
                     'created_at' => '2024-05-24 09:28:50',

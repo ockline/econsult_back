@@ -53,4 +53,19 @@ public function logout(Request $request)
     {
         return response()->json($request->user());
     }
+
+/**
+*@method to get token and  user details
+ */
+    public function getToken(Request $request)
+{
+    $user = Auth::user();
+
+     $user_roles = DB::table('role_user as ru')->select('r.name','r.alias')
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->get();
+        
+        $token = $user->createToken('main')->plainTextToken;
+        return response(compact('user','token','user_roles'));
+
+}
 }
