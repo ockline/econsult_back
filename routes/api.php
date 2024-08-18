@@ -2,11 +2,10 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Auth\LoginController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Operation\BankController;
 use App\Http\Controllers\Operation\UnitController;
 use App\Http\Controllers\Operation\WardController;
@@ -16,12 +15,15 @@ use App\Http\Controllers\Employee\EmployeeController;
 use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Operation\CountryController;
 use App\Http\Controllers\Operation\PackageController;
+use App\Http\Controllers\Workflow\WorkflowController;
+use App\Http\Controllers\Auth\ResetPasswordController;
 use App\Http\Controllers\Hiring\HrInterviewController;
 use App\Http\Controllers\Operation\DistrictController;
 use App\Http\Controllers\Operation\JobTitleController;
 use App\Http\Controllers\Operation\LocationController;
 use App\Http\Controllers\Operation\AllowanceController;
 use App\Http\Controllers\Operation\EducationController;
+use App\Http\Controllers\RolePermission\RoleController;
 use App\Http\Controllers\Operation\BankBranchController;
 use App\Http\Controllers\Operation\DepartmentController;
 use App\Http\Controllers\Employee\SocialRecordController;
@@ -38,7 +40,6 @@ use App\Http\Controllers\ContractManagement\FixedContractController;
 use App\Http\Controllers\ContractManagement\TermConditionController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
-use App\Http\Controllers\RolePermission\RoleController;
 
 
 
@@ -382,6 +383,23 @@ Route::prefix('home')->group(function () {
       Route::get('/excecutive/employee_count', [HomeController::class, 'getEmployedCount'])->middleware('api');
 });
 
+// api for workflow attend
+Route::prefix('workflows')->group(function () {
+    Route::post('/vacancies/initiate_workflow', [WorkflowController::class, 'initiateJobWorkflow']);
+    Route::post('/vacancies/review_workflow', [WorkflowController::class, 'reviewJobWorkflow']);
+    Route::post('/vacancies/approve_workflow', [WorkflowController::class, 'approveJobWorkflow']);
+    Route::get('/vacancies/retrive_job_workflow', [WorkflowController::class, 'getJobWorkflowDetails']);
+//end ***********************
+    Route::post('/hr_interview/initiate_workflow', [WorkflowController::class, 'initiateHrWorkflow']);
+    Route::post('/hr_interview/review_workflow', [WorkflowController::class, 'reviewHrWorkflow']);
+    Route::post('/hr_interview/approve_workflow', [WorkflowController::class, 'approveHrWorkflow']);
+    Route::get('/hr_interview/retrive_workflow', [WorkflowController::class, 'getHrWorkflowDetails']);
+    //end ************
+     Route::post('/technical_interview/initiate_workflow', [WorkflowController::class, 'initiateTechnicalWorkflow']);
+    Route::post('/technical_interview/review_workflow', [WorkflowController::class, 'reviewTechnicalWorkflow']);
+    Route::post('/technical_interview/approve_workflow', [WorkflowController::class, 'approveTechnicalWorkflow']);
+    Route::get('/technical_interview/retrive_workflow', [WorkflowController::class, 'getTechnicalWorkflowDetails']);
+});
 
 
     /** api for Unspecific Contract */

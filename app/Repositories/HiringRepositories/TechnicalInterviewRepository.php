@@ -130,7 +130,7 @@ class TechnicalInterviewRepository extends  BaseRepository
      * @return mixed
      * @competency transactions
      */
-    public function overallRatingResult(string $id)
+    public function overallRatingResult(Request $request, string $id)
     {
         // Log::info('Bondeni');
 
@@ -289,7 +289,7 @@ class TechnicalInterviewRepository extends  BaseRepository
                     'recommended_title' => !empty($input['recommended_title']) ? $input['recommended_title'] : $input['job_title_id'],
                     'ranking_creterial_id' => !empty($input['ranking_creterial_id']) ? $input['ranking_creterial_id'] : null,
                     'candidate_name' => ($input['firstname'] . " " . $input['middlename'] . " " . $input['lastname']),
-                    'overall_rating' => !empty($imput['overall_rating']) ? $imput['overall_rating'] : 3,
+                    'overall_rating' => !empty($imput['overall_rating']) ? $input['overall_rating'] : 3,
                     'interview_number' => !empty($candidate_number) ? $candidate_number : 22202,
                     'downloaded' => 0, // default before download
                     'uploaded' => 0,
