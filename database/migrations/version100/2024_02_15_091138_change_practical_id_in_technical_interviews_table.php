@@ -11,10 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('technical_interviews', function (Blueprint $table) {
-            // Use the nullable method directly
-            $table->integer('practical_test_id')->nullable();
-        });
+    //     Schema::table('technical_interviews', function (Blueprint $table) {
+    //         // Use the nullable method directly
+    //         $table->integer('practical_test_id')->nullable();
+    //     });
     }
 
     /**
@@ -22,8 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('technical_interviews', function (Blueprint $table) {
-            $table->dropColumn('practical_test_id');
-        });
+    //     Schema::table('technical_interviews', function (Blueprint $table) {
+    //         $table->dropColumn('practical_test_id');
+    //     });
     }
 };
