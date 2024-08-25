@@ -30,7 +30,7 @@ public function login(LoginRequest $request)
         $user = Auth::user();
 
      $user_roles = DB::table('role_user as ru')->select('r.name','r.alias')
-            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->get();
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->whereNull('ru.deleted_at')->get();
         log::info(json_encode($user_roles));
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user','token','user_roles'));
@@ -62,8 +62,8 @@ public function logout(Request $request)
     $user = Auth::user();
 
      $user_roles = DB::table('role_user as ru')->select('r.name','r.alias')
-            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->get();
-        
+            ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->whereNull('ru.deleted_at')->get();
+
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user','token','user_roles'));
 
