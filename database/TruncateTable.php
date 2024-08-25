@@ -48,4 +48,14 @@ trait TruncateTable
             $this->truncate($table);
         }
     }
+
+    /**
+     * @param $table
+     * @return int
+     */
+    protected function getRecordCount($table): int
+    {
+        return DB::table($table)->count();
+    }
+
 }

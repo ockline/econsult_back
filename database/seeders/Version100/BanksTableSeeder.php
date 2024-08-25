@@ -21,10 +21,10 @@ class BanksTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("banks");
-        $this->delete('banks');
+        // $this->disableForeignKeys("banks");
+        // $this->delete('banks');
 
-        \DB::table('banks')->insert(array(
+        $data = array(
             0 =>
             array(
                 'id' => 1,
@@ -439,8 +439,13 @@ class BanksTableSeeder extends Seeder
             ),
 
 
-        ));
+        );
 
-        $this->enableForeignKeys("banks");
+        // $this->enableForeignKeys("banks");
+        $lastRecordCount = $this->getRecordCount("banks");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            \DB::table('banks')->insert($slice);
+        }
     }
 }
