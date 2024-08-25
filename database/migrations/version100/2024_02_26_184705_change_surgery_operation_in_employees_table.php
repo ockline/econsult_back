@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-      Schema::table('employees', function (Blueprint $table) {
-            // Check if the column exists before modifying it
-            if (!Schema::hasColumn('employees', 'surgery_operation')) {
-                $table->integer('surgery_operation')->nullable();
-            } else {
-                // If the column exists, modify it
-                $table->integer('surgery_operation')->nullable()->change();
-            }
-        });
+    //   Schema::table('employees', function (Blueprint $table) {
+    //         // Check if the column exists before modifying it
+    //         if (!Schema::hasColumn('employees', 'surgery_operation')) {
+    //             $table->integer('surgery_operation')->nullable();
+    //         } else {
+    //             // If the column exists, modify it
+    //             $table->integer('surgery_operation')->nullable()->change();
+    //         }
+    //     });
     }
 
     /**
@@ -27,9 +27,9 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('employees', function (Blueprint $table) {
-            $table->dropColumn('surgery_operation');
-        });
+    //     Schema::table('employees', function (Blueprint $table) {
+    //         $table->dropColumn('surgery_operation');
+    //     });
     }
 
 };
