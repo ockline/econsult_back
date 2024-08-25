@@ -11,9 +11,9 @@ return new class extends Migration
      */
 public function up(): void
 {
-    Schema::table('employee_identifications', function (Blueprint $table) {
-      $table->text('section')->nullable();
-    });
+    // Schema::table('employee_identifications', function (Blueprint $table) {
+    //   $table->text('section')->nullable();
+    // });
 }
 
 
@@ -22,10 +22,10 @@ public function up(): void
      */
    public function down(): void
 {
-    Schema::table('employee_identifications', function (Blueprint $table) {
-    
-        $table->dropColumn('section');
-    });
+    // Schema::table('employee_identifications', function (Blueprint $table) {
+
+    //     $table->dropColumn('section');
+    // });
 }
 
 };
