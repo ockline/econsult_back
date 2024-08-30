@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use DB;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class BankBranchesTableSeeder extends Seeder
 {
@@ -19,10 +19,10 @@ class BankBranchesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('bank_branches');
-        $this->delete('bank_branches');
+        // $this->disableForeignKeys('bank_branches');
+        // $this->delete('bank_branches');
 
-        DB::table('bank_branches')->insert(array (
+        $data = array(
             0 =>
                 array (
                     'id' => 1,
@@ -3763,8 +3763,12 @@ class BankBranchesTableSeeder extends Seeder
                     'alias' => NULL,
                     'descriptions' => NULL,
                 ),
-        ));
+        );
 
-        $this->enableForeignKeys('bank_branches');
+          $lastRecordCount = $this->getRecordCount("bank_branches");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('bank_branches')->insert($slice);
+        }
     }
 }

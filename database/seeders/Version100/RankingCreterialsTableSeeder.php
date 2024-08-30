@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class RankingCreterialsTableSeeder extends Seeder
 {
@@ -18,10 +19,10 @@ class RankingCreterialsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("ranking_creterials");
-        $this->delete('ranking_creterials');
+        // $this->disableForeignKeys("ranking_creterials");
+        // $this->delete('ranking_creterials');
 
-        \DB::table('ranking_creterials')->insert(array(
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -82,8 +83,13 @@ class RankingCreterialsTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-     ));
+     );
 
-        $this->enableForeignKeys("ranking_creterials");
+        // $this->enableForeignKeys("ranking_creterials");
+         $lastRecordCount = $this->getRecordCount("ranking_creterials");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('ranking_creterials')->insert($slice);
+        }
     }
 }

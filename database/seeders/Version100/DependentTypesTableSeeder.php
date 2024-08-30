@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use DB;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class DependentTypesTableSeeder extends Seeder
 {
@@ -19,10 +19,10 @@ class DependentTypesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('dependent_types');
-        $this->delete('dependent_types');
+        // $this->disableForeignKeys('dependent_types');
+        // $this->delete('dependent_types');
 
-        DB::table('dependent_types')->insert(array(
+        $data = array(
             0 =>
             array(
                 'id' => 1,
@@ -172,8 +172,14 @@ class DependentTypesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-        ));
+        );
 
-        $this->enableForeignKeys('dependent_types');
+
+
+$lastRecordCount = $this->getRecordCount("dependent_types");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('dependent_types')->insert($slice);
+        }
     }
 }

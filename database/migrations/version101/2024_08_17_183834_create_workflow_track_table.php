@@ -21,11 +21,12 @@ return new class extends Migration
             $table->timestamp('received_date')->nullable();
             $table->timestamp('attended_date')->nullable();
             $table->unsignedBigInteger('attended_by')->nullable(); // Foreign key or reference to another user
-            $table->string('level')->nullable(); // Assuming this is a string field
-            $table->string('stage')->nullable();
+            $table->integer('level')->nullable(); // Assuming this is a string field
+            $table->integer('stage')->nullable();
             $table->unsignedBigInteger('created_by')->nullable()->comment('who have initiate workflow');
-$table->integer('aging')->nullable()->comment();
+            $table->integer('aging')->nullable()->comment();
             $table->timestamps(); // Adds created_at and updated_at columns
+            $table->softDeletes();
             // $table->foreign('user_id')->references('id')->on('users');
             // $table->foreign('attended_by')->references('id')->on('users');
             $table->foreign('created_by')->references('id')->on('users');

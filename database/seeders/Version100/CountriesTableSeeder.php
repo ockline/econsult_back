@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Database\DisableForeignKeys;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
+use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class CountriesTableSeeder extends Seeder
 {
@@ -18,10 +19,10 @@ class CountriesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("countries");
-        $this->delete('countries');
+        // $this->disableForeignKeys("countries");
+        // $this->delete('countries');
 
-        \DB::table('countries')->insert(array(
+        $data = array(
             0 => array(
                 'id' => 1,
                 'name' => 'Tanzania',
@@ -2264,8 +2265,14 @@ class CountriesTableSeeder extends Seeder
                 'deleted_at' => null,
                 'description' => 'country_name',
             ),
-        ));
-        $this->enableForeignKeys("countries");
+        );
+
+
+$lastRecordCount = $this->getRecordCount("countries");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('countries')->insert($slice);
+        }
 
     }
 }

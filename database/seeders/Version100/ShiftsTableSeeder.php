@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class ShiftsTableSeeder extends Seeder
 {
@@ -18,10 +19,9 @@ class ShiftsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("shifts");
-        $this->delete('shifts');
 
-        \DB::table('shifts')->insert(array(
+
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -52,8 +52,13 @@ class ShiftsTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-     ));
+     );
 
-        $this->enableForeignKeys("shifts");
+        // $this->enableForeignKeys("shifts");
+         $lastRecordCount = $this->getRecordCount("shifts");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('shifts')->insert($slice);
+        }
     }
 }

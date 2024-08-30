@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class LocationTypesTableSeeder extends Seeder
 {
@@ -18,10 +19,8 @@ class LocationTypesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('location_types');
-        $this->delete('location_types');
 
-        \DB::table('location_types')->insert(array (
+        $data = array (
             0 =>
             array (
                 'id' => 1,
@@ -38,8 +37,14 @@ class LocationTypesTableSeeder extends Seeder
                 'updated_at' => NULL,
                  'description' => 'none',
             ),
-        ));
+        );
 
-        $this->enableForeignKeys('location_types');
+        // $this->enableForeignKeys('location_types');
+
+   $lastRecordCount = $this->getRecordCount("location_types");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('location_types')->insert($slice);
+        }
     }
 }

@@ -3,9 +3,10 @@
 namespace Database\Seeders\Version100;
 
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class UsersTableSeeder extends Seeder
 {
@@ -18,11 +19,7 @@ class UsersTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('users');
-        $this->delete('users');
-        //
-
-        \DB::table('users')->insert(array(
+        $data = array(
             //initial password:     welcome1
             0 =>
             array(
@@ -304,8 +301,14 @@ class UsersTableSeeder extends Seeder
 //                 // 'user_sub_id'=>NULL,
 //             ),
 
-        ));
+        );
 
         $this->enableForeignKeys('users');
+
+ $lastRecordCount = $this->getRecordCount("users");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('users')->insert($slice);
+        }
     }
 }

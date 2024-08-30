@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use DB;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class DesignationsTableSeeder extends Seeder
 {
@@ -19,10 +19,10 @@ class DesignationsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('designations');
-        $this->delete('designations');
+        // $this->disableForeignKeys('designations');
+        // $this->delete('designations');
 
-        DB::table('designations')->insert(array (
+        $data = array (
             0 =>
                 array (
                     'id' => 1,
@@ -876,8 +876,14 @@ class DesignationsTableSeeder extends Seeder
 //                     'level' => 3,
 //                 ),
 
-        ));
+        );
 
-        $this->enableForeignKeys('designations');
+        // $this->enableForeignKeys('designations');
+
+$lastRecordCount = $this->getRecordCount("designations");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('designations')->insert($slice);
+        }
     }
 }

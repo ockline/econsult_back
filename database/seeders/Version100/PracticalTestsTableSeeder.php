@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class PracticalTestsTableSeeder extends Seeder
 {
@@ -18,10 +19,9 @@ class PracticalTestsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("practical_tests");
-        $this->delete('practical_tests');
 
-        \DB::table('practical_tests')->insert(array(
+
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -60,8 +60,14 @@ class PracticalTestsTableSeeder extends Seeder
             ),
 
 
-     ));
+     );
 
-        $this->enableForeignKeys("practical_tests");
+        // $this->enableForeignKeys("practical_tests");
+
+         $lastRecordCount = $this->getRecordCount("practical_tests");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('practical_tests')->insert($slice);
+        }
     }
 }

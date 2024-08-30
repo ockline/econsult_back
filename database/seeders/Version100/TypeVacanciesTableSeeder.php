@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class TypeVacanciesTableSeeder extends Seeder
 {
@@ -18,10 +19,9 @@ class TypeVacanciesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("type_vacancies");
-        $this->delete('type_vacancies');
 
-        \DB::table('type_vacancies')->insert(array(
+
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -82,8 +82,14 @@ class TypeVacanciesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-     ));
+     );
 
-        $this->enableForeignKeys("type_vacancies");
+        // $this->enableForeignKeys("type_vacancies");
+
+ $lastRecordCount = $this->getRecordCount("type_vacancies");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('type_vacancies')->insert($slice);
+        }
     }
 }

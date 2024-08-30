@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class LanguageFluenciesTableSeeder extends Seeder
 {
@@ -18,10 +19,7 @@ class LanguageFluenciesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("language_fluences");
-        $this->delete('language_fluences');
-
-        \DB::table('language_fluences')->insert(array(
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -49,8 +47,13 @@ class LanguageFluenciesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-     ));
+     );
 
-        $this->enableForeignKeys("language_fluences");
+        // $this->enableForeignKeys("language_fluences");
+          $lastRecordCount = $this->getRecordCount("language_fluences");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('language_fluences')->insert($slice);
+        }
     }
 }

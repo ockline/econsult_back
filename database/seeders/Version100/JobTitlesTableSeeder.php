@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class JobTitlesTableSeeder extends Seeder
 {
@@ -18,10 +19,10 @@ class JobTitlesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('job_title');
-        $this->delete('job_title');
+        // $this->disableForeignKeys('job_title');
+        // $this->delete('job_title');
 
-        \DB::table('job_title')->insert(array (
+        $data = array (
             0 =>
                 array (
                     'id' => 1,
@@ -3643,8 +3644,14 @@ class JobTitlesTableSeeder extends Seeder
 //                 ),
 
 
-        ));
+        );
 
-        $this->enableForeignKeys('job_title');
+        // $this->enableForeignKeys('job_title');
+         $lastRecordCount = $this->getRecordCount("job_title");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('job_title')->insert($slice);
+        }
+
     }
 }

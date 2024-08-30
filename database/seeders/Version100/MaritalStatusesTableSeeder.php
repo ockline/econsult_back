@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class MaritalStatusesTableSeeder extends Seeder
 {
@@ -18,10 +19,8 @@ class MaritalStatusesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("marital_statuses");
-        $this->delete('marital_statuses');
 
-        \DB::table('marital_statuses')->insert(array(
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -62,8 +61,13 @@ class MaritalStatusesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-        ));
+        );
 
-        $this->enableForeignKeys("marital_statuses");
+        // $this->enableForeignKeys("marital_statuses");
+ $lastRecordCount = $this->getRecordCount("marital_statuses");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('marital_statuses')->insert($slice);
+        }
     }
 }

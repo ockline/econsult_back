@@ -2,10 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use DB;
 use Database\TruncateTable;
 use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class RolesTableSeeder extends Seeder
 {
@@ -19,10 +19,10 @@ class RolesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('roles');
-        $this->delete('roles');
+        // $this->disableForeignKeys('roles');
+        // $this->delete('roles');
 
-        DB::table('roles')->insert(array (
+        $data = array (
             0 =>
                 array (
                     'id' => '1',
@@ -394,8 +394,13 @@ array (
                     'deleted_at' => NULL,
 
                 ),
-        ));
+        );
 
-        $this->enableForeignKeys('roles');
+        // $this->enableForeignKeys('roles');
+ $lastRecordCount = $this->getRecordCount("roles");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('roles')->insert($slice);
+        }
     }
 }

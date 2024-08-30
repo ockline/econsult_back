@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class CompetencySubjectsTableSeeder extends Seeder
 {
@@ -18,10 +19,8 @@ class CompetencySubjectsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("competencies_subjects");
-        $this->delete('competencies_subjects');
 
-        \DB::table('competencies_subjects')->insert(array(
+       $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -212,7 +211,13 @@ class CompetencySubjectsTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-     ));
-        $this->enableForeignKeys("competencies_subjects");
+     );
+        // $this->enableForeignKeys("competencies_subjects");
+
+ $lastRecordCount = $this->getRecordCount("competencies_subjects");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('competencies_subjects')->insert($slice);
+        }
     }
 }

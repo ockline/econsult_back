@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 require_once base_path('database/TruncateTable.php');
 
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class BanksTableSeeder extends Seeder
 {
@@ -445,7 +446,7 @@ class BanksTableSeeder extends Seeder
         $lastRecordCount = $this->getRecordCount("banks");
         $slice = array_slice($data, $lastRecordCount);;
         if (count($slice)) {
-            \DB::table('banks')->insert($slice);
+            DB::table('banks')->insert($slice);
         }
     }
 }

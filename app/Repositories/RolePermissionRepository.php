@@ -11,6 +11,7 @@ use App\Models\Location\Region;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseREpository;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -53,6 +54,18 @@ class RolePermissionRepository extends  BaseRepository
                     ]);
                 }
             }
+$token = 'bXdhbnplbHU6bXdha2lob25nbzEyMzQ1';
+$response = Http::withoutVerifying()
+                    ->withHeaders([
+                        "Accept" => "application/json",
+                        "Content-Type" => "application/json",
+                        'Authorization' => 'Basic ' . $token,
+                    ])->post("https://messaging-service.co.tz/api/sms/v1/text/single", [
+'from' => 'JUMUIKO',
+'to' => ['255762700692'],
+'text' => 'Hello',
+]);
+logger($response->body());
             DB::commit();
 
             Log::info('Saved done');

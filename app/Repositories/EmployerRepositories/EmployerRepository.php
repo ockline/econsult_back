@@ -113,7 +113,7 @@ class EmployerRepository extends  BaseRepository
             $employer_id = $employer->id;
 
             $this->saveEmployerDocument($request, $employer_id);
-            // die;
+            // di
             DB::commit();
 
             Log::info('Saved done');

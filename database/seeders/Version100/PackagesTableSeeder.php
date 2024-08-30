@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class PackagesTableSeeder extends Seeder
 {
@@ -18,10 +19,10 @@ class PackagesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('packages');
-        $this->delete('packages');
 
-        \DB::table('packages')->insert(array (
+
+
+$data = array (
             0 =>
                 array (
                     'id' => 1,
@@ -232,8 +233,13 @@ class PackagesTableSeeder extends Seeder
                     'deleted_at' => null,
                 ),
 
-        ));
+        );
 
-        $this->enableForeignKeys('packages');
+        // $this->enableForeignKeys('packages');
+         $lastRecordCount = $this->getRecordCount("packages");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('packages')->insert($slice);
+        }
     }
 }

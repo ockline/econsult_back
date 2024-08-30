@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class DocumentGroupsTableSeeder extends Seeder
 {
@@ -18,10 +19,7 @@ class DocumentGroupsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('document_groups');
-        $this->delete('document_groups');
-
-        \DB::table('document_groups')->insert(array(
+        $data = array(
             0 =>
             array(
                 'id' => 1,
@@ -162,8 +160,12 @@ class DocumentGroupsTableSeeder extends Seeder
                 'status' =>  1,
                 'deleted_at' => NULL,
             ),
-        ));
+        );
 
-        $this->enableForeignKeys('document_groups');
+$lastRecordCount = $this->getRecordCount("document_groups");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('document_groups')->insert($slice);
+        }
     }
 }

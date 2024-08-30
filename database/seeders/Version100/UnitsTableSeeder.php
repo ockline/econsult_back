@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class UnitsTableSeeder extends Seeder
 {
@@ -18,10 +19,7 @@ class UnitsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('units');
-        $this->delete('units');
-
-        \DB::table('units')->insert(array (
+        $data = array (
             0 =>
                 array (
                     'id' => 1,
@@ -574,8 +572,14 @@ class UnitsTableSeeder extends Seeder
             //         'description' => null,
             //         'deleted_at' => null,
             //     ),
-        ));
+        );
 
-        $this->enableForeignKeys('units');
+        // $this->enableForeignKeys('units');
+
+         $lastRecordCount = $this->getRecordCount("units");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('units')->insert($slice);
+        }
     }
 }

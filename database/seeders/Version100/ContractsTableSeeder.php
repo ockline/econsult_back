@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class ContractsTableSeeder extends Seeder
 {
@@ -18,10 +19,9 @@ class ContractsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('contracts');
-        $this->delete('contracts');
 
-        \DB::table('contracts')->insert(array(
+
+       $data = array(
             0 =>
             array(
                 'id' => 1,
@@ -49,8 +49,14 @@ class ContractsTableSeeder extends Seeder
                 'deleted_at' => NULL,
                 'description' => 'Unspecified Contract (until retired)',
             ),
-        ));
+        );
 
-        $this->enableForeignKeys('contracts');
+
+
+ $lastRecordCount = $this->getRecordCount("contracts");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('contracts')->insert($slice);
+        }
     }
 }

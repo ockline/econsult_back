@@ -16,10 +16,9 @@ class PostCodesTableSeeder extends Seeder
      */
     public function run()
     {
-        $this->disableForeignKeys('postcodes');
-        $this->delete('postcodes');
 
-        \DB::table('postcodes')->insert(array (
+
+        $data = array (
             0 =>
                 array (
                     'id' => 1,
@@ -37949,9 +37948,15 @@ class PostCodesTableSeeder extends Seeder
                     'updated_at' => NULL,
                 ),
 
-           ));
+           );
 
-        $this->enableForeignKeys('postcodes');
+        // $this->enableForeignKeys('postcodes');
+
+   $lastRecordCount = $this->getRecordCount("postcodes");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('postcodes')->insert($slice);
+        }
     }
 }
 

@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class RegionsTableSeeder extends Seeder
 {
@@ -18,10 +19,10 @@ class RegionsTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys('regions');
-        $this->delete('regions');
+        // $this->disableForeignKeys('regions');
+        // $this->delete('regions');
 
-        \DB::table('regions')->insert(array (
+$data =    array (
             0 =>
                 array (
                     'id' => '1',
@@ -342,8 +343,13 @@ class RegionsTableSeeder extends Seeder
                     'updated_at' => NULL,
 
                 ),
-        ));
+        );
 
-        $this->enableForeignKeys('regions');
+
+         $lastRecordCount = $this->getRecordCount("regions");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('regions')->insert($slice);
+        }
     }
 }
