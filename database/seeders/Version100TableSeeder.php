@@ -82,7 +82,7 @@ class Version100TableSeeder extends Seeder
         //  /*   Document */
         $this->call(DocumentGroupsTableSeeder::class);
         $this->call(DocumentsTableSeeder::class);
-        $this->call(JobTitlesTableSeeder::class);
+        // $this->call(JobTitlesTableSeeder::class);
 
         //  /*  Offices */
         $this->call(OfficesTableSeeder::class);
