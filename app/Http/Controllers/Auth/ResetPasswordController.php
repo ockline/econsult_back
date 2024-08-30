@@ -115,18 +115,22 @@ return response()->json(['status' => 422,
 
 public function checkPasswords($request)
 {
-// $user_exist = Auth::user()->id;
-// log::info($user_exist);
-// log::info('inatakiwa ureste');
-    $user =  User::select('*')->first();
+    log::info($request->all());
+    $user =  User::select('*')->where('email', '=', $request->email)->first();
 // log::info($user);
         if($request->email === $user->email){
         // if($request->password === $user->password){
+log::info('ndaniiiii');
+                $password = bcrypt($request->new_password);
 
-                $password = $request->new_password;
-                $confirm_password = $request->confirm_password;
-                $user->password = Hash::make($password);
-                $user->confirm_password = Hash::make($confirm_password);
+                $confirm_password = bcrypt($request->confirm_password);
+
+
+log::info($password);
+log::info($confirm_password);
+
+                $user->password = $password;
+                $user->confirm_password = $confirm_password;
 // log::info($user);
                 $user->save();
 
