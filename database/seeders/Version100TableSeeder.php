@@ -14,6 +14,7 @@ use Database\Seeders\Version100\BanksTableSeeder;
 use Database\Seeders\Version100\RolesTableSeeder;
 use Database\Seeders\Version100\UnitsTableSeeder;
 // use Database\Seeders\Version100\UsersTableSeeder;
+use Database\Seeders\Version100\UsersTableSeeder;
 use Database\Seeders\Version100\ShiftsTableSeeder;
 use Database\Seeders\Version100\OfficesTableSeeder;
 use Database\Seeders\Version100\RegionsTableSeeder;
@@ -33,8 +34,8 @@ use Database\Seeders\Version100\DesignationsTableSeeder;
 use Database\Seeders\Version100\LocationTypesTableSeeder;
 use Database\Seeders\Version100\TypeVacanciesTableSeeder;
 use Database\Seeders\Version100\DependentTypesTableSeeder;
-use Database\Seeders\Version100\DocumentGroupsTableSeeder;
 
+use Database\Seeders\Version100\DocumentGroupsTableSeeder;
 use Database\Seeders\Version100\PracticalTestsTableSeeder;
 use Database\Seeders\Version100\MaritalStatusesTableSeeder;
 use Database\Seeders\Version100\LanguageFluenciesTableSeeder;
@@ -67,7 +68,7 @@ class Version100TableSeeder extends Seeder
         // $this->call(CurrenciesTableSeeder::class);
 
         /*  Users */
-        // $this->call(UsersTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
         $this->call(DependentTypesTableSeeder::class);
         $this->call(MaritalStatusesTableSeeder::class);
         // $this->call(MemberTypesTableSeeder::class);
@@ -97,7 +98,7 @@ class Version100TableSeeder extends Seeder
         $this->call(CompetenciesTableSeeder::class);
         $this->call(CompetencySubjectsTableSeeder::class);
         $this->call(PackagesTableSeeder::class);
-        $this->call(DepartmentsTableSeeder::class);
+        // $this->call(DepartmentsTableSeeder::class);
         $this->call(UnitsTableSeeder::class);
         $this->call(EducationHistoriesTableSeeder::class);
         $this->call(PracticalTestsTableSeeder::class);
