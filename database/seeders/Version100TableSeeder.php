@@ -99,24 +99,24 @@ class Version100TableSeeder extends Seeder
         $this->call(CompetencySubjectsTableSeeder::class);
         $this->call(PackagesTableSeeder::class);
         // $this->call(DepartmentsTableSeeder::class);
-        $this->call(UnitsTableSeeder::class);
-        $this->call(EducationHistoriesTableSeeder::class);
-        $this->call(PracticalTestsTableSeeder::class);
+        // $this->call(UnitsTableSeeder::class);
+        // $this->call(EducationHistoriesTableSeeder::class);
+        // $this->call(PracticalTestsTableSeeder::class);
 
-        /**  Contracts */
-        $this->call(ContractsTableSeeder::class);
+        // /**  Contracts */
+        // $this->call(ContractsTableSeeder::class);
 
-        /* Role & Permission */
-        $this->call(RolesTableSeeder::class);
-        // $this->call(PermissionGroupsTableSeeder::class);
-        // $this->call(PermissionsTableSeeder::class);
-        // $this->call(PermissionDependenciesTableSeeder::class);
-        // $this->call(SysdefsTableSeeder::class);
-        // $this->call(UnitGroupsTableSeeder::class);
+        // /* Role & Permission */
+        // $this->call(RolesTableSeeder::class);
+        // // $this->call(PermissionGroupsTableSeeder::class);
+        // // $this->call(PermissionsTableSeeder::class);
+        // // $this->call(PermissionDependenciesTableSeeder::class);
+        // // $this->call(SysdefsTableSeeder::class);
+        // // $this->call(UnitGroupsTableSeeder::class);
 
 
-        /*postcodes*/
-        $this->call(PostCodesTableSeeder::class);
+        // /*postcodes*/
+        // $this->call(PostCodesTableSeeder::class);
         /**Quarters */
         // $this->call(QuarterTableSeeder::class);
 
