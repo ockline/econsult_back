@@ -2,9 +2,10 @@
 
 namespace Database\Seeders\Version100;
 
-use Illuminate\Database\Seeder;
 use Database\TruncateTable;
+use Illuminate\Database\Seeder;
 use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
 
 class AllowanciesTableSeeder extends Seeder
 {
@@ -18,10 +19,9 @@ class AllowanciesTableSeeder extends Seeder
     public function run()
     {
 
-        $this->disableForeignKeys("allowances");
-        $this->delete('allowances');
 
-        \DB::table('allowances')->insert(array(
+
+        $data = array(
             0 =>
             array(
                 'id'  => 1,
@@ -82,8 +82,14 @@ class AllowanciesTableSeeder extends Seeder
                 'updated_at' => NULL,
                 'deleted_at' => NULL,
             ),
-        ));
+        );
 
-        $this->enableForeignKeys("allowances");
+
+
+   $lastRecordCount = $this->getRecordCount("allowances");
+        $slice = array_slice($data, $lastRecordCount);;
+        if (count($slice)) {
+            DB::table('allowances')->insert($slice);
+        }
     }
 }
