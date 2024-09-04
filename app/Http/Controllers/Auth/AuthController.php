@@ -18,7 +18,7 @@ class AuthController extends Controller
 
 public function login(LoginRequest $request)
     {
-
+            log::info('ndannniiiiii');
         $credential = $request->validated();
         if (!Auth::attempt($credential)){
         // log::info('hapaaa nimefeli');
@@ -31,10 +31,10 @@ public function login(LoginRequest $request)
 
      $user_roles = DB::table('role_user as ru')->select('r.name','r.alias')
             ->join('roles as r', 'ru.role_id', '=', 'r.id')->where('ru.user_id', $user->id)->whereNull('ru.deleted_at')->get();
-        // log::info(json_encode($user_roles));
+        log::info(json_encode($user_roles));
         $token = $user->createToken('main')->plainTextToken;
         return response(compact('user','token','user_roles'));
-            // log::info('imekubali ');
+            log::info('imekubali ');
             // return response()->json([ 'status' => 200 , 'token' =>$token]);
         }
 
