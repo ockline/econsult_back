@@ -82,7 +82,7 @@ class RoleController extends Controller
         $status = $data->getStatusCode();
 
         if ($status === 201) {
-            return response()->json(['status' => 200, 'message' => 'Role created Successfully']);
+            return response()->json(['status' => 200, 'message' => 'Role successfully created.']);
         }
         return response()->json(['status' => 500, 'message' => 'Sorry! Operation Failed']);
     }

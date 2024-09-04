@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseREpository;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\Staffs\InitiateWorkflowMail;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -25,10 +27,11 @@ class RolePermissionRepository extends  BaseRepository
 
     protected $roles;
 
-
-    public function __construct(Role $roles)
+    protected $notification;
+    public function __construct(Role $roles, NotificationRepository $notification)
     {
         $this->roles = $roles;
+        $this->notification = $notification;
     }
     public function getRoles()
     {
@@ -54,22 +57,13 @@ class RolePermissionRepository extends  BaseRepository
                     ]);
                 }
             }
-$token = 'bXdhbnplbHU6bXdha2lob25nbzEyMzQ1';
-$response = Http::withoutVerifying()
-                    ->withHeaders([
-                        "Accept" => "application/json",
-                        "Content-Type" => "application/json",
-                        'Authorization' => 'Basic ' . $token,
-                    ])->post("https://messaging-service.co.tz/api/sms/v1/text/single", [
-'from' => 'JUMUIKO',
-'to' => ['255762700692'],
-'text' => 'Hello',
-]);
-logger($response->body());
+                $this->notification->smsNotification(); // send  sms
+                $this->sendEmailNotification(); // send Email Notification
+
             DB::commit();
 
             Log::info('Saved done');
-            return response()->json(['message' => 'User role created successfully', 'status' => 201], 201);
+            return response()->json(['message' => 'User role successfully created ', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Failed to create User role', ['error' => $e->getMessage()]);
@@ -126,4 +120,27 @@ public function removeUserRoles($request)
         return response()->json(['message' => 'Failed to remove roles', 'status' => 500]);
     }
 }
+/**
+*@method to  send email notification
+ */
+public function sendEmailNotification()
+{
+        log::info('mwanzooo');
+
+
+            //fetch data for cordinators
+            $initator = DB::table('users as u')
+                ->select('u.email', 'u.firstname')
+                ->leftJoin('role_user as ru', 'ru.user_id', '=', 'u.id')
+                ->where('ru.role_id', '=', 32)
+                ->first();
+
+            // $cemail = $profile->email;   //to uncomment when go live or test
+            $cemail = 'ockline.msungu@econsult.co.tz';
+            log::info('tunaipataata');
+            $attender = $initator->firstname;
+            Mail::to($cemail)->send(new InitiateWorkflowMail($attender));
+
+}
+
 }

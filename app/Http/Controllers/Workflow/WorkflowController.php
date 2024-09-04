@@ -31,27 +31,79 @@ class WorkflowController extends Controller
 public function  initiateJobWorkflow(Request $request)
 {
 
- $employees =    $this->workflows->saveInitiatedVacancy($request);
-        // Log::info($employee);
-        if ($employees) {
+ $initate_details =    $this->workflows->saveInitiatedVacancy($request);
+
+$status = $initate_details->getStatusCode();
+
+// log::info($status);
+        if ($status === 201) {
             // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'employees' => $employees,
+                'message' => 'Job workflow successfully initiated',
             ]);
         } else {
             // log::info('222');
             return response()->json([
-                'status' => 404,
-                'message' => "Sorry! No data found"
+                'status' => 500,
+                'message' => "Sorry! Operation failed"
+            ]);
+        }
+}
+
+/**
+*@method to return initiated job vacancy workflow
+ */
+public function  returnInitiatedVacancy($workflow)
+{
+
+ $initiated_details =    $this->workflows->retriveInitiatedVacancy($workflow);
+
+
+
+
+        if ($initiated_details) {
+
+            return response()->json([
+                'status' => 200,
+                'initiated_details' => $initiated_details,
+            ]);
+        } else {
+        
+            return response()->json([
+                'status' => 500,
+                'message' => "Sorry! Data Not Found"
             ]);
         }
 
-
-
-
 }
 
+
+ /**
+*@method to initiate job vacancy workflow
+ */
+public function  reviewInitiatedVacancy(Request $request)
+{
+
+ $review_details =    $this->workflows->saveReviewVacancy($request);
+
+$status = $review_details->getStatusCode();
+
+
+        if ($status === 201) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'message' => 'Job workflow successfully review',
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Sorry! Operation failed"
+            ]);
+        }
+}
 
     public function review(string $id)
     {
@@ -74,51 +126,7 @@ public function  initiateJobWorkflow(Request $request)
 
 
 
-    /**
-     * Remove the specified resource from storage.
-     */
 
-    // public function  getAllEmployee()
-    // {
-    //     // Log::info('anafikaaa mkali');
-    //     $employees =    $this->workflows->getVacanciesDetail();
-    //     // Log::info($employee);
-    //     if ($employees) {
-    //         // Log::info('111');
-    //         return response()->json([
-    //             'status' => 200,
-    //             'employees' => $employees,
-    //         ]);
-    //     } else {
-    //         // log::info('222');
-    //         return response()->json([
-    //             'status' => 404,
-    //             'message' => "Sorry! No data found"
-    //         ]);
-    //     }
-    // }
-
-// public function getEmployedCount()
-// {
-
-//         $employed_count =    $this->workflows->countAllEmployed();
-
-//         if ($employed_count) {
-//             // Log::info('111');
-//             return response()->json([
-//                 'status' => 200,
-//                 'employed_count' => $employed_count,
-//             ]);
-//         } else {
-//             // log::info('222');
-//             return response()->json([
-//                 'status' => 404,
-//                 'message' => "Sorry! No data found"
-//             ]);
-//
-
-
-// }
 
 
 }

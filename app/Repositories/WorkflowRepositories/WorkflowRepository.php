@@ -11,10 +11,13 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mews\Purifier\Facades\Purifier;
 use App\Repositories\BaseREpository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use App\Models\Workflow\WorkflowTrack; 
+use App\Models\Workflow\WorkflowTrack;
 use Illuminate\Support\Facades\Request;
+use App\Models\Workflow\WorkflowHistory;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Workflow\WorkflowHistories;
 use App\Models\Hiring\JobApplication\JobVacancy;
 use App\Models\Hiring\JobApplication\JobDescTransaction;
 use App\Models\Hiring\JobApplication\JobVacancyDocument;
@@ -27,16 +30,16 @@ class WorkflowRepository extends  BaseRepository
     // use  FileHandler, AttachmentHandler, DefaultTrait;
 
 
-    const MODEL = WorkflowTrack::class;
+    const MODEL = WorkflowHistory::class;
 
 
     protected $employer;
-    protected $vacancy;
+    protected $history;
 
-    public function __construct(JobVacancy $vacancy, EmployerRepository $employer)
+    public function __construct(WorkflowHistory $history, EmployerRepository $employer)
     {
         $this->employer = $employer;
-        $this->vacancy = $vacancy;
+        $this->history = $history;
     }
 
     /**
@@ -51,12 +54,104 @@ public function saveInitiatedVacancy($request)
 {
 
 
+      DB::beginTransaction();
 
+        try {
+            $input = $request->all();
 
+       $initiate_vacancy =     $this->history->create([
+                // 'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
+                'workflow_id' => !empty($input['workflow_id']) ? $input['workflow_id'] : null,
+                'comments' => !empty($input['initiate_comment']) ? $input['initiate_comment'] : null,
+                'model_type' => 'App\Models\Hiring\JobApplication\JobVacancy',
+                'user_id' => $input['user_id'],
+                'attended_by' => $input['user_id'],
+                'status' => 1, // submitted
+                'parent_id' => null,
+                'attended_date' => null,
+                'level'  => 1, //will determine level of  workflow
+                'stage' => 1
+                ]);
 
+           $this->saveWorkflowTrack($initiate_vacancy);
+           DB::commit();
+
+            return response()->json(['message' => 'Job workflow successfully initiated.', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create user', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create user', 'status' => 500]);
+        }
+}
+public function saveWorkflowTrack($initiate_vacancy)
+{
+  DB::beginTransaction();
+
+        try {
+
+                $initiated = new WorkflowTrack();
+
+                $initiated->user_id = $initiate_vacancy->user_id;
+                $initiated->status = 0;
+                $initiated->created_date = Carbon::now();
+                $initiated->workflow_history_id = $initiate_vacancy->id;
+                $initiated->save();
+
+            DB::commit();
+
+            return response()->json(['message' => 'workflow track created.', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create user', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create user', 'status' => 500]);
+        }
 
 }
+//working on the  review vacancy workflow
+public function saveReviewVacancy($request)
+{
 
+      DB::beginTransaction();
+
+        try {
+            $input = $request->all();
+
+       $review_vacancy =     $this->history->create([
+                // 'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
+                'workflow_id' => !empty($input['workflow_id']) ? $input['workflow_id'] : null,
+                'comments' => !empty($input['review_comment']) ? $input['review_comment'] : null,
+                'model_type' => 'App\Models\Hiring\JobApplication\JobVacancy',
+                'user_id' => $input['user_id'],
+                'attended_by' => $input['user_id'],
+                'status' => 2, // Review
+                'parent_id' => $input['parent_id'],
+                'attended_date' => Carbon::now(),
+                'level'  => 2, //will determine level of  workflow
+                'stage' => 1
+                ]);
+
+           $this->saveWorkflowTrack($review_vacancy);
+           DB::commit();
+
+            return response()->json(['message' => 'Job workflow successfully review.', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to review job', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to review job', 'status' => 500]);
+        }
+}
+
+
+
+public function retriveInitiatedVacancy($workflow)
+{
+
+  return WorkflowHistory::select('*')->where('workflow_id', $workflow)->first();
+
+}
 
 
 
@@ -125,7 +220,7 @@ public function saveInitiatedVacancy($request)
         try {
             $input = $request->all();
 
-       $new_vacancy =     $this->vacancy->create([
+       $new_vacancy =     $this->history->create([
                 'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                 'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,

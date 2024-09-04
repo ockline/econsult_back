@@ -386,9 +386,10 @@ Route::prefix('home')->group(function () {
 // api for workflow attend
 Route::prefix('workflows')->group(function () {
     Route::post('/vacancies/initiate_workflow', [WorkflowController::class, 'initiateJobWorkflow']);
-    Route::post('/vacancies/review_workflow', [WorkflowController::class, 'reviewJobWorkflow']);
+    Route::post('/vacancies/review_workflow', [WorkflowController::class, 'reviewInitiatedVacancy']);
     Route::post('/vacancies/approve_workflow', [WorkflowController::class, 'approveJobWorkflow']);
     Route::get('/vacancies/retrive_job_workflow', [WorkflowController::class, 'getJobWorkflowDetails']);
+Route::get('/vacancies/retrive_initiated/{id}', [WorkflowController::class, 'returnInitiatedVacancy']);
 //end ***********************
     Route::post('/hr_interview/initiate_workflow', [WorkflowController::class, 'initiateHrWorkflow']);
     Route::post('/hr_interview/review_workflow', [WorkflowController::class, 'reviewHrWorkflow']);

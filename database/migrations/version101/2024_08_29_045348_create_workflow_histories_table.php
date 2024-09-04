@@ -17,13 +17,13 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id')->comment('who have initiate workflow');
             $table->text('model_type')->nullable()->comment('keep name of model as per workflow initiated');
             $table->unsignedBigInteger('attended_by')->nullable(); // Foreign key or reference to another user
-            $table->integer('status');
+            $table->integer('status')->comment('1 - initiate, 2 - Review, 3 - Approved, 4 - Rejected, 5 - Archived');
             $table->text('comments')->nullable();
             $table->bigInteger('parent_id')->nullable();
             $table->timestamp('attended_date')->nullable();
             $table->integer('level')->nullable(); // Assuming this is a string field
             $table->integer('stage')->nullable();
-            $table->integer('aging')->nullable()->comment();
+            $table->integer('aging')->nullable()->comment('From date create');
             $table->timestamps();
             $table->softDeletes();
         });
