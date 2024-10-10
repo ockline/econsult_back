@@ -9,7 +9,7 @@ use App\Models\Location\Country;
 use App\Models\Location\PostCode;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Validator;
 
 

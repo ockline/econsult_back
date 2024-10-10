@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use App\Models\Bank\BankBranch;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\OperationRepositories\BankRepository;
 

@@ -11,7 +11,7 @@ use App\Models\Employer\Employer;
 use App\Models\Employer\EmployerAttachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;

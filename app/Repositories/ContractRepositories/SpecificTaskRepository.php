@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use App\Models\Employee\Personal\Employee;
 use App\Models\ContractManagement\SpecificTask;
 use App\Models\ContractManagement\FixedContract;
@@ -258,7 +258,7 @@ class SpecificTaskRepository extends  BaseRepository
 
             $this->saveSpecificContractDocument($request, $id);
 
-            
+
             DB::commit();
             Log::info('updated done');
 

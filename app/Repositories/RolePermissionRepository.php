@@ -10,7 +10,7 @@ use App\Models\Sysdef\Role;
 use App\Models\Location\Region;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\Staffs\InitiateWorkflowMail;

@@ -10,7 +10,7 @@ use App\Models\Employer\Employer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mews\Purifier\Facades\Purifier;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
@@ -203,13 +203,13 @@ return DB::table('employees as es')
 
         return $mandatory;
     }
-   
+
 public function uploadedEmployeeDocument($id)
 {
 
 $document = $this->getMandatoryDocument();
 
-    //   $data = 
+    //   $data =
 return DB::table('employee_documents as ed')
         ->select(
             'ed.id',

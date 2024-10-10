@@ -8,7 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Validator;
 
 
@@ -49,7 +49,7 @@ class WardRepository extends  BaseRepository
 //   $wards = collect();
 
   $wards =  DB::table('postcodes')->select('id','ward_name')->get();
-    
+
     return $wards;
 
 }

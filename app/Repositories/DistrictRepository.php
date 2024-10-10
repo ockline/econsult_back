@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use App\Models\Location\District;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use App\Repositories\RegionRepository;
 use Illuminate\Support\Facades\Validator;
 

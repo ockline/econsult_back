@@ -9,7 +9,7 @@ use GuzzleHttp\Client;
 use App\Models\Sysdef\Unit;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Validator;
 use App\Repositories\DepartmentRepository;

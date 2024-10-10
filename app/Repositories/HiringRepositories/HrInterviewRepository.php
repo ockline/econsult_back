@@ -10,7 +10,7 @@ use App\Models\Employer\Employer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Mews\Purifier\Facades\Purifier;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Validator;
@@ -248,7 +248,7 @@ class HrInterviewRepository extends  BaseRepository
      */
     public function saveCompetencyDocument($request, $assessment_id)
     {
-        Log::info($request->all());
+        // Log::info($request->all());
 
         DB::beginTransaction();
 

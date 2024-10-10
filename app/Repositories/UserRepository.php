@@ -13,7 +13,7 @@ use App\Models\User;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-use App\Repositories\BaseREpository;
+use App\Repositories\BaseRepository;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 
@@ -75,7 +75,7 @@ class UserRepository extends  BaseRepository
 
     try {
         $input = $request->all();
-  
+
         $this->user->create([
             'samaccountname' => $input['firstname'] . "." . $input['lastname'],
             'username' => $input['firstname'] . "." . $input['lastname'],
