@@ -403,6 +403,7 @@ Route::get('/vacancies/retrive_initiated/{id}', [WorkflowController::class, 'ret
 });
 
 
+
     /** api for Unspecific Contract */
     // Route::get('/unspecific/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');
     // Route::get('/unspecific/show_social/{id}', [SocialRecordController::class, 'show'])->middleware('api');
@@ -412,5 +413,9 @@ Route::get('/vacancies/retrive_initiated/{id}', [WorkflowController::class, 'ret
     // Route::post('/unspecific/add_dependant', [SocialRecordController::class, 'saveDepandant'])->middleware('api');
 
 /**  ************** End of Contract Block ********************************* */
+
+include base_path('routes/Api/Backend.php');
+
+
 
 });

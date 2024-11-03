@@ -98,7 +98,7 @@ class EmployerController extends Controller
         if ($validator->fails()) {
             $return = ['validator_err' => $validator->errors()->toArray()];
         } elseif (in_array($employer_check, [404, 405])) {
-            Log::info('hureeeeeeee' . ' ' . $employer_check);
+           
             $return = [
                 'status' => 404,
                 "message" => "Client you want to create already exists",

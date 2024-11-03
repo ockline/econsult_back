@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Leave\AnnualController;
+use App\Http\Controllers\Employer\EmployerController;
 // api for Employer
 
 
@@ -17,7 +18,8 @@ Route::prefix('employers')->group(function () {
 
 });
 
-// Route::prefix('users')->group(function (){
-//     Route::get('/edit_user/{id}', [UserController::class, 'edit'])->middleware('checkUserId');
-//     // Other routes...
-// });
+Route::prefix('leaves')->group(function (){
+    Route::get('/retrieve_employee_detail/{id}', [AnnualController::class, 'getEmployee']);
+    Route::post('/create_annual_leave', [AnnualController::class, 'createAnnualLeave']);
+Route::get('/retrieve_annual_leave', [AnnualController::class, 'retrieveAnnualLeaveDetails']);
+});

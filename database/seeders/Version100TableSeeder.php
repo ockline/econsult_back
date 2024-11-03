@@ -24,6 +24,7 @@ use Database\Seeders\Version100\CountriesTableSeeder;
 use Database\Seeders\Version100\DistrictsTableSeeder;
 use Database\Seeders\Version100\DocumentsTableSeeder;
 use Database\Seeders\Version100\JobTitlesTableSeeder;
+use Database\Seeders\Version100\LeaveTypeTableSeeder;
 use Database\Seeders\Version100\PostCodesTableSeeder;
 use Database\Seeders\Version100\OfficeZoneTableSeeder;
 use Database\Seeders\Version100\AllowanciesTableSeeder;
@@ -33,8 +34,8 @@ use Database\Seeders\Version100\CompetenciesTableSeeder;
 use Database\Seeders\Version100\DesignationsTableSeeder;
 use Database\Seeders\Version100\LocationTypesTableSeeder;
 use Database\Seeders\Version100\TypeVacanciesTableSeeder;
-use Database\Seeders\Version100\DependentTypesTableSeeder;
 
+use Database\Seeders\Version100\DependentTypesTableSeeder;
 use Database\Seeders\Version100\DocumentGroupsTableSeeder;
 use Database\Seeders\Version100\PracticalTestsTableSeeder;
 use Database\Seeders\Version100\MaritalStatusesTableSeeder;
@@ -98,6 +99,7 @@ class Version100TableSeeder extends Seeder
         $this->call(CompetenciesTableSeeder::class);
         $this->call(CompetencySubjectsTableSeeder::class);
         $this->call(PackagesTableSeeder::class);
+        $this->call(LeaveTypeTableSeeder::class);
         // $this->call(DepartmentsTableSeeder::class);
         // $this->call(UnitsTableSeeder::class);
         // $this->call(EducationHistoriesTableSeeder::class);
