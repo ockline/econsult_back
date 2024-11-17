@@ -83,6 +83,11 @@ Route::group(['namespace' => 'web'], function () {
 // });
 
 // Log in authentication
+
+
+Route::post('/login',[AuthController::class,'login']);
+Route::post('/reset_password', [ResetPasswordController::class, 'reset']);
+
 Route::middleware('auth:sanctum',)->group(function (){
     // Route::get('/user', function (Request $request) {
     //     return $request->user();
@@ -91,10 +96,6 @@ Route::middleware('auth:sanctum',)->group(function (){
   Route::get('/get_user_token',[AuthController::class,'getToken']);
     // Route::apiResource('/users', UserController::class);
 });
-
-Route::post('/login',[AuthController::class,'login']);
-Route::post('/reset_password', [ResetPasswordController::class, 'reset']);
-
 Route::prefix('users')->group(function () {
     Route::post('/add_user', [UserController::class, 'store'])->middleware('api');
     Route::get('/edit_user/{id}', [UserController::class, 'edit'])->middleware('api');

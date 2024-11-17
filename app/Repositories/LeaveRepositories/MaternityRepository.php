@@ -6,27 +6,29 @@ namespace App\Repositories\LeaveRepositories;
 use Exception;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
+use App\Models\Leave\AllLeave;
 use App\Models\Leave\AnnualLeave;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 
-class AnnualRepository extends  BaseRepository
+class MaternityRepository extends  BaseRepository
 {
     // use  FileHandler, AttachmentHandler, DefaultTrait;
 
 
-    const MODEL = AnnualLeave::class;
+    const MODEL = AllLeave::class;
 
 
-    protected $annual_leave;
+    protected $maternity;
 
 
-    public function __construct(AnnualLeave $annual_leave)
+    public function __construct(AllLeave $maternity)
     {
-        $this->annual_leave = $annual_leave;
+        $this->maternity = $maternity;
     }
 
     /**
@@ -36,10 +38,10 @@ class AnnualRepository extends  BaseRepository
      */
     public function findOrThrowException($id)
     {
-        $annual_leaves = $this->annual_leave->where("id", $id)->first();
+        $maternitys = $this->maternity->where("id", $id)->first();
 
-        if (!is_null($annual_leaves)) {
-            return $annual_leaves;
+        if (!is_null($maternitys)) {
+            return $maternitys;
         }
         // throw new GeneralException(trans('exceptions.operation.data_not_found'));
     }
@@ -67,13 +69,13 @@ class AnnualRepository extends  BaseRepository
 
     public function getDatatable()
     {
-        $annual_leaves = $this->annual_leave->get();
-        return $annual_leaves;
+        $maternitys = $this->maternity->get();
+        return $maternitys;
     }
     /**
      *@method to save annual leave paid according to  leave type
      */
-    public function saveAnnualLeave($request)
+    public function saveMaternityLeave($request)
     {
 
         try {
@@ -85,58 +87,15 @@ class AnnualRepository extends  BaseRepository
             $all_balance = $this->allBalanceDays($request);
 
             //paid  == 1
-            if ($request->leave_type == 1) {
+            if ($request->leave_type == 3) {
 
-                $paid_leave = new AnnualLeave();
+                $maternity_leave = new AllLeave();
                 $data = [
-                    'leave_type_id' => !empty($request->leave_type) ? $request->leave_type : 1,
+                    'leave_type_id' => !empty($request->leave_type) ? $request->leave_type : 3,
                     'employer_id' => !empty($request->employer_id) ? $request->employer_id : null,
                     'employee_id' => !empty($request->employee_id) ? $request->employee_id : 2,
                     'balance_days' => !empty($balance) ? $balance : null,
                     'financial_year' => !empty($financial) ? (string)$financial : null,
-                    // 'all_balance' =>  $balance?? 2,
-                    'all_balance' => !empty($all_balance) ? $all_balance : 0,
-                'start_date' => $request->start_date ?? null,
-                'end_date' => $request->end_date ?? null,
-                    'status' => null,
-                    'remarks' => !empty($request->remarks) ? $request->remarks : null,
-                    'created_at' => Carbon::now(),
-                    'updated_at' => Carbon::now(),
-
-                ];
-
-                $paid_leave->fill($data); // Fill the model with data
-               $paid_leave->save();
-
-            }
-            return response()->json(['status' => 200, 'message' => 'Annual Leave successfuly created']);
-       } catch (\Exception $e) {
-    log::error('Failure to save paid leave error: ' . $e->getMessage());
-    }
-    }
-    /**
-     *@method to  save unpaid leave   , unpaid ==2
-     */
-    public function saveAnnualUnpaidLeave($request)
-    {
-
-        try {
-            // DB::transaction();
-
-            // $balance = $this->balanceDaysPaid($request);
-            // $financial = $this->getFinancialYear();
-            // $all_balance = $this->allBalanceDays($request);
-            //paid  == 1 , unpaid ==2
-            if ($request->leave_type = 2) {
-log::info('tucheki  dataa');
-                $unpaid_leave = new AnnualLeave();
-                 $data = [
-                    'leave_type_id' => !empty($request->leave_type) ? $request->leave_type : 2,
-                    'employer_id' => !empty($request->employer_id) ? $request->employer_id : null,
-                    'employee_id' => !empty($request->employee_id) ? $request->employee_id : 2,
-                    'balance_days' => !empty($balance) ? $balance : null,
-                    'financial_year' => !empty($financial) ? (string)$financial : null,
-                    // 'all_balance' =>  $balance?? 2,
                     'all_balance' => !empty($all_balance) ? $all_balance : 0,
                     'start_date' => $request->start_date ?? null,
                     'end_date' => $request->end_date ?? null,
@@ -147,30 +106,28 @@ log::info('tucheki  dataa');
 
                 ];
 
-                $unpaid_leave->fill($data); // Fill the model with data
-               $unpaid_leave->save();
+                $maternity_leave->fill($data); // Fill the model with data
+               $maternity_leave->save();
+
             }
-
-            // DB::commit();
-            return response()->json(['status' => 200, 'message' => 'Annual Leave successfuly created']);
-        } catch (\Throwable $th) {
-            return response()->json(['status' => 500, 'message' => 'failed to create Annual Leave '. $th->getMessage()]);
-        }
+            return response()->json(['status' => 200, 'message' => 'maternity Leave successfuly created']);
+       } catch (\Exception $e) {
+    log::error('Failure to save maternity leave error: ' . $e->getMessage());
     }
-
-
-    /**
+    }
+     /**
      *@method to check remainig days on paid leave per for all period of working  based with employer
      */
     public function balanceDaysPaid($request)
     {
 
-        $balance = 28; // Define maximum leave balance
+        $balance = 84; // Define maximum leave balance
 
         // Check the most recent leave record for the employee
         $check = DB::table('leaves')
             ->select('*')
             ->where('employee_id', $request->employee_id)
+            ->where('leave_type_id', 3)
             ->latest()
             ->first(); // Use `first()` to get the latest record
 
@@ -213,7 +170,7 @@ log::info('tucheki  dataa');
                 return  $new_balance;
             } else {
 
-                return  response()->json(['status' => 423, 'message' => 'Leave days can not exceedd maximum annual leave at cicycle']);
+                return  response()->json(['status' => 423, 'message' => 'Leave days can not exceedd maximum maternity leave at cicycle']);
             }
         }
     }
@@ -224,7 +181,7 @@ log::info('tucheki  dataa');
  {
 
 
-      $perYearDays = 28; // Leave days per year
+      $perYearDays = 84; // Leave days per 3 years
 
     // Fetch employee details
     $employee = DB::table('employees')->select('employee_no', 'from_date')->where('employee_no', $request->employee_id)->first();
@@ -238,23 +195,35 @@ log::info('tucheki  dataa');
     $currentYear = Carbon::parse($request->start_date)->year;
 
     $workingYears = $currentYear - $employmentStartYear;
-
-
-
-    if($workingYears > 0){
- // Total days based on years worked
-    $totalDays = $perYearDays * $workingYears;
-
-    // Retrieve latest all_balance for the employee
-    $employeeDays = DB::table('leaves')->select('all_balance')->latest()->first();
-    $allBalance = $employeeDays->all_balance ?? 0; // Use 0 if all_balance is null
-
-    // Calculate remaining days overall
-    $remainingDaysOverall = $totalDays - $allBalance;
-
+    // log::info($workingYears);
+ $maternity_before = DB::table('leaves')->select('all_balance', 'end_date')->where('leave_type_id', 3)->latest()->first();
+if ($maternity_before === null){
+    // Retrieve latest all_balance for the employe
+    // $used_days = $this->balanceDaysPaid($request);
+    return $perYearDays;
     }
+else{
 
-    return $remainingDaysOverall;
+   $check_maternity = Carbon::parse($maternity_before->end_date);
+
+        // Calculate the date 3 years after the previous maternity leave end date
+        $threeYearsAfterMaternity = $check_maternity->addYears(3);
+
+        // Parse the requested start date
+        $start = Carbon::parse($request->start_date);
+
+        // Check if the requested start date is earlier than the 3 years after maternity leave end date
+        if ($start->lt($threeYearsAfterMaternity)) {
+            // If the requested start date is too early, return an error
+            return 445;
+                // 'status' => 445,
+                // 'message' => 'The start date must be at least 3 years after the last maternity leave end date.'
+            // ]);
+        }
+        //  return $maternity_before;
+}
+
+
 }
     /**
      *mehtod to get financial year
@@ -277,7 +246,7 @@ log::info('tucheki  dataa');
     /**
 *@method to retrive annual leave ..paid and unpaid
  */
-public function getAnnualLeave()
+public function getMaternityLeave()
 {
 
 $data = DB::table('leaves as l')
@@ -291,17 +260,47 @@ $data = DB::table('leaves as l')
 ->leftJoin('employees as e', 'l.employee_id', '=', 'e.employee_no')
 ->leftJoin('leave_types as lt', 'l.leave_type_id', '=', 'lt.id')
 ->leftJoin('employers as emp', 'l.employer_id', '=', 'emp.id')
-->whereIn('leave_type_id', [1,2])
+->where('leave_type_id', 3)
 ->get();
 
 return $data;
 
 }
+    /**
+     *@method to save annual leave paid according to  leave type
+     */
+    public function updateMaternityLeave($request, $id)
+    {
+// log::info('ndaniii'.Auth::user()->id);
 
-public function getUnpaidDate($request)
-{
+        try {
+
+            $balance = $this->balanceDaysPaid($request);
+
+            $financial = $this->getFinancialYear();
+
+            $all_balance = $this->allBalanceDays($request);
 
 
-}
+
+               $data =   AllLeave::where('id',$id)->update([
+
+                    'balance_days' => !empty($balance) ? $balance : null,
+                    'all_balance' => !empty($all_balance) ? $all_balance : 0,
+                    'start_date' => $request->start_date ?? null,
+                    'end_date' => $request->end_date ?? null,
+                    'status' => null,
+                    // 'updated_by' => Auth::user()->id,
+                    'updated_at' => Carbon::now(),
+
+                ]);
+log::info($data);
+
+            return response()->json(['status' => 200, 'message' => 'maternity Leave successfuly updated']);
+       } catch (\Exception $e) {
+    log::error('Failure to update maternity leave error: ' . $e->getMessage());
+    }
+    }
+
 
 }
