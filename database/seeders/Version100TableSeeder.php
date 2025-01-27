@@ -25,7 +25,7 @@ use Database\Seeders\Version100\DistrictsTableSeeder;
 use Database\Seeders\Version100\DocumentsTableSeeder;
 use Database\Seeders\Version100\JobTitlesTableSeeder;
 use Database\Seeders\Version100\LeaveTypeTableSeeder;
-use Database\Seeders\Version100\PostCodesTableSeeder;
+use Database\Seeders\Version100\PostCodeTableSeeder;
 use Database\Seeders\Version100\OfficeZoneTableSeeder;
 use Database\Seeders\Version100\AllowanciesTableSeeder;
 use Database\Seeders\Version100\DepartmentsTableSeeder;
@@ -37,13 +37,15 @@ use Database\Seeders\Version100\TypeVacanciesTableSeeder;
 
 use Database\Seeders\Version100\DependentTypesTableSeeder;
 use Database\Seeders\Version100\DocumentGroupsTableSeeder;
+use Database\Seeders\Version100\MisconductTypeTableSeeder;
 use Database\Seeders\Version100\PracticalTestsTableSeeder;
 use Database\Seeders\Version100\MaritalStatusesTableSeeder;
 use Database\Seeders\Version100\LanguageFluenciesTableSeeder;
 use Database\Seeders\Version100\RankingCreterialsTableSeeder;
 use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\EducationHistoriesTableSeeder;
-// use Database\Seeders\Version100\QuarterTableSeeder;
+use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
+use Database\Seeders\Version100\QuarterTableSeeder;
 
 class Version100TableSeeder extends Seeder
 {
@@ -84,7 +86,7 @@ class Version100TableSeeder extends Seeder
         //  /*   Document */
         $this->call(DocumentGroupsTableSeeder::class);
         $this->call(DocumentsTableSeeder::class);
-        // $this->call(JobTitlesTableSeeder::class);
+        $this->call(JobTitlesTableSeeder::class);
 
         //  /*  Offices */
         $this->call(OfficesTableSeeder::class);
@@ -100,16 +102,18 @@ class Version100TableSeeder extends Seeder
         $this->call(CompetencySubjectsTableSeeder::class);
         $this->call(PackagesTableSeeder::class);
         $this->call(LeaveTypeTableSeeder::class);
-        // $this->call(DepartmentsTableSeeder::class);
-        // $this->call(UnitsTableSeeder::class);
-        // $this->call(EducationHistoriesTableSeeder::class);
-        // $this->call(PracticalTestsTableSeeder::class);
+        $this->call(MisconductTypeTableSeeder::class);
+        $this->call(PerfomanceCriterialTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
+        $this->call(UnitsTableSeeder::class);
+        $this->call(EducationHistoriesTableSeeder::class);
+        $this->call(PracticalTestsTableSeeder::class);
 
         // /**  Contracts */
-        // $this->call(ContractsTableSeeder::class);
+        $this->call(ContractsTableSeeder::class);
 
         // /* Role & Permission */
-        // $this->call(RolesTableSeeder::class);
+        $this->call(RolesTableSeeder::class);
         // // $this->call(PermissionGroupsTableSeeder::class);
         // // $this->call(PermissionsTableSeeder::class);
         // // $this->call(PermissionDependenciesTableSeeder::class);
@@ -118,9 +122,9 @@ class Version100TableSeeder extends Seeder
 
 
         // /*postcodes*/
-        // $this->call(PostCodesTableSeeder::class);
+        $this->call(PostCodeTableSeeder::class);
         /**Quarters */
-        // $this->call(QuarterTableSeeder::class);
+        $this->call(QuarterTableSeeder::class);
 
         DB::commit();
 

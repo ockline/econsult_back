@@ -6,7 +6,7 @@ use Illuminate\Database\Seeder;
 use Database\TruncateTable;
 use Database\DisableForeignKeys;
 
-class PostCodesTableSeeder extends Seeder
+class PostCodeTableSeeder extends Seeder
 {
     use DisableForeignKeys, TruncateTable;
     /**

@@ -10,6 +10,12 @@ use App\Http\Controllers\Leave\PaternityController;
 use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Leave\CompassionateController;
 use App\Http\Controllers\Attendance\AttendanceController;
+use App\Models\IndustrialRelationship\Misconduct\Misconduct;
+use App\Http\Controllers\IndustrialRelationship\MisconductController;
+use App\Http\Controllers\IndustrialRelationship\PerfomanceReviewController;
+use App\Http\Controllers\IndustrialRelationship\PerfomanceCapacityController;
+use App\Http\Controllers\IndustrialRelationship\PerformanceAssessmentController;
+
 // api for Employer
 
 // Route::middleware(['auth'])->group(function () {
@@ -57,11 +63,45 @@ Route::get('/retrieve_compassionate_detail/{leaveId}', [CompassionateController:
 //Attendance and overtime  block
 Route::prefix('attendances')->group(function () {
    Route::post('/create_attendance', [AttendanceController::class, 'createAttendanceRecord']);
+Route::post('/update_attendance/{id}', [AttendanceController::class, 'updateAttendance']);
 Route::post('/create_overtime_upload', [AttendanceController::class, 'createOvertimeRecordUploaded']);
 Route::post('/create_overtime_request', [AttendanceController::class, 'createOvertimeRecord']);
+Route::get('/retrieve_attendance_detail/{id}', [AttendanceController::class, 'getAttendanceDetails']);
 Route::get('/retrieve_monthly_attendance',[AttendanceController::class, 'getMonthlyAttendanceDetails']);
 Route::get('/retrieve_monthly_overtime',[AttendanceController::class, 'retrieveAllOverTimeDetails']);
 Route::get('/generate_monthly_attendance', [AttendanceController::class, 'generateMonthlyAttendance']);
+
+
+});
+
+
+//Industrial Relationship
+
+Route::prefix('industrial_relationship')->group(function () {
+   Route::post('/create_misconduct', [MisconductController::class, 'createMisconduct']);
+Route::post('/update_misconduct/{id}', [MisconductController::class, 'updateMisconduct']);
+Route::get('/retrieve_misconduct_type', [MisconductController::class, 'getMisconductType']);
+Route::get('/retrieve_all_misconduct',[MisconductController::class, 'retrieveAllMisconduct']);
+Route::get('/show_misconduct/{id}',[MisconductController::class, 'retrieveMisconductDetails']);
+// Route::get('/generate_monthly_attendance', [MisconductController::class, 'generateMonthlyAttendance']);
+
+
+
+//Perfomance Review
+Route::get('/retrieve_perfomance_review', [PerfomanceReviewController::class, 'retrieveAllPerfomanceReview']);
+Route::post('/create_perfomance_review', [PerfomanceReviewController::class, 'createPerfomanceReview']);
+Route::post('/update_perfomance_review/{id}', [PerfomanceReviewController::class, 'updatePerfomanceReview']);
+Route::get('/retrieve_perfomance_criterials', [PerfomanceReviewController::class, 'getPerfomanceCriterial']);
+Route::get('/retrieve_employee_details/{id}',[PerfomanceReviewController::class, 'retrieveEmployeeDetail']);
+Route::get('show_perfomance_review/{id}', [PerfomanceReviewController::class, 'retrievePerfomaneReviewDetail']);
+
+//performance capacity
+Route::get('/retrieve_performance_capacity', [PerfomanceCapacityController::class, 'retrieveAllPerformanceCapacity']);
+Route::post('/create_perfomance_capacity', [PerfomanceCapacityController::class, 'createPerfomanceCapacity']);
+Route::get('show_performance_capacity/{id}', [PerfomanceCapacityController::class, 'retrievePerformanceCapacityDetail']);
+Route::post('/update_performance_capacity/{id}', [PerfomanceCapacityController::class, 'updatePerformanceCapacity']);
+//ASSESSMENT
+Route::get('/retrieve_employee_capacity_details/{id}', [PerformanceAssessmentController::class, 'retrieveEmployeeCapacityDetail']);
 
 
 });
