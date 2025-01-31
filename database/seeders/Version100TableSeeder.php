@@ -116,11 +116,11 @@ class Version100TableSeeder extends Seeder
         // $this->call(SysdefsTableSeeder::class);
         // // $this->call(UnitGroupsTableSeeder::class);
 
-
         // /*postcodes*/
         $this->call(PostCodeTableSeeder::class);
         /**Quarters */
         $this->call(QuarterTableSeeder::class);
+
 
         DB::commit();
 
