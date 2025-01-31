@@ -26,7 +26,7 @@ use Database\Seeders\Version100\LeaveTypeTableSeeder;
 use Database\Seeders\Version100\PostCodeTableSeeder;
 use Database\Seeders\Version100\OfficeZoneTableSeeder;
 use Database\Seeders\Version100\AllowanciesTableSeeder;
-use Database\Seeders\Version100\DepartmentsTableSeeder;
+// use Database\Seeders\Version100\DepartmentsTableSeeder;
 use Database\Seeders\Version100\BankBranchesTableSeeder;
 use Database\Seeders\Version100\CompetenciesTableSeeder;
 use Database\Seeders\Version100\DesignationsTableSeeder;
@@ -100,7 +100,7 @@ class Version100TableSeeder extends Seeder
         $this->call(LeaveTypeTableSeeder::class);
         $this->call(MisconductTypeTableSeeder::class);
         $this->call(PerfomanceCriterialTableSeeder::class);
-        $this->call(DepartmentsTableSeeder::class);
+        // $this->call(DepartmentsTableSeeder::class);
         $this->call(UnitsTableSeeder::class);
         $this->call(EducationHistoriesTableSeeder::class);
         $this->call(PracticalTestsTableSeeder::class);
