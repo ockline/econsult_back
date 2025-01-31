@@ -11,7 +11,7 @@ use App\Models\Sysdef\LanguageFluency;
 use Illuminate\Support\Facades\Schema;
 use Database\Seeders\Version100\BanksTableSeeder;
 use Database\Seeders\Version100\RolesTableSeeder;
-use Database\Seeders\Version100\UnitsTableSeeder;
+// use Database\Seeders\Version100\UnitsTableSeeder;
 // use Database\Seeders\Version100\UsersTableSeeder;
 use Database\Seeders\Version100\UsersTableSeeder;
 use Database\Seeders\Version100\ShiftsTableSeeder;
@@ -101,7 +101,7 @@ class Version100TableSeeder extends Seeder
         $this->call(MisconductTypeTableSeeder::class);
         $this->call(PerfomanceCriterialTableSeeder::class);
         // $this->call(DepartmentsTableSeeder::class);
-        $this->call(UnitsTableSeeder::class);
+        // $this->call(UnitsTableSeeder::class);
         $this->call(EducationHistoriesTableSeeder::class);
         $this->call(PracticalTestsTableSeeder::class);
 
