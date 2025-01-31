@@ -9,7 +9,6 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Sysdef\LanguageFluency;
 // use Database\DisableForeignKeys;
 use Illuminate\Support\Facades\Schema;
-use App\Models\Hiring\Interview\RankingCreterial;
 use Database\Seeders\Version100\BanksTableSeeder;
 use Database\Seeders\Version100\RolesTableSeeder;
 use Database\Seeders\Version100\UnitsTableSeeder;
@@ -23,7 +22,6 @@ use Database\Seeders\Version100\ContractsTableSeeder;
 use Database\Seeders\Version100\CountriesTableSeeder;
 use Database\Seeders\Version100\DistrictsTableSeeder;
 use Database\Seeders\Version100\DocumentsTableSeeder;
-
 use Database\Seeders\Version100\LeaveTypeTableSeeder;
 use Database\Seeders\Version100\PostCodeTableSeeder;
 use Database\Seeders\Version100\OfficeZoneTableSeeder;
@@ -34,7 +32,6 @@ use Database\Seeders\Version100\CompetenciesTableSeeder;
 use Database\Seeders\Version100\DesignationsTableSeeder;
 use Database\Seeders\Version100\LocationTypesTableSeeder;
 use Database\Seeders\Version100\TypeVacanciesTableSeeder;
-
 use Database\Seeders\Version100\DependentTypesTableSeeder;
 use Database\Seeders\Version100\DocumentGroupsTableSeeder;
 use Database\Seeders\Version100\MisconductTypeTableSeeder;
