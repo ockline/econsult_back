@@ -9,6 +9,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\IndustrialRelationship\capacity\capacity;
 use App\Models\IndustrialRelationship\PerfomanceReview\PerfomanceReview;
@@ -54,7 +55,9 @@ class PerformanceAssessmentRepository extends  BaseRepository
     public function retrieveEmployeeCapacityDetails($id)
     {
         $data = DB::table('performance_capacities as pc')
-            ->select('pc.investigation_report',
+            ->select(
+                'pc.id as performance_capacity_id',
+                'pc.investigation_report',
                 'pc.investigation_date',
                 'pc.investigation_time',
                 'pc.subject_matter',
@@ -67,6 +70,7 @@ class PerformanceAssessmentRepository extends  BaseRepository
                 'pc.challenge_daily_duties',
                 'pc.alternative_task',
                 'pc.partient_suggestion',
+                'pc.incapacity_type as capacity_type_id',
                 DB::raw("CASE WHEN pc.incapacity_type = 1 THEN 'Illness' ELSE 'Poor Performance' END as capacity_type"),
                 DB::raw("CONCAT(firstname, ' ', middlename, ' ', lastname) AS employee_name"),
             'e.employee_no as employee_id', 'e.firstname', 'e.middlename', 'e.lastname', 'e.job_title_id', 'e.department_id', 'jt.name as job_title', 'dpt.name as departments', 'e.employer_id', 'emp.name as employer')
@@ -88,43 +92,46 @@ class PerformanceAssessmentRepository extends  BaseRepository
     /**
      *@method to save perfomance review
      */
-    public function createPerfomanceCapacity($request)
+    public function createPerfomanceAssessment($request)
     {
 
         try {
             $review_exist = $this->checkPerfomanceCapacityExist($request);
 
-            $perfomance_capacity = new PerformanceCapacity();
+            $perfomance_assessment = new PerformanceAssessment();
             $data = [
-                // 'count' => !empty($review_exist) ? (int)$review_exist + 1 : 1,
-                // 'status' => null,
-                // 'stage' => null,
-                'incapacity_type' => !empty($request->incapacity_type) ? $request->incapacity_type : 'null',
-                'employee_id' => !empty($request->employee_id) ? $request->employee_id : null,
-                'investigation_report' => !empty($request->investigation_report) ? $request->investigation_report : null,
-                'investigation_date' => !empty($request->investigation_date) ? $request->investigation_date : null,
-                'investigation_time' => !empty($request->investigation_time) ? $request->investigation_time : null,
-                'subject_matter' => !empty($request->subject_matter) ? $request->subject_matter : null,
-                'investigator_name' => !empty($request->investigator_name) ? $request->investigator_name : null,
-                'investigator_signature' => !empty($request->investigator_signature) ? $request->investigator_signature  : null,
-                'investigator_designation' => !empty($request->investigator_designation) ? $request->investigator_designation : null,
-                'suffering_from' => !empty($request->suffering_from) ? $request->suffering_from : null,
-                'suffering_period' => !empty($request->suffering_period) ? $request->suffering_period : null,
-                'daily_duties' => !empty($request->daily_duties) ? $request->daily_duties : null,
-                'challenge_daily_duties' => !empty($request->challenge_daily_duties) ? $request->challenge_daily_duties : null,
-                'alternative_task' => !empty($request->alternative_task) ? $request->alternative_task : null,
-                'partient_suggestion' => !empty($request->partient_suggestion) ? $request->partient_suggestion  : null,
+                'count' => !empty($review_exist) ? (int)$review_exist + 1 : 1,
+                'capacity_id' => !empty($request->capacity_id) ? $request->capacity_id : 'null',
+                'illness_cause' => !empty($request->illness_cause) ? $request->illness_cause : null,
+                'illness_degree' => !empty($request->illness_degree) ? $request->illness_degree : null,
+                'occupation_illnsess' => !empty($request->occupation_illnsess) ? $request->occupation_illnsess : null,
+                'occupation_justification' => !empty($request->occupation_justification) ? $request->occupation_justification : null,
+                'assessor_name' => !empty($request->assessor_name) ? $request->assessor_name : null,
+                'assessor_signanture' => !empty($request->assessor_signanture) ? $request->assessor_signanture  : null,
+                'assessment_date' => !empty($request->assessment_date) ? $request->assessment_date : null,
+                'assessor_designantion' => !empty($request->assessor_designantion) ? $request->assessor_designantion : null,
+                'possible_nature_illness' => !empty($request->possible_nature_illness) ? $request->possible_nature_illness : null,
+                'permanent_alternative_activity' => !empty($request->permanent_alternative_activity) ? $request->permanent_alternative_activity : null,
+                'sequence' => $count?? 0,
+                'total_recovery_activity' => !empty($request->total_recovery_activity) ? $request->total_recovery_activity : null,
+                'suggested_task' => !empty($request->suggested_task) ? $request->suggested_task : null,
+                'measure_taken' => !empty($request->measure_taken) ? $request->measure_taken  : null,
+                'assessor_recommendnation' => $request->assessor_recommendation ?? null,
+                'assessment_signed_attachment' => $request->assessment_signed_attachment ?? null,
                 'created_at' => Carbon::now(),
                 'updated_at' => Carbon::now(),
+                'status' => null,
+                'stage' => null,
 
             ];
 
-            $perfomance_capacity->fill($data); // Fill the model with data
-            $perfomance_capacity->save();
+            $perfomance_assessment->fill($data); // Fill the model with data
+            $perfomance_assessment->save();
 
-            return response()->json(['status' => 200, 'message' => 'Perfomance capacity successfuly created']);
+            return response()->json(['status' => 200, 'message' => 'Perfomance assessment successfuly created']);
         } catch (\Exception $e) {
-            log::error('Failure to save Perfomance capacity error: ' . $e->getMessage());
+            log::error('Failure to save Perfomance assessment error: ' . $e->getMessage());
+            return response()->json(['status' => 500, 'message' => 'Failure to save Perfomance assessment error']);
         }
     }
     /**
@@ -134,7 +141,7 @@ class PerformanceAssessmentRepository extends  BaseRepository
     public function checkPerfomanceCapacityExist($request)
     {
         $data = DB::table('performance_capacities')
-            ->where('employee_id', $request->employee_id)
+            ->where('capacity_id', $request->capacity_id)
             ->count();
 
         return $data;
@@ -186,7 +193,7 @@ class PerformanceAssessmentRepository extends  BaseRepository
 
         try {
 
-            PerformanceCapacity::find($id)->update([
+            PerformanceAssessment::find($id)->update([
                 'investigation_date' => !empty($request->investigation_date) ? $request->investigation_date : null,
                 'investigation_report' => !empty($request->investigation_report) ? $request->investigation_report : null,
                 'subject_matter' => !empty($request->subject_matter) ? $request->subject_matter : null,

@@ -36,11 +36,11 @@ public function getPerfomanceCriterial(){
 /**
 *@method to create paternity leave
  */
-public function  createPerfomanceCapacity(Request $request)
+public function  createPerfomanceAssessment(Request $request)
 {
 
              $validator = Validator::make($request->all(), [
-            'capacity_id' => 'required|max:5',
+            'capacity_type' => 'required|max:5',
             'employee_id' => 'required|max:191',
             'investigation_report' => 'required|max:191',
             'investigation_date' => 'required|max:191',
@@ -54,17 +54,17 @@ public function  createPerfomanceCapacity(Request $request)
         } else {
 
 
-             $capacity = $this->capacity->createPerfomanceCapacity($request);
+             $capacity = $this->capacity->createPerfomanceAssessment($request);
 
                 log::info(json_encode($capacity));
 
             $status = $capacity->getStatusCode();
-
+            
             if ($status === 200) {
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Perfomance review successfully created.",
+                    "message" => "Perfomance assessmsent successfully assessed.",
                 ];
             } else {
                 $return = [

@@ -102,6 +102,8 @@ Route::get('show_performance_capacity/{id}', [PerfomanceCapacityController::clas
 Route::post('/update_performance_capacity/{id}', [PerfomanceCapacityController::class, 'updatePerformanceCapacity']);
 //ASSESSMENT
 Route::get('/retrieve_employee_capacity_details/{id}', [PerformanceAssessmentController::class, 'retrieveEmployeeCapacityDetail']);
-
+Route::post('/create_perfomance_assessment', [PerformanceAssessmentController::class, 'createPerfomanceAssessment']);
+Route::get('show_performance_assessment/{id}', [PerformanceAssessmentController::class, 'retrievePerformanceAssessmentDetail']);
+Route::post('/update_performance_/{id}', [PerformanceAssessmentController::class, 'updatePerformanceAssessment']);
 
 });

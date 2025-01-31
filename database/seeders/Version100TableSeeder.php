@@ -23,7 +23,7 @@ use Database\Seeders\Version100\ContractsTableSeeder;
 use Database\Seeders\Version100\CountriesTableSeeder;
 use Database\Seeders\Version100\DistrictsTableSeeder;
 use Database\Seeders\Version100\DocumentsTableSeeder;
-use Database\Seeders\Version100\JobTitlesTableSeeder;
+
 use Database\Seeders\Version100\LeaveTypeTableSeeder;
 use Database\Seeders\Version100\PostCodeTableSeeder;
 use Database\Seeders\Version100\OfficeZoneTableSeeder;
@@ -46,6 +46,7 @@ use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\EducationHistoriesTableSeeder;
 use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
 use Database\Seeders\Version100\QuarterTableSeeder;
+use Database\Seeders\Version100\JobTitlesTableSeeder;
 
 class Version100TableSeeder extends Seeder
 {
