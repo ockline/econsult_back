@@ -43,7 +43,7 @@ use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\EducationHistoriesTableSeeder;
 use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
 use Database\Seeders\Version100\QuarterTableSeeder;
-use Database\Seeders\Version100\JobTitlesTableSeeder;
+// use Database\Seeders\Version100\JobTitlesTableSeeder;
 
 class Version100TableSeeder extends Seeder
 {
@@ -82,7 +82,7 @@ class Version100TableSeeder extends Seeder
         //  /*   Document */
         $this->call(DocumentGroupsTableSeeder::class);
         $this->call(DocumentsTableSeeder::class);
-        $this->call(JobTitlesTableSeeder::class);
+        // $this->call(JobTitlesTableSeeder::class);
 
         //  /*  Offices */
         $this->call(OfficesTableSeeder::class);
