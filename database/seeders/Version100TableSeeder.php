@@ -60,7 +60,6 @@ class Version100TableSeeder extends Seeder
         Schema::disableForeignKeyConstraints();
 
         DB::beginTransaction();
-
         /* Banks*/
         $this->call(BanksTableSeeder::class);
         $this->call(BankBranchesTableSeeder::class);
@@ -73,7 +72,6 @@ class Version100TableSeeder extends Seeder
         $this->call(DependentTypesTableSeeder::class);
         $this->call(MaritalStatusesTableSeeder::class);
         // $this->call(MemberTypesTableSeeder::class);
-
         $this->call(DesignationsTableSeeder::class);
 
         //  /*    Region  */
@@ -115,7 +113,7 @@ class Version100TableSeeder extends Seeder
         // // $this->call(PermissionGroupsTableSeeder::class);
         // // $this->call(PermissionsTableSeeder::class);
         // // $this->call(PermissionDependenciesTableSeeder::class);
-        // // $this->call(SysdefsTableSeeder::class);
+        // $this->call(SysdefsTableSeeder::class);
         // // $this->call(UnitGroupsTableSeeder::class);
 
 
