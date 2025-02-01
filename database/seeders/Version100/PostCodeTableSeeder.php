@@ -4,12 +4,12 @@ namespace Database\Seeders\Version100;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
-// use Database\TruncateTable;
-// use Database\DisableForeignKeys;
+use Database\TruncateTable;
+use Database\DisableForeignKeys;
 
 class PostCodeTableSeeder extends Seeder
 {
-    // use DisableForeignKeys, TruncateTable;
+    use DisableForeignKeys, TruncateTable;
     /**
      * Run the database seeds.
      *
@@ -37953,11 +37953,13 @@ class PostCodeTableSeeder extends Seeder
 
         // $this->enableForeignKeys('postcodes');
 
-   $lastRecordCount = $this->getRecordCount("postcodes");
+    $lastRecordCount = $this->getRecordCount("postcodes");
         $slice = array_slice($data, $lastRecordCount);;
         if (count($slice)) {
             DB::table('postcodes')->insert($slice);
         }
+
+
     }
 }
 
