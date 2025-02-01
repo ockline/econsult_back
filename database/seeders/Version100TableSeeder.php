@@ -41,9 +41,10 @@ use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
 use Database\Seeders\Version100\JobTitlesTableSeeder;
 use Database\Seeders\Version100\DepartmentsTableSeeder;
 use Database\Seeders\Version100\UnitsTableSeeder;
+use Database\Seeders\Version100\PostCodeTableSeeder;
 // use Database\Seeders\Version100\QuarterTableSeeder;
 
-// use Database\Seeders\Version100\PostCodeTableSeeder;
+
 
 class Version100TableSeeder extends Seeder
 {
@@ -117,7 +118,7 @@ class Version100TableSeeder extends Seeder
         // // $this->call(UnitGroupsTableSeeder::class);
 
         // /*postcodes*/
-        // $this->call(PostCodeTableSeeder::class);
+        $this->call(PostCodeTableSeeder::class);
         /**Quarters */
         // $this->call(QuarterTableSeeder::class);
 
