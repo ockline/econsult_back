@@ -213,7 +213,7 @@ class UsersTableSeeder extends Seeder
                 'username' => 'TChacha',
                 'samaccountname' => NULL,
                 'password' => '$2y$12$y90Xj/BW7Yg/s/ONTjKRb.GV23KrFeBbzAKJl47i085zgBBkLpNsO',
-                'firstname' => 'Tufikile',
+                'firstname' => 'Tusekile',
                 'lastname' => 'Chacha',
                 'middlename' => 'Paul',
                 'email' => 'tufikilepaul@socrate.co.tz',

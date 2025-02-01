@@ -66,7 +66,7 @@ class RolePermissionRepository extends  BaseRepository
                 }
             }
                 // $this->notification->smsNotification(); // send  sms
-                $this->sendEmailNotification(); // send Email Notification
+                // $this->sendEmailNotification(); // send Email Notification
 
             DB::commit();
 
