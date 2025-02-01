@@ -11,8 +11,6 @@ use App\Models\Sysdef\LanguageFluency;
 use Illuminate\Support\Facades\Schema;
 use Database\Seeders\Version100\BanksTableSeeder;
 use Database\Seeders\Version100\RolesTableSeeder;
-// use Database\Seeders\Version100\UnitsTableSeeder;
-// use Database\Seeders\Version100\UsersTableSeeder;
 use Database\Seeders\Version100\UsersTableSeeder;
 use Database\Seeders\Version100\ShiftsTableSeeder;
 use Database\Seeders\Version100\OfficesTableSeeder;
@@ -23,10 +21,8 @@ use Database\Seeders\Version100\CountriesTableSeeder;
 use Database\Seeders\Version100\DistrictsTableSeeder;
 use Database\Seeders\Version100\DocumentsTableSeeder;
 use Database\Seeders\Version100\LeaveTypeTableSeeder;
-use Database\Seeders\Version100\PostCodeTableSeeder;
 use Database\Seeders\Version100\OfficeZoneTableSeeder;
 use Database\Seeders\Version100\AllowanciesTableSeeder;
-// use Database\Seeders\Version100\DepartmentsTableSeeder;
 use Database\Seeders\Version100\BankBranchesTableSeeder;
 use Database\Seeders\Version100\CompetenciesTableSeeder;
 use Database\Seeders\Version100\DesignationsTableSeeder;
@@ -43,7 +39,11 @@ use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\EducationHistoriesTableSeeder;
 use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
 use Database\Seeders\Version100\QuarterTableSeeder;
+// use Database\Seeders\Version100\UnitsTableSeeder;
+// use Database\Seeders\Version100\UsersTableSeeder;
 // use Database\Seeders\Version100\JobTitlesTableSeeder;
+// use Database\Seeders\Version100\PostCodeTableSeeder;
+// use Database\Seeders\Version100\DepartmentsTableSeeder;
 
 class Version100TableSeeder extends Seeder
 {
@@ -117,7 +117,7 @@ class Version100TableSeeder extends Seeder
         // // $this->call(UnitGroupsTableSeeder::class);
 
         // /*postcodes*/
-        $this->call(PostCodeTableSeeder::class);
+        // $this->call(PostCodeTableSeeder::class);
         /**Quarters */
         $this->call(QuarterTableSeeder::class);
 
