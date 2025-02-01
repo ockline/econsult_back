@@ -38,7 +38,7 @@ use Database\Seeders\Version100\RankingCreterialsTableSeeder;
 use Database\Seeders\Version100\CompetencySubjectsTableSeeder;
 use Database\Seeders\Version100\EducationHistoriesTableSeeder;
 use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
-use Database\Seeders\Version100\QuarterTableSeeder;
+// use Database\Seeders\Version100\QuarterTableSeeder;
 // use Database\Seeders\Version100\UnitsTableSeeder;
 // use Database\Seeders\Version100\UsersTableSeeder;
 // use Database\Seeders\Version100\JobTitlesTableSeeder;
@@ -119,7 +119,7 @@ class Version100TableSeeder extends Seeder
         // /*postcodes*/
         // $this->call(PostCodeTableSeeder::class);
         /**Quarters */
-        $this->call(QuarterTableSeeder::class);
+        // $this->call(QuarterTableSeeder::class);
 
 
         DB::commit();
