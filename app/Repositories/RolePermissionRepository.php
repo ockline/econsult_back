@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Models\Sysdef\Role;
 use App\Models\Location\Region;
+use App\Models\Sysdef\RoleUser;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseRepository;
@@ -49,15 +50,21 @@ class RolePermissionRepository extends  BaseRepository
         try {;
             if ($request) {
                 foreach ($request->role_id as $role) {
-                    DB::table('role_user')->insert([
-                        'user_id' => !empty($request->user_id) ? $request->user_id : 0,
-                        'role_id' => !empty($role) ? $role : 0,
-                        'created_at' => Carbon::now()
+                    // RoleUser::insert([
+                    //     'user_id' => !empty($request->user_id) ? $request->user_id : 0,
+                    //     'role_id' => !empty($role) ? $role : 0,
+                    //     'created_at' => Carbon::now()
 
-                    ]);
+                    // ]);
+                RoleUser::create([
+            'user_id'   => $request->user_id ?? 0,
+            'role_id'   => $role ?? 0,
+            'created_at' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ]);
                 }
             }
-                $this->notification->smsNotification(); // send  sms
+                // $this->notification->smsNotification(); // send  sms
                 $this->sendEmailNotification(); // send Email Notification
 
             DB::commit();
