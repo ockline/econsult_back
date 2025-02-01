@@ -49,6 +49,7 @@ class RolePermissionRepository extends  BaseRepository
 
         try {;
             if ($request) {
+                DB::statement("SELECT setval('public.role_user_id_seq', 4, false)");
                 foreach ($request->role_id as $role) {
                     // RoleUser::insert([
                     //     'user_id' => !empty($request->user_id) ? $request->user_id : 0,
