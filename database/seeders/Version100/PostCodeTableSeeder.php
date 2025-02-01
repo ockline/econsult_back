@@ -3,8 +3,9 @@
 namespace Database\Seeders\Version100;
 
 use Illuminate\Database\Seeder;
-use Database\TruncateTable;
-use Database\DisableForeignKeys;
+use Illuminate\Support\Facades\DB;
+// use Database\TruncateTable;
+// use Database\DisableForeignKeys;
 
 class PostCodeTableSeeder extends Seeder
 {
