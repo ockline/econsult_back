@@ -8,7 +8,7 @@ use Database\DisableForeignKeys;
 
 class PostCodeTableSeeder extends Seeder
 {
-    use DisableForeignKeys, TruncateTable;
+    // use DisableForeignKeys, TruncateTable;
     /**
      * Run the database seeds.
      *
