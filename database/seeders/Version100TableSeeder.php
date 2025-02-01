@@ -40,10 +40,8 @@ use Database\Seeders\Version100\EducationHistoriesTableSeeder;
 use Database\Seeders\Version100\PerfomanceCriterialTableSeeder;
 use Database\Seeders\Version100\JobTitlesTableSeeder;
 use Database\Seeders\Version100\DepartmentsTableSeeder;
-
+use Database\Seeders\Version100\UnitsTableSeeder;
 // use Database\Seeders\Version100\QuarterTableSeeder;
-// use Database\Seeders\Version100\UnitsTableSeeder;
-
 
 // use Database\Seeders\Version100\PostCodeTableSeeder;
 
@@ -103,7 +101,7 @@ class Version100TableSeeder extends Seeder
         $this->call(MisconductTypeTableSeeder::class);
         $this->call(PerfomanceCriterialTableSeeder::class);
         $this->call(DepartmentsTableSeeder::class);
-        // $this->call(UnitsTableSeeder::class);
+        $this->call(UnitsTableSeeder::class);
         $this->call(EducationHistoriesTableSeeder::class);
         $this->call(PracticalTestsTableSeeder::class);
 
