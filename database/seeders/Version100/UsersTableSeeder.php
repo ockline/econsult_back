@@ -303,8 +303,6 @@ class UsersTableSeeder extends Seeder
 
         );
 
-        // $this->enableForeignKeys('users');
-
  $lastRecordCount = $this->getRecordCount("users");
         $slice = array_slice($data, $lastRecordCount);;
         if (count($slice)) {

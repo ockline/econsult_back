@@ -42,7 +42,7 @@ use Database\Seeders\Version100\JobTitlesTableSeeder;
 use Database\Seeders\Version100\DepartmentsTableSeeder;
 use Database\Seeders\Version100\UnitsTableSeeder;
 use Database\Seeders\Version100\PostCodeTableSeeder;
-// use Database\Seeders\Version100\QuarterTableSeeder;
+use Database\Seeders\Version100\QuarterTableSeeder;
 
 
 
@@ -120,7 +120,7 @@ class Version100TableSeeder extends Seeder
         // /*postcodes*/
         $this->call(PostCodeTableSeeder::class);
         /**Quarters */
-        // $this->call(QuarterTableSeeder::class);
+        $this->call(QuarterTableSeeder::class);
 
 
         DB::commit();
