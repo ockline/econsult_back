@@ -19,8 +19,8 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['http://localhost:5173', 'https://socratefronttest.esocrate.co.tz'],
-//   'allowed_origins' => ['https://socratefronttest.esocrate.co.tz/'],
+    'allowed_origins' => ['http://localhost:5173', 'https://socratepre.socrate.co.tz/'],
+//   'allowed_origins' => ['https://socratepre.socrate.co.tz/'],
 
     'allowed_origins_patterns' => [],
 
