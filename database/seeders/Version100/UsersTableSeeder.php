@@ -26,7 +26,7 @@ class UsersTableSeeder extends Seeder
                 'id' => '1',
                 'username' => 'omsungu',
                 'samaccountname' => 'ockline.msungu',
-                'password' => '$2y$12$y90Xj/BW7Yg/s/ONTjKRb.GV23KrFeBbzAKJl47i085zgBBkLpNsO',
+                'password' => '$2a$12$o5z/FKxIxJryOr52TVDskuRfili1AKLrX2obxALei0WDJIxQ/20lK',
                 'firstname' => 'Ockline',
                 'lastname' => 'Msungu',
                 'middlename' => 'M',
