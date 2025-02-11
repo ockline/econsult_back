@@ -53,11 +53,6 @@ class EmployeeRepository extends  BaseRepository
     public function addEmployee($request)
     {
 
-        // Log::info('************************************8');
-
-
-        //   log::info($employee_no);
-
         DB::beginTransaction();
 
         try {
@@ -95,7 +90,8 @@ class EmployeeRepository extends  BaseRepository
                 'place_issued' => !empty($input['place_issued']) ? $input['place_issued'] : null,
                 'chronic_disease' => !empty($input['chronic_disease']) ? $input['chronic_disease'] : 2,
                 'chronic_remark' => !empty($input['chronic_remark']) ? $input['chronic_remark'] : null,
-                'surgery_operation' => !empty($input['surgery_operation']) ? $input['surgery_operation'] : 2,
+                // 'surgery_operation' => !empty($input['surgery_operation']) ? $input['surgery_operation'] : 2,
+                ['surgery_operation'] => $request->filled('surgery_operation') ? $request->input('surgery_operation') : 2,
                 'surgery_remark' => !empty($input['surgery_remark']) ? $input['surgery_remark'] : null,
                 'employed_before' => !empty($input['employed_before']) ? $input['employed_before'] : 2,
                 'from_date' => !empty($input['from_date']) ? $input['from_date'] : null,
@@ -103,7 +99,7 @@ class EmployeeRepository extends  BaseRepository
                 'position' => !empty($input['position']) ? $input['position'] : null,
                 'relative_working' => !empty($input['relative_working']) ? $input['relative_working'] : 2,
                 'relative_name' => !empty($input['relative_name']) ? $input['relative_name'] : null,
-                'former_department' => !empty($input['former_department']) ? $input['former_department'] : null,
+                'former_department' => !empty($input['former_department']) ? $input['former_department'] : 'null',
                 'transfer_change' => !empty($input['transfer_change']) ? $input['transfer_change'] : null,
                 'transfer_reasons' => !empty($input['transfer_reasons']) ? $input['transfer_reasons'] : null,
                 'bank_id' => !empty($input['bank_id']) ? $input['bank_id'] : null,

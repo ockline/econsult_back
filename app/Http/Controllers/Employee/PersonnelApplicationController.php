@@ -143,10 +143,10 @@ class PersonnelApplicationController extends Controller
     public function show(string $id)
     {
         //  log::info($id);
-        $details = $this->personnel_application->showDownloadDetails();
-        $data = SocialRecord::where('id', $id)->first();
+        $personnel_application = $this->personnel_application->showDownloadDetails($id);
+        // $data = SocialRecord::where('id', $id)->first();
 
-        $personnel_application = $details->where('employee_id', $data->employee_id)->first();
+        // $personnel_application = $details->where('employee_id', $data->employee_id)->first();
 
         //   log::info($personnel_application);
         if (isset($personnel_application)) {

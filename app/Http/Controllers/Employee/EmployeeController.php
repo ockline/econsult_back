@@ -56,10 +56,10 @@ class EmployeeController extends Controller
             'account_number' => 'required|max:191',
             'bank_branch_id' => 'required|max:191',
             'account_name' => 'required|max:191',
-            'nssf' => 'required|max:191',
-            'wcf' => 'required|max:191',
+            // 'nssf' => 'required|max:191',
+            // 'wcf' => 'required|max:191',
             'tin' => 'required|max:191',
-            'nhif' => 'required|max:191',
+            // 'nhif' => 'required|max:191',
             'readiness_employee' => 'required|max:191',
 
         ]);
@@ -68,7 +68,7 @@ class EmployeeController extends Controller
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
                 // Log::info('ndani ya nyumba');
-            
+
             $new_employee = $this->employee->addEmployee($request);
 
             $status = $new_employee->getStatusCode();
@@ -80,14 +80,12 @@ class EmployeeController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employee person details submitted",
+                    "message" => "Employee person details submitted.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
-
-
+                    'message' => 'Sorry! Operation failed.'
                 ];
             }
         }

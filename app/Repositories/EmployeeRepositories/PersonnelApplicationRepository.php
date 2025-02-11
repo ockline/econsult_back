@@ -253,7 +253,7 @@ class PersonnelApplicationRepository extends  BaseRepository
     }
 
 
-    public function showDownloadDetails()
+    public function showDownloadDetails($id)
     {
         $data =  DB::table('employee_identifications as ei')
             ->select([
@@ -289,9 +289,11 @@ class PersonnelApplicationRepository extends  BaseRepository
             ->leftJoin('employers as em', 'ei.employer_id', '=', 'em.id')
             ->leftJoin('job_title as jt', 'ei.job_title_id', '=', 'jt.id')
             ->leftJoin('departments as d', 'ei.department_id', '=', 'd.id')
-            ->orderBy('ei.id', 'DESC')
+            ->orderBy('ei.id', 'DESC')->where('ie.employee_id', $id)
+
             ->get();
 
+// log::info($data);
         return $data;
     }
     public function getSocialRecord()

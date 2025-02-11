@@ -48,7 +48,7 @@ class WardRepository extends  BaseRepository
 {
 //   $wards = collect();
 
-  $wards =  DB::table('postcodes')->select('id','ward_name')->get();
+  $wards =  DB::table('postcodes')->select('id','ward_name', 'district_id')->get();
 
     return $wards;
 
