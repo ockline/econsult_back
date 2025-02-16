@@ -69,10 +69,10 @@ class EmployerController extends Controller
             'tin' => 'required|min:2|max:20',
             'email' => 'email|max:191',
             'osha' => 'required|max:50',
-            'wcf' => 'required|max:191',
+            // 'wcf' => 'required|max:191',
             'nssf' => 'required|max:191',
-            'nhif' => 'required|max:191',
-            'vrn' => 'required|max:191',
+            // 'nhif' => 'required|max:191',
+            // 'vrn' => 'required|max:191',
             'telephone' => 'required|max:191',
             'fax' => 'required|max:191',
             'bank_id' => 'required|max:191',
@@ -89,10 +89,10 @@ class EmployerController extends Controller
             'allowance_id' => 'required|max:191',
             'tin_doc' => 'required|max:3072',
             'osha_doc' => 'required|max:3072',
-            'wcf_doc' => 'required|max:3072',
+            // 'wcf_doc' => 'required|max:3072',
             'nssf_doc' => 'required|max:3072',
-            'nhif_doc' => 'required|max:3072',
-            'vrn_doc' => 'required|max:3072',
+            // 'nhif_doc' => 'required|max:3072',
+            // 'vrn_doc' => 'required|max:3072',
         ]);
 
         if ($validator->fails()) {
@@ -116,7 +116,7 @@ class EmployerController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employer Registered Successfully",
+                    "message" => "Employer successfully registered.",
                 ];
             } else {
                 $return = [
@@ -194,7 +194,7 @@ class EmployerController extends Controller
             log::info('ndani');
             return response()->json([
                 'status' => 200,
-                "message" => "Employer Updated Successfully",
+                "message" => "Employer uccessfully updated.",
             ]);
         } else {
             return response()->json([

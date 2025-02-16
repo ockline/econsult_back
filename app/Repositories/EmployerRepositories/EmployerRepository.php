@@ -104,10 +104,13 @@ class EmployerRepository extends  BaseRepository
                 'ward_id' => !empty($input['ward_id']) ? $input['ward_id'] : null,
                 'working_hours' => !empty($input['working_hours']) ? $input['working_hours'] : null,
                 'working_days' => !empty($input['working_days']) ? $input['working_days'] : null,
-                'shift_id' => !empty($input['shift_id']) ? $input['shift_id'] : null,
-                'allowance_id' => !empty($input['allowance_id']) ? $input['allowance_id'] : null,
+                'start_time' =>  !empty($input['start_time']) ? $input['start_time'] : null,
+                 'end_time' => !empty($input['end_time']) ? $input['end_time'] : null,
+'shift_id' => !empty($input['shift_id']) ? $input['shift_id'] : null,
+                'allowance_id' => !empty($input['allowance_id']) ? explode(',',($input['allowance_id'])) : null,
                 'reg_no' => !empty($employer_number) ? intval("0000") . $employer_number : 001,
                 'created_by' =>  1, // admin after login will be autheticated user
+            
 
             ]);
             $employer_id = $employer->id;
@@ -237,8 +240,7 @@ class EmployerRepository extends  BaseRepository
     public function updateDetails($request, $id)
     {
         // log::info('ndani');
-        Log::info($request->all());
-        Log::info("*************");
+      
         $employer = Employer::find($id);
         if (isset($employer)) {
             // $department = $this->department->id; // Assuming you have an 'id' field in your request
@@ -288,14 +290,16 @@ class EmployerRepository extends  BaseRepository
                 $employer->working_hours = $request->input('working_hours');
                 $employer->working_days = $request->input('working_days');
                 $employer->shift_id = $request->input('shift_id');
-                $employer->allowance_id = $request->input('allowance_id');
+                $employer->allowance_id = explode(',',($request->input('allowance_id')));
+                $employer->start_time = $request->input('start_time');
+                $employer->end_time = $request->input('end_time');
                 $employer->reg_no = (intval("0000") . $employer_number);
                 $employer->created_by =  1; // admin after login will be autheticated user
                 $employer->update();
 
 
                 $this->updateEmployerDocument($request, $employer->id);
-                log::info('hureeeeee');
+               
                 DB::commit();
                 // Log::info('updated done');
                 return response()->json(['message' => 'User Updated successfully', 'status' => 200], 200);
@@ -392,32 +396,37 @@ class EmployerRepository extends  BaseRepository
     }
     public function getSpecificEmployer(string $id)
     {
-        return $this->employer->select([
-            '*',
-           DB::raw('employers.name as employer_name'),
-            DB::raw('b.name as bank'),
-            DB::raw('bb.name as bank_branch'),
-            DB::raw('r.name as region'),
-            DB::raw('d.name as district'),
-            DB::raw('lt.name as location'),
-            DB::raw('st.name as shift_name'),
-            DB::raw('al.name as allowance'),
-            DB::raw('wd.ward_name as ward'),
-            // DB::raw('ea.name as doc_name'),
-            // DB::raw('ea.size as size'),
-            // DB::raw('ea.updated_at as doc_updated'),
-        ])
+        $query = DB::table('employers')
+            ->select(
+                'employers.*', 
+                'employers.name as employer_name', 
+                'b.name as bank', 
+                'bb.name as bank_branch', 
+                'r.name as region', 
+                'd.name as district', 
+                'lt.name as location', 
+                'st.name as shift_name', 
+                DB::raw('(
+                    SELECT STRING_AGG(al.name, \', \')
+                    FROM allowances al
+                    WHERE al.id IN (
+                        SELECT jsonb_array_elements_text(CAST(NULLIF(employers.allowance_id, \'\') AS jsonb))::integer
+                    )
+                ) as allowance'),
+                'wd.ward_name as ward'
+            )
             ->leftJoin('banks as b', 'employers.bank_id', '=', 'b.id')
             ->leftJoin('bank_branches as bb', 'employers.bank_branch_id', '=', 'bb.id')
             ->leftJoin('regions as r', 'employers.region_id', '=', 'r.id')
             ->leftJoin('districts as d', 'employers.district_id', '=', 'd.id')
-            ->leftJoin('postcodes as wd', 'wd.district_id', '=', 'wd.id')
+            ->leftJoin('postcodes as wd', 'employers.district_id', '=', 'wd.id')
             ->leftJoin('location_types as lt', 'employers.location_type_id', '=', 'lt.id')
             ->leftJoin('shifts as st', 'employers.shift_id', '=', 'st.id')
-            ->leftJoin('allowances as al', 'employers.allowance_id', '=', 'al.id')
-            // ->orderBy('employers.id', 'DESC')
             ->where('employers.id', $id)
+            ->whereNull('employers.deleted_at')
             ->first();
+
+        return $query;
     }
     public function getEmployerDocument(string $id)
     {

@@ -53,7 +53,10 @@ class RolePermissionRepository extends  BaseRepository
                 $last_role = DB::table('role_user')->latest('id')->first();
 
 
-    DB::statement("SELECT setval('public.role_user_id_seq', $last_role->id, false)");
+    // DB::statement("SELECT setval('public.role_user_id_seq', $last_role->id, false)");
+        DB::statement("SELECT setval('role_user_id_seq', (SELECT MAX(id) FROM role_user))");
+
+
 
                 foreach ($request->role_id as $role) {
                     // RoleUser::insert([
