@@ -47,7 +47,7 @@ class VacancyTypeRepository extends  BaseRepository
 
     public function getDatatable()
     {
-        $vacancy_type = $this->vacancy_type->get();
+        $vacancy_type = $this->vacancy_type->whereIn('id', [1,2])->get();
         // $vacancy_type = allowance::table('vacancy_type')->select('*');
         // selectRaw(" * , CASE WHEN status = 0 THEN 'Iniactive' ELSE 'Active' END AS Status")->
         return $vacancy_type;
