@@ -169,7 +169,10 @@ class JobApplicationRepository extends  BaseRepository
                 'status' => 1,
             ]);
             $job_description->fill($data);
-            $job_description->save();
+          $job =  $job_description->save();
+            if($job){
+             $this->saveJobApplicationDocument($request, $last_job->id);
+                }
 
             DB::commit();
             Log::info('Saved job description done');
@@ -249,7 +252,7 @@ class JobApplicationRepository extends  BaseRepository
             //  Log::info($last_job['id']);
             $job_description = new JobDescTransaction();
 
-            JobDescTransaction::where('job_vacancy_id', $last_job->id)
+         $job =   JobDescTransaction::where('job_vacancy_id', $last_job->id)
                 ->update([
                     'name' => !empty($description) ? $description : $last_job['name'],
                     'job_title_id' => !empty($last_job['job_title_id']) ? $last_job['job_title_id'] : $last_job['id'],
@@ -258,6 +261,10 @@ class JobApplicationRepository extends  BaseRepository
                     'description' => !empty($last_job['additional_comment']) ? $last_job['additional_comment'] : null,
                     'status' => 1,
                 ]);
+
+                if($job){
+                    $this->saveJobApplicationDocument($request, $id);
+                }
             DB::commit();
 
             // Log::info('updated done');
@@ -272,72 +279,49 @@ class JobApplicationRepository extends  BaseRepository
 
     public function saveJobApplicationDocument($request, $id)
     {
-        // Log::info("*******************" . $id);
-        // Log::info($request->all());
+
 
         DB::beginTransaction();
 
         try {
-
             $documents = [];
-
-            // $document_types =  ['job_request_doc'];
-
-            $documentTypes = ['job_request_doc', 'shortlisted_doc'];
-
-            /**    in case user uploading single data  */
+            $documentTypes = ['job_request_doc', 'shortlisted_doc', 'job_description_doc'];
 
             foreach ($documentTypes as $documentType) {
-                if ($request->hasFile($documentType) && $id) {
-                    $files = $request->file($documentType);
-
+                // Check if the document type exists in the request
+                if (isset($request[$documentType]) && is_array($request[$documentType])) {
+                    $files = $request[$documentType];
 
                     foreach ($files as $file) {
-                        $fileName = time() . '_' . $file->getClientOriginalName();
-                        $file->move(public_path('hiring/vacancies'), $fileName);
-                        // $file->move(public_path('hiring/vacancies/'.$id.'/'), $fileName);
-                        // log::info('hureee'. json_encode($fileName));
-                        $documents[] = [
-                            'name' => $documentType,
-                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
-                            'description' => $fileName,
-                            'document_group_id' => 3,
-                            'job_vacancy_id' => $id,
-                        ];
+                        if ($file instanceof \Illuminate\Http\UploadedFile) {
+                            $fileName = time() . '_' . $file->getClientOriginalName();
+                            $file->move(public_path('hiring/vacancies'), $fileName);
+
+                            $documents[] = [
+                                'name' => $documentType,
+                                'document_id' => $this->getDocumentId($documentType),
+                                'description' => $fileName,
+                                'document_group_id' => 3,
+                                'job_vacancy_id' => $id,
+                            ];
+                        }
                     }
                 }
             }
-            // log::info('document:'. ' '. $documents);
-            foreach ($documents as $document) {
-                //   log::info('document: ******************');
-                JobVacancyDocument::create($document);
+
+            // Create documents if any exist
+            if (!empty($documents)) {
+                foreach ($documents as $document) {
+                    JobVacancyDocument::create($document);
+                }
             }
 
-            // public static function createOrUpdate($data)
-            // {
-            //     // Assuming you have a unique key, e.g., 'document_group_id' and 'job_vacancy_id'
-            //     $existingDocument = self::where([
-            //         'document_group_id' => $data['document_group_id'],
-            //         'job_vacancy_id' => $data['job_vacancy_id'],
-            //     ])->first();
-
-            //     if ($existingDocument) {
-            //         // Update the existing document
-            //         $existingDocument->update($data);
-            //     } else {
-            //         // Create a new document
-            //         self::create($data);
-            //     }
-            // }
-
             DB::commit();
-
-            Log::info('Saved document ');
+            Log::info('Saved document');
             return response()->json(['message' => 'Document created successfully', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Failed to save document', ['error' => $e->getMessage()]);
-
             return response()->json(['message' => 'Failed to save document', 'status' => 500]);
         }
     }
@@ -352,6 +336,9 @@ class JobApplicationRepository extends  BaseRepository
             case 'shortlisted_doc';
                 return 6;
                 break;
+            case 'job_description_doc';
+            return 49;
+            break;
             default:
                 return null;
         }

@@ -799,6 +799,22 @@ class DocumentsTableSeeder extends Seeder
                 'isother' => 0,
                 'document_order' => NULL,
             ),
+           48 =>
+            array(
+                'id' => 49,
+                'name' => 'Job Description Attachment',
+                'document_group_id' => '3',
+                'description' => 'job_description_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-02-11 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
         );
 
 

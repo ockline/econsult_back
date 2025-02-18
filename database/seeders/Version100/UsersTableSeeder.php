@@ -278,7 +278,7 @@ class UsersTableSeeder extends Seeder
                 'firstname' => 'Rashidi',
                 'lastname' => 'Kitupwa',
                 'middlename' => 'R',
-                'email' => 'ramadhanrashid@econsult.co.tz',
+                'email' => 'ramadhanrashid@socrate.co.tz',
                 'phone' => '0653522588',
                 'dob' => '2001-01-01',
                 'employer_id' => 1,
@@ -301,6 +301,38 @@ class UsersTableSeeder extends Seeder
                 // 'user_sub_id'=>NULL,
             ),
 
+
+         9 =>
+            array(
+                'id' => '10',
+                'username' => 'EKamala',
+                'samaccountname' => NULL,
+                'password' => '$2y$12$y90Xj/BW7Yg/s/ONTjKRb.GV23KrFeBbzAKJl47i085zgBBkLpNsO',
+                'firstname' => 'Emmanuel',
+                'lastname' => 'Kamala',
+                'middlename' => 'R',
+                'email' => 'kamala@socrate.co.tz',
+                'phone' => '0678794479',
+                'dob' => '2001-01-01',
+                'employer_id' => 1,
+                'department_id' => 1,
+                'section_id' => 2,
+                'designation_id' => 1,
+                'gender_id' => 1,
+                'email_verified_at' => null,
+                'active' => 1,
+                'available' => 1,
+                'last_login' => NULL,
+                'remember_token' => NULL,
+                'created_by' => 1,
+                'location_project' => NULL,
+                'project_name' => null,
+                'created_at' => NULL,
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                // 'sub' => NULL,
+                // 'user_sub_id'=>NULL,
+            ),
         );
 
  $lastRecordCount = $this->getRecordCount("users");
