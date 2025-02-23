@@ -304,6 +304,7 @@ class SocialRecordRepository extends  BaseRepository
                 'relationship_id' => !empty($request['relationship_id']) ? $request['relationship_id'] : null,
                 'social_record_id' => !empty($social_record_id) ? $social_record_id : null,
                 'relative_address' => !empty($request['relative_address']) ? $request['relative_address'] : null,
+                'emergency_number' => !empty($request['emergency_number']) ? $request['emergency_number'] : null,
                 'other_relationship' => !empty($request['relationship_id'] != 16) ? null : $request['other_relationship'],
             ]);
 

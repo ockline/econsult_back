@@ -311,6 +311,7 @@ Route::prefix('employees')->group(function () {
     Route::get('/induction/show_induction_training/{id}', [InductionTrainingController::class, 'show'])->middleware('api');
     Route::get('/induction/get_induction_record/{id}', [InductionTrainingController::class, 'getInductionTraining'])->middleware('api');
     Route::post('/induction/add_induction_training', [InductionTrainingController::class, 'storeTraining'])->middleware('api');
+    Route::get( '/induction/retrieve_social_record/{id}', [InductionTrainingController::class, 'getInductionSocialRecordDetails']);
     //update
     Route::get('/induction/edit_induction_training/{id}', [InductionTrainingController::class, 'editInduction'])->middleware('api');
     Route::post('/induction/update_induction_training/{id}', [InductionTrainingController::class, 'updateInductionTraining'])->middleware('api');

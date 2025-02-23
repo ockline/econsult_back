@@ -106,6 +106,7 @@ class ContractDetailController extends Controller
             'residence1' => 'required|max:191',
             'phone_number1' => 'required|max:191',
             'relationship1' => 'required|max:191',
+            'passport_attachment' =>'required'
 
 
         ]);
@@ -126,12 +127,12 @@ class ContractDetailController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employee person details submitted",
+                    "message" => "Employee person details successfuly submitted.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
+                    'message' => 'Sorry! Operation failed.'
 
                 ];
             }
@@ -245,12 +246,12 @@ class ContractDetailController extends Controller
                 // log::info('ndani');
                 return response()->json([
                     'status' => 200,
-                    "message" => "Social Record Updated Successfully",
+                    "message" => "Contract details Successfully updated.",
                 ]);
             } else {
                 return response()->json([
                     'status' => 500,
-                    'message' => 'Update process failed'
+                    'message' => 'Sorry! operation failed.'
 
 
                 ]);

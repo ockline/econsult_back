@@ -222,17 +222,21 @@ class TechnicalInterviewRepository extends  BaseRepository
 
             $tech_candidate = new PracticalTestTranc();
 
-            $tech_candidate->create([
+           $techCandidate = $tech_candidate->create([
                 'practical_test_id' => !empty($request['$practical_test_id']) ? $request['$practical_test_id'] : 1,
                 'ranking_creterial_id' => !empty($request['ranking_creterial_id']) ? $request['ranking_creterial_id'] : 0,
                 'technical_interview_id' => !empty($candidate->id) ? $candidate->id : 1,
                 'test_marks' => !empty($request['test_marks']) ? $request['test_marks'] : 0,
                 'practicl_test_remark' => !empty($request['practicl_test_remark']) ? $request['practicl_test_remark'] : 0,
                 'description' => !empty($request['description']) ? $request['description'] : null,
-
-
-
             ]);
+
+
+                if($request->practical_test_doc){
+                   $interview_id = $techCandidate->technical_interview_id;
+                    $this->updateTechnicalDocument($request, $interview_id);
+                    }
+
             DB::commit();
 
             return response()->json(['message' => 'Practical Test saved successfully', 'status' => 201], 201);
@@ -260,7 +264,7 @@ class TechnicalInterviewRepository extends  BaseRepository
             try {
                 $input = $request->all();
 
-                log::info($input);
+                // log::info($input);
                 // $candidate_details->additional_comment = $request->input('additional_comment');
 
                 //     $candidate_details->update();
@@ -364,54 +368,49 @@ class TechnicalInterviewRepository extends  BaseRepository
      */
     public function updateTechnicalDocument($request, $interview_id)
     {
-        // Log::info($request->all());
+        Log::info($request->all());
 
         DB::beginTransaction();
 
         try {
-
             $documents = [];
-
-            $documentTypes = ['technical_signed_doc'];
+            $documentTypes = ['technical_signed_doc', 'practical_test_doc', 'driving_licence'];
 
             foreach ($documentTypes as $documentType) {
                 if ($request->hasFile($documentType) && $interview_id) {
-                    $file = $request->file($documentType);
+                    $files = $request->file($documentType);
 
+                    // Convert to array if single file
+                    $files = is_array($files) ? $files : [$files];
 
-                    if(($file)) {
-                         log::info($file);
-                        //   log::info($id);
-                        $fileName = time() . '_' . $file->getClientOriginalName();
-                        // $file->move(public_path('hiring/vacancies'), $fileName);
-                        $file->move(public_path('hiring/technical'), $fileName);
-                        // log::info('hureee'. json_encode($fileName));
-                        $documents[] = [
-                            'name' => $documentType,
-                            'document_id' => $this->getDocumentId($documentType), // Implement a function to get the document ID based on the type
-                            'description' => $fileName,
-                            'document_group_id' => 4,
-                            'technical_interview_id' => $interview_id,
-                        ];
+                    foreach ($files as $file) {
+                        if ($file && $file->isValid()) {
+                            $fileName = time() . '_' . $file->getClientOriginalName();
+                            $file->move(public_path('hiring/technical'), $fileName);
+
+                            $documents[] = [
+                                'name' => $documentType,
+                                'document_id' => $this->getDocumentId($documentType),
+                                'description' => $fileName,
+                                'document_group_id' => 4,
+                                'technical_interview_id' => $interview_id,
+                            ];
+                        }
                     }
                 }
             }
-            // log::info('document:'. ' '. $documents);
+
             foreach ($documents as $document) {
-                // log::info('document: ******************');
                 TechnicalDocument::create($document);
             }
 
-
-
             DB::commit();
-
-            Log::info('Saved document  billa');
+            Log::info('Saved document successfully');
             return response()->json(['message' => 'Document created successfully', 'status' => 201], 201);
+
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Failed to save document', ['error' => $e->getMessage()]);
-
             return response()->json(['message' => 'Failed to save document', 'status' => 500]);
         }
     }
@@ -423,10 +422,10 @@ class TechnicalInterviewRepository extends  BaseRepository
         // $document_id = [7, 8, 32];
         //  $documentTypes = ['practical_test_doc','driving_licence', 'technial_signed_doc'];
         switch ($documentId) {
-            case 'practical_test_doc';
+            case 'driving_licence';
                 return 7;
                 break;
-            case 'driving_licence';
+            case 'practical_test_doc';
                 return 8;
                 break;
             case 'technical_signed_doc';
@@ -438,16 +437,14 @@ class TechnicalInterviewRepository extends  BaseRepository
     }
 
     /**
-     * Method to fetch HR Interviewed Candidate
+     * Method to fetch Technical Interviewed Candidate
      */
     public function getCandidate()
     {
-        // return $this->assessment->get();
-
-        return  DB::table('technical_interviews as ti')
+        return DB::table('technical_interviews as ti')
             ->select([
+                DB::raw('DISTINCT ON (ti.id) ti.id'), // Add DISTINCT ON to get unique records
                 DB::raw('ti.job_title_id'),
-                DB::raw('ti.id'),
                 DB::raw('ti.date'),
                 DB::raw('ti.interview_number'),
                 DB::raw('ti.status'),
@@ -456,7 +453,6 @@ class TechnicalInterviewRepository extends  BaseRepository
                 DB::raw('ti.middlename'),
                 DB::raw('ti.lastname'),
                 DB::raw('ti.cost_number'),
-                // DB::raw('ti.overall_rating'),
                 DB::Raw("CASE WHEN ti.technical_skill = 0 THEN 'N/A (0)' WHEN ti.technical_skill = 1 THEN 'Below Average(1)' WHEN ti.technical_skill = 2 THEN 'Average (2)' WHEN ti.technical_skill = 3 THEN 'Good'  WHEN ti.technical_skill = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS technical_skill"),
                 DB::Raw("CASE WHEN ti.relevant_experience = 0 THEN 'N/A (0)' WHEN ti.relevant_experience = 1 THEN 'Below Average(1)' WHEN ti.relevant_experience = 2 THEN 'Average (2)' WHEN ti.relevant_experience = 3 THEN 'Good'  WHEN ti.relevant_experience = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS relevant_experience"),
                 DB::Raw("CASE WHEN ti.knowledge_equipment = 0 THEN 'N/A (0)' WHEN ti.knowledge_equipment = 1 THEN 'Below Average(1)' WHEN ti.knowledge_equipment = 2 THEN 'Average (2)' WHEN ti.knowledge_equipment = 3 THEN 'Good'  WHEN ti.knowledge_equipment = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS knowledge_equipment"),
@@ -467,21 +463,20 @@ class TechnicalInterviewRepository extends  BaseRepository
                 DB::raw("CASE WHEN ti.downloaded  = 'true' THEN 'Yes' ELSE 'No' END AS downloaded "),
                 DB::raw("CASE WHEN ti.uploaded  = 'true' THEN 'Yes' ELSE 'No' END AS uploaded "),
                 DB::raw("CASE WHEN ti.final_recommendation  = 'true' THEN 'Accepted'  ELSE 'Not Accepted' END AS final_recommendation"),
-                DB::raw('ti.skill_remark '),
-                DB::raw('ti.experience_remark '),
-                DB::raw('ti.equipment_remark '),
-                DB::raw('ti.awareness_remark '),
-                DB::raw('jt.name as job_title'),
                 DB::raw('ti.skill_remark'),
+                DB::raw('ti.experience_remark'),
+                DB::raw('ti.equipment_remark'),
+                DB::raw('ti.awareness_remark'),
+                DB::raw('jt.name as job_title'),
                 DB::raw('jt.name as recommended_title'),
                 DB::raw('cc.name as cost_center'),
                 DB::raw('CONCAT(u.firstname, \' \', u.middlename, \'.\', u.lastname) as interviewer_name'),
             ])
             ->leftJoin('job_title as jt', 'ti.job_title_id', '=', 'jt.id')
             ->leftJoin('cost_centers as cc', 'ti.cost_center_id', '=', 'cc.id')
-            // ->leftJoin('practical_test_tranc as ptt', 'ptt.technical_interview_id', '=', 'ti.id')
             ->leftJoin('employers as e', 'ti.employer_id', '=', 'e.id')
             ->leftJoin('users as u', 'u.employer_id', '=', 'e.id')
+            ->where('ti.created_at', '>=', DB::raw("CURRENT_DATE - INTERVAL '1 month'"))
             ->orderBy('ti.id', 'DESC')
             ->get();
     }
@@ -542,10 +537,11 @@ class TechnicalInterviewRepository extends  BaseRepository
             ->orderBy('ti.id', 'DESC')
             ->get();
     }
- public function getCandidateDocument()
+ public function getCandidateDocument($id)
 {
     return DB::table('tech_interview_documents as tid')->select('tid.id','tid.technical_interview_id','document_id','tid.description','tid.updated_at as doc_modified', 'd.name as doc_name')
                                 ->leftJoin('documents as d', 'tid.document_id', '=', 'd.id')
+                                ->where('tid.technical_interview_id', $id)
                                 ->get();
 }
 }

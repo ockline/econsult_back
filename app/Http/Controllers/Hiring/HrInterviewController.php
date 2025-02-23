@@ -74,7 +74,7 @@ class HrInterviewController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "HR Competency Interview Assessed successfully submitted",
+                    "message" => "HR Competency  assessement successfully submitted.",
                 ];
             } else {
                 $return = [

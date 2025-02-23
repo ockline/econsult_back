@@ -23,6 +23,7 @@ class RelativeDetail extends Model
         'social_record_id',
         'relative_address',
         'relative_name',
+        'emergency_number'
 
     ];
 }

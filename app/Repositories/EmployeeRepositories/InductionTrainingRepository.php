@@ -88,6 +88,7 @@ class InductionTrainingRepository extends  BaseRepository
                 'notes' => !empty($input['notes']) ? $input['notes'] : null,
                 'conducted_date' => !empty($input['conducted_date']) ? $input['conducted_date'] : null,
                 'business' => !empty($input['business']) ? json_encode($input['business']) : null,
+                'trainings' => !empty($input['trainings']) ? json_encode($input['trainings']) : null,
                 'establishment' => !empty($input['establishment']) ? $input['establishment'] : null,
                 'roles_key' => !empty($input['roles_key']) ? json_encode($input['roles_key']) : null,
                 'employee_remuneration' => !empty($input['employee_remuneration']) ? json_encode($input['employee_remuneration']) : null,
@@ -263,6 +264,7 @@ class InductionTrainingRepository extends  BaseRepository
                 'conducted_date' => !empty($input['conducted_date']) ? $input['conducted_date'] : null,
                 'business' => !empty($input['business']) ? json_encode($input['business']) : null,
                 'establishment' => !empty($input['establishment']) ? $input['establishment']: null,
+                'trainings' => !empty($input['trainings']) ? json_encode($input['trainings']) : null,
                 'roles_key' => !empty($input['roles_key']) ? json_encode($input['roles_key']) : null,
                 'employee_remuneration' => !empty($input['employee_remuneration']) ? json_encode($input['employee_remuneration']) : null,
                 'employment_condition' => !empty($input['employment_condition']) ? json_encode($input['employment_condition']) : null,
@@ -397,4 +399,41 @@ public function updateStageData($induction_training)
 
         return $data;
     }
+public function getInductionSocialRecordDetails($id)
+{
+    $data =  DB::table('social_records as sr')
+            ->select([
+                'sr.*',
+                DB::raw('CONCAT(sr.firstname, \' \', sr.middlename, \' \', sr.lastname) as employee_name'),
+                DB::raw('e.employee_no'),
+            DB::raw("TO_CHAR(e.from_date, 'YYYY-MM-DD HH24:MI:SS') AS employment_date"),
+                'e.job_title_id',
+                'sr.id as social_record_id',
+                DB::raw('it.stage as stage'),
+                DB::raw('dp.name as department'),
+                DB::raw("CASE
+                            WHEN sr.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN sr.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN sr.progressive_stage = 3 THEN 'Social Record'
+                            WHEN sr.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN sr.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN sr.progressive_stage = 6 THEN 'Person ID'
+                            ELSE 'Registration Completed'
+                        END AS progressive"),
+            'emp.name as employer', 'emp.email as employer_address', 'emp.id as employer_id',
+            'emp.contact_person as contact_personal',
+            'emp.contact_person_phone as personal_contacts',
+'jt.name as job_title'
+            ])
+
+           ->leftJoin('employees as e', 'sr.employee_id', '=', 'e.id')
+           ->leftJoin('departments as dp', 'sr.department_id', '=', 'dp.id')
+           ->leftJoin('induction_trainings as it', 'it.social_record_id', '=', 'sr.id')
+            ->leftJoin('employers as emp', 'e.employer_id','=','emp.id')
+->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
+           ->where('sr.id', $id)
+           ->first();
+
+        return $data;
+}
 }

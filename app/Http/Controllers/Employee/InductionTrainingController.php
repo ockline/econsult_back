@@ -273,32 +273,30 @@ class InductionTrainingController extends Controller
     //         ]);
     //     }
     // }
-    // public function updateEducation(Request $request, string $id)
-    // {
-    //     //    Log::info($request->all());
-    //     $education_history = $this->induction->updateEducationHistory($request, $id);
 
-    //     $status = $education_history->getStatusCode();
-    //     // Log::info($status);
-    //     // Get HTTP status code
-    //     $responseContent = $education_history->getContent();
+    /**
+*@method to  retrieve  social record  for the induction training
+     */
+   public function getInductionSocialRecordDetails(string $id)
+    {
+
+       $social_records = $this->induction->getInductionSocialRecordDetails($id);
+        //   Log::info($employee);
+        if (isset($social_records)) {
+            return response()->json([
+                'status' => 200,
+                'social_records' => $social_records,
+            ]);
+        } else {
+            return response()->json([
+                'status' => 404,
+                'message' => "No data found",
+
+            ]);
+        }
+    }
 
 
-    //     if ($status === 200) {
-    //         // log::info('ndani');
-    //         return response()->json([
-    //             'status' => 200,
-    //             "message" => "Education Updated Successfully",
-    //         ]);
-    //     } else {
-    //         return response()->json([
-    //             'status' => 500,
-    //             'message' => 'Sorry! Operation failed'
-
-
-    //         ]);
-    //     }
-    // }
 
     // public function editEmployment(string $id)
     // {

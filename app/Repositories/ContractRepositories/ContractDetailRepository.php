@@ -114,6 +114,11 @@ class ContractDetailRepository extends  BaseRepository
                 'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
                 'date_employed' => !empty($input['date_employed']) ? $input['date_employed'] : 0,
                 'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
+                'passport_attachment' => !empty($input['passport_attachment']) ?
+                    (is_array($input['passport_attachment']) ?
+                        base64_encode(file_get_contents($input['passport_attachment'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['passport_attachment']->getPathname()))
+                    ) : null,
                 'stage' => 0,
                 'progressive_stage' => 5,
                 'status' => 0,
@@ -274,6 +279,11 @@ class ContractDetailRepository extends  BaseRepository
                 'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
                 'fullname_next1' => !empty($input['fullname_next1']) ? $input['fullname_next1'] : $input['firstname'],
                 'residence1' => !empty($input['residence1']) ? $input['residence1'] : null,
+                 'passport_attachment' => !empty($input['passport_attachment']) ?
+                    (is_array($input['passport_attachment']) ?
+                        base64_encode(file_get_contents($input['passport_attachment'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['passport_attachment']->getPathname()))
+                    ) : null,
                 'phone_number1' => !empty($input['phone_number1']) ? $input['phone_number1'] : null,
                 'relationship1' => !empty($input['relationship1']) ? $input['relationship1'] : null,
                 'fullname_next2' => !empty($input['fullname_next2']) ? $input['fullname_next2'] : $input['firstname'],

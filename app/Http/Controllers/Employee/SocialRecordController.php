@@ -38,10 +38,7 @@ class SocialRecordController extends Controller
     }
     public function getSocialRecord(string $id)
     {
-        // Log::info($id);
-
-        // $employeeList = $this->social_record(); // Assuming $employeeList is an array of objects
-
+        
         $employee = Employee::find($id);
         //   Log::info($employee);
         if (isset($employee)) {
@@ -99,12 +96,12 @@ class SocialRecordController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employee person details submitted",
+                    "message" => "Social record successfully created.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
+                    'message' => 'Sorry! Operation failed.'
 
 
                 ];
@@ -271,7 +268,7 @@ class SocialRecordController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Relative Details addedd Successfully",
+                    "message" => "Relative details successfully addedd.",
                 ];
             } else {
                 $return = [
@@ -312,7 +309,7 @@ class SocialRecordController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Dependant people added Successfully",
+                    "message" => "Dependant people Successfully addedd.",
                 ];
             } else {
                 $return = [

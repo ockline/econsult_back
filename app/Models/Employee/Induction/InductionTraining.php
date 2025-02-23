@@ -50,7 +50,8 @@ class InductionTraining extends Model
 'status',
 'created_at',
 'updated_at',
-'deleted_at'
+'deleted_at',
+'trainings'
 
     ];
 

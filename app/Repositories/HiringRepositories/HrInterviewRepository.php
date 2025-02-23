@@ -82,6 +82,7 @@ class HrInterviewRepository extends  BaseRepository
                 'education_knowledge' => !empty($input['education_knowledge']) ? $input['education_knowledge'] : 0,
                 'relevant_experience' => !empty($input['relevant_experience']) ? $input['relevant_experience'] : 0,
                 'major_achievement' => !empty($input['major_achievement']) ? $input['major_achievement'] : 0,
+                'criminal_bureau' => !empty($input['criminal_bureau']) ? $input['criminal_bureau'] : 'No',
                 'language_fluency_id' => !empty($input['language_fluency_id']) ? $input['language_fluency_id'] : 0,
                 'education_knowledge_remark' => !empty($input['education_knowledge_remark']) ? $input['education_knowledge_remark'] : null,
                 'relevant_experience_remark' => !empty($input['relevant_experience_remark']) ? $input['relevant_experience_remark'] : null,
@@ -256,7 +257,7 @@ class HrInterviewRepository extends  BaseRepository
 
             $documents = [];
 
-            $documentTypes = ['military_doc'];
+            $documentTypes = ['military_doc','police_doc'];
 
             foreach ($documentTypes as $documentType) {
                 if ($request->hasFile($documentType) && $assessment_id) {
@@ -302,6 +303,9 @@ class HrInterviewRepository extends  BaseRepository
         // $document_id = [29, 30];
         //  $documentTypes = [job_request_doc','shortlisted_doc'];
         switch ($documentId) {
+             case 'police_doc';
+                return 24;
+                break;
             case 'military_doc';
                 return 30;
                 break;
@@ -359,6 +363,7 @@ class HrInterviewRepository extends  BaseRepository
                     'residence_place' => !empty($input['residence_place']) ? $input['residence_place'] : null,
                     'relative_inside' => !empty($input['relative_inside']) ? $input['relative_inside'] : 2,
                     'relative_name' => !empty($input['relative_name']) ? $input['relative_name'] : null,
+                    'criminal_bureau' => !empty($input['criminal_bureau']) ? $input['criminal_bureau'] : 'No',
                     'chronic_disease' => !empty($input['chronic_disease']) ? $input['chronic_disease'] : 2,
                     'chronic_remarks' => !empty($input['chronic_remarks']) ? $input['chronic_remarks'] : null,
                     'pregnant' => !empty($input['pregnant']) ? $input['pregnant'] : 2,
@@ -504,7 +509,7 @@ class HrInterviewRepository extends  BaseRepository
 
             $documents = [];
 
-            $documentTypes = ['military_doc', 'hr_signed_doc'];
+            $documentTypes = ['military_doc', 'hr_signed_doc', 'police_doc'];
 
             foreach ($documentTypes as $documentType) {
                 if ($request->hasFile($documentType) && $interview_id) {
@@ -660,6 +665,8 @@ class HrInterviewRepository extends  BaseRepository
             ->leftJoin('competencies_transactions as cots', 'cots.competency_interview_id', '=', 'ci.id')
             ->leftJoin('employers as e', 'ci.employer_id', '=', 'e.id')
             ->leftJoin('users as u', 'u.employer_id', '=', 'e.id')
+            ->whereIn('recruiter_recommendations', [1,2])
+            ->where('ci.date', '>=', DB::raw("CURRENT_DATE - INTERVAL '1 month'"))
             ->orderBy('ci.id', 'DESC')
             ->get();
         //  log::info($assessed_candidate);

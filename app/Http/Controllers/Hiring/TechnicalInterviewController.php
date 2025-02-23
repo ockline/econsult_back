@@ -75,12 +75,12 @@ class TechnicalInterviewController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Candidate Assessment submitted",
+                    "message" => "Candidate successfuly saved.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
+                    'message' => 'Sorry! Operation failed.'
 
 
                 ];
@@ -110,7 +110,7 @@ class TechnicalInterviewController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Candidate Assessment submitted",
+                    "message" => "Candidate practical test successfuly added.",
                 ];
             } else {
                 $return = [
@@ -338,9 +338,9 @@ public function lastCandidate()
     // }
     public function candidateDocument(string $id)
 {
-  $document = $this->candidate->getCandidateDocument();
+  $candidate_document = $this->candidate->getCandidateDocument($id);
 //   log::info($document);
-        $candidate_document = $document->where('technical_interview_id', $id);
+        // $candidate_document = $document->where('technical_interview_id', $id);
 
 
         if (isset($candidate_document)) {

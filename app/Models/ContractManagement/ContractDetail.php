@@ -45,6 +45,8 @@ class ContractDetail extends Model
         'uploaded_date',
         'stage',
         'progressive_stage',
+        'passport_attachment',
+        'birth_place'
 
     ];
 }
