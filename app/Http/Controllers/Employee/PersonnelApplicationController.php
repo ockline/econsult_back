@@ -75,75 +75,7 @@ class PersonnelApplicationController extends Controller
             'birth_place' => 'required|max:191',
             'job_title_id' => 'required|max:191',
             'purpose' => 'required|max:191',
- if (isset($details)) {
-        try {
-            // Configure mPDF with specific settings
-            $mpdf = new \Mpdf\Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'margin_header' => 0,
-                'margin_top' => 20,
-                'margin_bottom' => 20,
-                'margin_footer' => 0,
-            ]);
 
-            // Enable image handling and set temp directory
-            $mpdf->showImageErrors = true;
-
-            $mpdf->SetTitle('New Employee');
-
-            // Convert image paths to absolute paths
-            $logoPath = public_path('images/socrate.png');
-            $backgroundPath = public_path('images/socrate_emp.png');
-
-            // Pass the absolute paths to the view
-            $sheet = view('general_application.new_employee', [
-                'employee' => $details,
-                'logoPath' => $logoPath,
-                'backgroundPath' => $backgroundPath
-            ])->render();
-
-
-            // Add debug information
-            Log::info('HTML Content Length: ' . strlen($sheet));
-
-            $mpdf->WriteHTML($sheet);
-
-            // Output PDF to string
-            $pdfContent = $mpdf->Output('', 'S');
-
-            Log::info('PDF Content Length: ' . strlen($pdfContent));
-
-            if (strlen($pdfContent) === 0) {
-                throw new \Exception('PDF generation produced empty content');
-            }
-
-            $details = base64_encode($pdfContent);
-
-            $executionTime = microtime(true) - $startTime;
-            Log::info('PDF generation completed in ' . $executionTime . ' seconds');
-
-            return response()->json([
-                'status' => 200,
-                'details' => $details,
-                'message' => 'Success'
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('PDF Generation Error: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
-
-            return response()->json([
-                'status' => 500,
-                'message' => "Error generating PDF: " . $e->getMessage()
-            ]);
-        }
-    }
-
-    return response()->json([
-        'status' => 500,
-        'message' => "No details found for the employee."
-    ]);
         ]);
 
         if ($validator->fails()) {
@@ -166,70 +98,7 @@ class PersonnelApplicationController extends Controller
                     'status' => 500,
                     'message' => 'Sorry! Operation failed'
 
-                ]; if (isset($details)) {
-        try {
-            // Configure mPDF with specific settings
-            $mpdf = new \Mpdf\Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'margin_header' => 0,
-                'margin_top' => 20,
-                'margin_bottom' => 20,
-                'margin_footer' => 0,
-            ]);
-
-            // Enable image handling and set temp directory
-            $mpdf->showImageErrors = true;
-
-            $mpdf->SetTitle('New Employee');
-
-            // Convert image paths to absolute paths
-            $logoPath = public_path('images/socrate.png');
-            $backgroundPath = public_path('images/socrate_emp.png');
-
-            // Pass the absolute paths to the view
-            $sheet = view('general_application.new_employee', [
-                'employee' => $details,
-                'logoPath' => $logoPath,
-                'backgroundPath' => $backgroundPath
-            ])->render();
-
-
-            // Add debug information
-            Log::info('HTML Content Length: ' . strlen($sheet));
-
-            $mpdf->WriteHTML($sheet);
-
-            // Output PDF to string
-            $pdfContent = $mpdf->Output('', 'S');
-
-            Log::info('PDF Content Length: ' . strlen($pdfContent));
-
-            if (strlen($pdfContent) === 0) {
-                throw new \Exception('PDF generation produced empty content');
-            }
-
-            $details = base64_encode($pdfContent);
-
-            $executionTime = microtime(true) - $startTime;
-            Log::info('PDF generation completed in ' . $executionTime . ' seconds');
-
-            return response()->json([
-                'status' => 200,
-                'details' => $details,
-                'message' => 'Success'
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('PDF Generation Error: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
-
-            return response()->json([
-                'status' => 500,
-                'message' => "Error generating PDF: " . $e->getMessage()
-            ]);
-        }
-    }
+                ];
 
     return response()->json([
         'status' => 500,
@@ -247,70 +116,7 @@ class PersonnelApplicationController extends Controller
 
         $data = SocialRecord::where('id', $id)->first();
         // log::info($data);
-        $personnel_document = $document->where('employee_id', $data->employee_id); if (isset($details)) {
-        try {
-            // Configure mPDF with specific settings
-            $mpdf = new \Mpdf\Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'margin_header' => 0,
-                'margin_top' => 20,
-                'margin_bottom' => 20,
-                'margin_footer' => 0,
-            ]);
-
-            // Enable image handling and set temp directory
-            $mpdf->showImageErrors = true;
-
-            $mpdf->SetTitle('New Employee');
-
-            // Convert image paths to absolute paths
-            $logoPath = public_path('images/socrate.png');
-            $backgroundPath = public_path('images/socrate_emp.png');
-
-            // Pass the absolute paths to the view
-            $sheet = view('general_application.new_employee', [
-                'employee' => $details,
-                'logoPath' => $logoPath,
-                'backgroundPath' => $backgroundPath
-            ])->render();
-
-
-            // Add debug information
-            Log::info('HTML Content Length: ' . strlen($sheet));
-
-            $mpdf->WriteHTML($sheet);
-
-            // Output PDF to string
-            $pdfContent = $mpdf->Output('', 'S');
-
-            Log::info('PDF Content Length: ' . strlen($pdfContent));
-
-            if (strlen($pdfContent) === 0) {
-                throw new \Exception('PDF generation produced empty content');
-            }
-
-            $details = base64_encode($pdfContent);
-
-            $executionTime = microtime(true) - $startTime;
-            Log::info('PDF generation completed in ' . $executionTime . ' seconds');
-
-            return response()->json([
-                'status' => 200,
-                'details' => $details,
-                'message' => 'Success'
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('PDF Generation Error: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
-
-            return response()->json([
-                'status' => 500,
-                'message' => "Error generating PDF: " . $e->getMessage()
-            ]);
-        }
-    }
+        $personnel_document = $document->where('employee_id', $data->employee_id); 
 
     return response()->json([
         'status' => 500,
@@ -327,75 +133,7 @@ class PersonnelApplicationController extends Controller
         } else {
             // log::info('222');
             return response()->json([
-                'status' => 500, if (isset($details)) {
-        try {
-            // Configure mPDF with specific settings
-            $mpdf = new \Mpdf\Mpdf([
-                'mode' => 'utf-8',
-                'format' => 'A4',
-                'margin_header' => 0,
-                'margin_top' => 20,
-                'margin_bottom' => 20,
-                'margin_footer' => 0,
-            ]);
-
-            // Enable image handling and set temp directory
-            $mpdf->showImageErrors = true;
-
-            $mpdf->SetTitle('New Employee');
-
-            // Convert image paths to absolute paths
-            $logoPath = public_path('images/socrate.png');
-            $backgroundPath = public_path('images/socrate_emp.png');
-
-            // Pass the absolute paths to the view
-            $sheet = view('general_application.new_employee', [
-                'employee' => $details,
-                'logoPath' => $logoPath,
-                'backgroundPath' => $backgroundPath
-            ])->render();
-
-
-            // Add debug information
-            Log::info('HTML Content Length: ' . strlen($sheet));
-
-            $mpdf->WriteHTML($sheet);
-
-            // Output PDF to string
-            $pdfContent = $mpdf->Output('', 'S');
-
-            Log::info('PDF Content Length: ' . strlen($pdfContent));
-
-            if (strlen($pdfContent) === 0) {
-                throw new \Exception('PDF generation produced empty content');
-            }
-
-            $details = base64_encode($pdfContent);
-
-            $executionTime = microtime(true) - $startTime;
-            Log::info('PDF generation completed in ' . $executionTime . ' seconds');
-
-            return response()->json([
-                'status' => 200,
-                'details' => $details,
-                'message' => 'Success'
-            ]);
-
-        } catch (\Exception $e) {
-            Log::error('PDF Generation Error: ' . $e->getMessage());
-            Log::error('Stack trace: ' . $e->getTraceAsString());
-
-            return response()->json([
                 'status' => 500,
-                'message' => "Error generating PDF: " . $e->getMessage()
-            ]);
-        }
-    }
-
-    return response()->json([
-        'status' => 500,
-        'message' => "No details found for the employee."
-    ]);
                 'message' => "Internal server Error"
             ]);
         }
@@ -1093,8 +831,8 @@ if ($type == 1) {
         'status' => 500,
         'message' => "No details found for the employee."
     ]);
-            
-       
+
+
     }
     if ($type == 4) {
         if (isset($details)) {
