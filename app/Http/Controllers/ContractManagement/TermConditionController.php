@@ -88,12 +88,12 @@ class TermConditionController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employee Terms and Condition submitted",
+                    "message" => "Term condition contract successfully created.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
+                    'message' => 'Sorry! Operation failed.'
                 ];
             }
         }
@@ -193,7 +193,7 @@ class TermConditionController extends Controller
                 // log::info('ndani');
                 return response()->json([
                     'status' => 200,
-                    "message" => "Specific Contract Updated Successfully",
+                    "message" => "Specific contract Successfully updated",
                 ]);
             } else if($status === 500){
                 return response()->json([
@@ -203,7 +203,7 @@ class TermConditionController extends Controller
             }else {
             return response()->json([
                 'status' => 404,
-                'message' => 'No Data found to be updated!; kindly register first'
+                'message' => 'No Data found to be updated!; kindly register first.'
             ]);
         }
     }

@@ -99,7 +99,7 @@ class SpecificTaskController extends Controller
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
                 // Log::info('ndani ya nyumba');
-            
+
             $new_specific_task = $this->specific_task->addFixedContract($request);
 
             $status = $new_specific_task->getStatusCode();
@@ -110,12 +110,12 @@ class SpecificTaskController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Employee Specific Contract submitted",
+                    "message" => "Specific task contract Successfully Created.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
+                    'message' => 'Sorry! Operation failed.'
                 ];
             }
         }
@@ -125,9 +125,9 @@ class SpecificTaskController extends Controller
     public function getSpecificTaskDocument(string $id)
     {
         // log::info($id);
-        $document = $this->specific_task->getSpecificContractDoc();
+        $contract_document = $this->specific_task->getSpecificContractDoc($id);
 
-        $contract_document = $document->where('employee_id', $id);
+        // $contract_document = $document->where('employee_id', $id);
 
         //   log::info($contract_document);
         if (isset($contract_document)) {
@@ -151,9 +151,9 @@ class SpecificTaskController extends Controller
     {
         //  log::info($id);
 
-        $details = $this->specific_task->showDownloadSpecific();
+        $specific_task = $this->specific_task->showDownloadSpecific($id);
 
-        $specific_task = $details->where('employee_id', $id)->first();
+        // $specific_task = $details->where('employee_id', $id)->first();
 
         // if (!isset($specific_task)) {
         //     return response()->json([
@@ -215,12 +215,12 @@ class SpecificTaskController extends Controller
                 // log::info('ndani');
                 return response()->json([
                     'status' => 200,
-                    "message" => "Specific Contract Updated Successfully",
+                    "message" => "Specific Contract successfully updated.",
                 ]);
             } else if($status === 500){
                 return response()->json([
                     'status' => 500,
-                    'message' => 'Update process failed'
+                    'message' => 'Sorry! operation failed.'
                 ]);
             }else {
             return response()->json([

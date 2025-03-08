@@ -341,6 +341,7 @@ class FixedContractRepository extends  BaseRepository
             ])
             ->leftJoin('employees as e', 'cf.employee_id', '=', 'e.id')
             ->leftJoin('job_title as jt', 'cf.job_title_id', '=', 'jt.id')
+            // ->where
             ->orderBy('cf.id', 'DESC')
             ->get();
 

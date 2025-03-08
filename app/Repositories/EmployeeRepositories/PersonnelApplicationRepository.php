@@ -57,8 +57,6 @@ class PersonnelApplicationRepository extends  BaseRepository
     {
         //   log::info($request->all());
 
-
-
         DB::beginTransaction();
 
         try {
@@ -72,9 +70,10 @@ class PersonnelApplicationRepository extends  BaseRepository
                 'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
                 'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
                 'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
-                'birth_place' => !empty($input['birth_place']) ? $input['birth_place'] : null,
+                'safety_induction' => !empty($input['safety_induction']) ? $input['safety_induction'] : null,
                 'duration_deployment' => !empty($input['duration_deployment']) ? $input['duration_deployment'] : null,
                 'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'employee_no' => !empty($input['employee_no']) ? $input['employee_no'] : null,
                 'personal_type' => !empty($input['personal_type']) ? $input['personal_type'] : 1,
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                 'section' => !empty($input['section']) ? $input['section'] : null,
@@ -85,8 +84,13 @@ class PersonnelApplicationRepository extends  BaseRepository
                 'purpose' => !empty($input['purpose']) ? $input['purpose'] : null,
                 'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
                 'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
-                // 'uploaded' => !empty($input['uploaded']) ? $input['uploaded'] : 0,
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : 1,
                 'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
+                'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                    (is_array($input['nida_passport_doc']) ?
+                        base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                    ) : null,
                 'stage' => 0,
                 'progressive_stage' => 3,
                 'status' => 0,
@@ -94,7 +98,7 @@ class PersonnelApplicationRepository extends  BaseRepository
             ]);
             // Log::info('vita iendeleee');
             $employee_id = $input['employee_id'];
-            $this->updateUploadedDocument($request);
+            // $this->updateUploadedDocument($request);
             DB::commit();
 
             Log::info('Saved done');
@@ -200,9 +204,10 @@ class PersonnelApplicationRepository extends  BaseRepository
                     'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
                     'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
                     'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
-                    'birth_place' => !empty($input['birth_place']) ? $input['birth_place'] : null,
+                    'safety_induction' => !empty($input['safety_induction']) ? $input['safety_induction'] : null,
                     'duration_deployment' => !empty($input['duration_deployment']) ? $input['duration_deployment'] : null,
                     'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                    'employee_no' => !empty($input['employee_no']) ? $input['employee_no'] : null,
                     'personal_type' => !empty($input['personal_type']) ? $input['personal_type'] : 1,
                     'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                     'section' => !empty($input['section']) ? $input['section'] : null,
@@ -213,8 +218,13 @@ class PersonnelApplicationRepository extends  BaseRepository
                     'purpose' => !empty($input['purpose']) ? $input['purpose'] : null,
                     'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
                     'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
-                    // 'uploaded' => !empty($input['uploaded']) ? $input['uploaded'] : 0,
+                    'id_type' => !empty($input['id_type']) ? $input['id_type'] : 1,
                     'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
+                    'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                        (is_array($input['nida_passport_doc']) ?
+                            base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                            base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                        ) : null,
                     'stage' => 0,
                     'progressive_stage' => 3,
                     'status' => 0,
@@ -289,11 +299,11 @@ class PersonnelApplicationRepository extends  BaseRepository
             ->leftJoin('employers as em', 'ei.employer_id', '=', 'em.id')
             ->leftJoin('job_title as jt', 'ei.job_title_id', '=', 'jt.id')
             ->leftJoin('departments as d', 'ei.department_id', '=', 'd.id')
-            ->orderBy('ei.id', 'DESC')->where('ie.employee_id', $id)
+            ->orderBy('ei.id', 'DESC')->where('ei.employee_id', $id)
 
             ->get();
 
-// log::info($data);
+        // log::info($data);
         return $data;
     }
     public function getSocialRecord()
@@ -369,4 +379,422 @@ class PersonnelApplicationRepository extends  BaseRepository
             SocialRecord::where('employee_id', $personnel_applications->employee_id)->update(['stage' => 1, 'progressive_stage' => 7]);
         }
     }
+
+    //**************************   Block to handle OTher type of id request  *******************************
+
+
+    public function addChangeJobTitle($request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $input = $request->all();
+
+            PersonnelApplication::create([
+                'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,
+                'middlename' => !empty($input['middlename']) ? $input['middlename'] : null,
+                'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
+                'new_department_id' => !empty($input['new_department_id']) ? $input['new_department_id'] : null,
+                'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
+                'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'employee_no' => !empty($input['employee_no']) ? $input['employee_no'] : null,
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : 1,
+                'new_job_title_id' => !empty($input['new_job_title_id']) ? $input['new_job_title_id'] : null,
+                'effective_date' => !empty($input['effective_date']) ? $input['effective_date'] : null,
+                'employer_id' => !empty($input['employer_id']) ? $input['employer_id'] : null,
+                'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                    (is_array($input['nida_passport_doc']) ?
+                        base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                    ) : null,
+                'stage' => 0,
+                'progressive_stage' => 3,
+                'status' => 0,
+
+            ]);
+
+
+            DB::commit();
+
+            Log::info('Saved done');
+            return response()->json(['message' => 'Personnel ID Application created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create personnel Id application', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create personnel Id application', 'status' => 500]);
+        }
+    }
+
+    public function addSubcontractorRequest($request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $input = $request->all();
+
+
+
+            PersonnelApplication::create([
+                'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,
+                'middlename' => !empty($input['middlename']) ? $input['middlename'] : null,
+                'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
+                'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
+                'contact_person' => !empty($input['contact_person']) ? $input['contact_person'] : null,
+                'safety_induction' => !empty($input['safety_induction']) ? $input['safety_induction'] : null,
+                'phone_number' => !empty($input['phone_number']) ? $input['phone_number'] : null,
+                'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'employee_no' => !empty($input['employee_no']) ? $input['employee_no'] : null,
+                'email_address' => !empty($input['email_address']) ? $input['email_address'] : 1,
+                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                'emergency_contact_name' => !empty($input['emergency_contact_name']) ? $input['emergency_contact_name'] : null,
+                'emergency_contact_number' => !empty($input['emergency_contact_number']) ? $input['emergency_contact_number'] : null,
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : 2,
+                'from_date' => !empty($input['from_date']) ? $input['from_date'] : null,
+                'end_date' => !empty($input['end_date']) ? $input['end_date'] : null,
+                'organization' => !empty($input['organization']) ? $input['organization'] : null,
+                'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                    (is_array($input['nida_passport_doc']) ?
+                        base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                    ) : null,
+                'stage' => 0,
+                'progressive_stage' => 3,
+                'status' => 0,
+
+            ]);
+
+
+            DB::commit();
+
+            Log::info('Saved done');
+            return response()->json(['message' => 'Personnel ID Application created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create personnel Id application', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create personnel Id application', 'status' => 500]);
+        }
+    }
+
+    public function addTemporaryRequest($request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $input = $request->all();
+
+
+
+
+            PersonnelApplication::create([
+                'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,
+                'middlename' => !empty($input['middlename']) ? $input['middlename'] : null,
+                'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
+                'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
+                'organization' => !empty($input['organization']) ? $input['organization'] : null,
+                'safety_induction' => !empty($input['safety_induction']) ? $input['safety_induction'] : null,
+                'contact_number' => !empty($input['contact_number']) ? $input['contact_number'] : null,
+                'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'employee_no' => !empty($input['employee_no']) ? $input['employee_no'] : null,
+                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                'host_name' => !empty($input['host_name']) ? $input['host_name'] : null,
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : 2,
+                'from_date' => !empty($input['from_date']) ? $input['from_date'] : null,
+                'end_date' => !empty($input['end_date']) ? $input['end_date'] : null,
+                'purpose' => !empty($input['purpose']) ? $input['purpose'] : null,
+                'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                    (is_array($input['nida_passport_doc']) ?
+                        base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                    ) : null,
+                'stage' => 0,
+                'progressive_stage' => 3,
+                'status' => 0,
+
+            ]);
+
+
+            DB::commit();
+
+            Log::info('Saved done');
+            return response()->json(['message' => 'Personnel ID Application created successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create personnel Id application', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create personnel Id application', 'status' => 500]);
+        }
+    }
+
+    public function addVistorRequest($request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $input = $request->all();
+
+            PersonnelApplication::create([
+                'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,
+                'middlename' => !empty($input['middlename']) ? $input['middlename'] : null,
+                'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
+                'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
+                'organization' => !empty($input['organization']) ? $input['organization'] : null,
+                'safety_induction' => !empty($input['safety_induction']) ? $input['safety_induction'] : null,
+                'contact_number' => !empty($input['contact_number']) ? $input['contact_number'] : null,
+                'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
+                'employee_no' => !empty($input['employee_no']) ? $input['employee_no'] : null,
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : 1,
+                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                'host_name' => !empty($input['host_name']) ? $input['host_name'] : null,
+            'security_officer' => !empty($input['security_officer']) ? $input['security_officer'] : null,
+
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : 2,
+                'purpose' => !empty($input['purpose']) ? $input['purpose'] : null,
+                'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                    (is_array($input['nida_passport_doc']) ?
+                        base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                    ) : null,
+                'stage' => 0,
+                'progressive_stage' => 3,
+                'status' => 0,
+
+            ]);
+
+
+            DB::commit();
+
+            Log::info('Saved done');
+            return response()->json(['message' => 'Successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create personnel Id application', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create personnel Id application', 'status' => 500]);
+        }
+    }
+    public function addTraineeRequest($request)
+    {
+        DB::beginTransaction();
+
+        try {
+            $input = $request->all();
+
+
+            PersonnelApplication::create([
+                'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,
+                'middlename' => !empty($input['middlename']) ? $input['middlename'] : null,
+                'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
+                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
+                'national_id' => !empty($input['national_id']) ? $input['national_id'] : null,
+                'institution_name' => !empty($input['institution_name']) ? $input['institution_name'] : null,
+                'safety_induction' => !empty($input['safety_induction']) ? $input['safety_induction'] : null,
+                'host_name' => !empty($input['host_name']) ? $input['host_name'] : null,
+                'superVisor_name' => !empty($input['superVisor_name']) ? $input['superVisor_name'] : null,
+                'training_hr_manager' => !empty($input['training_hr_manager']) ? $input['training_hr_manager'] : null,
+                'course_study' => !empty($input['course_study']) ? $input['course_study'] : null,
+                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                'id_type' => !empty($input['id_type']) ? $input['id_type'] : null,
+                'nida_passport_doc' => !empty($input['nida_passport_doc']) ?
+                    (is_array($input['nida_passport_doc']) ?
+                        base64_encode(file_get_contents($input['nida_passport_doc'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['nida_passport_doc']->getPathname()))
+                    ) : null,
+                'from_date' => !empty($input['from_date']) ? $input['from_date'] : null,
+                'end_date' => !empty($input['end_date']) ? $input['end_date'] : null,
+                'stage' => 0,
+                'progressive_stage' => 3,
+                'status' => 0,
+
+            ]);
+
+
+            DB::commit();
+
+            Log::info('Saved done');
+            return response()->json(['message' => 'Successfully', 'status' => 201], 201);
+        } catch (\Exception $e) {
+            DB::rollback();
+            Log::error('Failed to create personnel Id application', ['error' => $e->getMessage()]);
+
+            return response()->json(['message' => 'Failed to create personnel Id application', 'status' => 500]);
+        }
+    }
+
+public function retrieveGeneralIdRequest()
+{
+
+     $data =  DB::table('employee_identifications as ei')
+            ->select([
+                DB::raw('ei.* '),
+               DB::raw("TO_CHAR(ei.created_at, 'DD-Mon-YYYY') AS requested"),
+                DB::raw("CASE
+                            WHEN ei.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN ei.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN ei.progressive_stage = 3 THEN 'Social Record'
+                            WHEN ei.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN ei.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN ei.progressive_stage = 6 THEN 'Person ID'
+                            ELSE 'Registration Completed'
+                        END AS progressive"),
+                      DB::raw("CASE
+                            WHEN ei.id_type = 1 THEN 'New Employee'
+                            WHEN ei.id_type = 2 THEN 'Job Title / Department Change'
+                            WHEN ei.id_type = 3 THEN 'Subcontractor Staff'
+                            WHEN ei.id_type = 4 THEN 'Temporary Site Entry'
+                            WHEN ei.id_type = 5 THEN 'Vistor Entry'
+                            WHEN ei.id_type = 6 THEN 'Trainee Entry'
+                            ELSE 'Unknown'
+                        END AS type"),
+                DB::raw('CONCAT(ei.firstname, \' \', ei.middlename, \' \', ei.lastname) as applicant'),
+                DB::raw('e.employee_no as employee'),
+                DB::raw('ei.personal_type as personal_type'),
+                DB::raw("CASE
+                            WHEN ei.personal_type = 1 THEN 'New Comers'
+                            WHEN ei.personal_type = 2 THEN 'Change Job'
+                            WHEN ei.personal_type = 3 THEN 'Vistor'
+                           WHEN ei.personal_type = 4 THEN 'Transfer'
+                            ELSE ''
+                        END AS personal_type"),
+                DB::raw("CASE
+                            WHEN ei.site_pass_type = 1 THEN 'Permanent'
+                            ELSE 'Temporary'
+                        END AS site_pass_type"),
+                DB::raw('em.name as employer'),
+                DB::raw('jt.name as job_title'),
+                DB::raw('d.name as department'),
+            ])
+            ->leftJoin('employees as e', 'ei.employee_id', '=', 'e.id')
+            ->leftJoin('employers as em', 'ei.employer_id', '=', 'em.id')
+            ->leftJoin('job_title as jt', 'ei.job_title_id', '=', 'jt.id')
+            ->leftJoin('departments as d', 'ei.department_id', '=', 'd.id')
+            ->orderBy('ei.id', 'DESC')
+            ->get();
+
+        // log::info($data);
+        return $data;
+}
+
+public function retrieveIdRequest($id)
+{
+    $data =  DB::table('employee_identifications as ei')
+            ->select([
+                DB::raw('ei.* '),
+               DB::raw("TO_CHAR(ei.created_at, 'DD-Mon-YYYY') AS requested"),
+                DB::raw("CASE
+                            WHEN ei.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN ei.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN ei.progressive_stage = 3 THEN 'Social Record'
+                            WHEN ei.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN ei.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN ei.progressive_stage = 6 THEN 'Person ID'
+                            ELSE 'Registration Completed'
+                        END AS progressive"),
+                      DB::raw("CASE
+                            WHEN ei.id_type = 1 THEN 'New Employee'
+                            WHEN ei.id_type = 2 THEN 'Job Title / Department Change'
+                            WHEN ei.id_type = 3 THEN 'Subcontractor Staff'
+                            WHEN ei.id_type = 4 THEN 'Temporary Site Entry'
+                            WHEN ei.id_type = 5 THEN 'Vistor Entry'
+                            WHEN ei.id_type = 6 THEN 'Trainee Entry'
+                            ELSE 'Unknown'
+                        END AS type"),
+                DB::raw('CONCAT(ei.firstname, \' \', ei.middlename, \' \', ei.lastname) as applicant'),
+                DB::raw('e.employee_no as employee'),
+                DB::raw('ei.personal_type as personal_type'),
+                DB::raw("CASE
+                            WHEN ei.personal_type = 1 THEN 'New Comers'
+                            WHEN ei.personal_type = 2 THEN 'Change Job'
+                            WHEN ei.personal_type = 3 THEN 'Vistor'
+                           WHEN ei.personal_type = 4 THEN 'Transfer'
+                            ELSE ''
+                        END AS personal_type"),
+                DB::raw("CASE
+                            WHEN ei.site_pass_type = 1 THEN 'Permanent'
+                            ELSE 'Temporary'
+                        END AS site_pass_type"),
+                DB::raw('em.name as employer'),
+                DB::raw('jt.name as job_title'),
+                DB::raw('jt1.name as new_job_title'),
+                DB::raw('d.name as department'),
+                DB::raw('d1.name as new_department'),
+            ])
+            ->leftJoin('employees as e', 'ei.employee_id', '=', 'e.id')
+            ->leftJoin('employers as em', 'ei.employer_id', '=', 'em.id')
+            ->leftJoin('job_title as jt', 'ei.job_title_id', '=', 'jt.id')
+ ->leftJoin('job_title as jt1', 'ei.new_job_title_id', '=', 'jt1.id')
+            ->leftJoin('departments as d', 'ei.department_id', '=', 'd.id')
+ ->leftJoin('departments as d1', 'ei.new_department_id', '=', 'd1.id')
+            ->where('ei.id', $id)
+            ->first();
+
+
+        return $data;
+
+}
+
+public function previewApplicationForm($id, $type)
+{
+
+ $data =  DB::table('employee_identifications as ei')
+            ->select([
+                DB::raw('ei.* '),
+               DB::raw("TO_CHAR(ei.created_at, 'DD-Mon-YYYY') AS requested"),
+                DB::raw("CASE
+                            WHEN ei.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN ei.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN ei.progressive_stage = 3 THEN 'Social Record'
+                            WHEN ei.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN ei.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN ei.progressive_stage = 6 THEN 'Person ID'
+                            ELSE 'Registration Completed'
+                        END AS progressive"),
+                      DB::raw("CASE
+                            WHEN ei.id_type = 1 THEN 'New Employee'
+                            WHEN ei.id_type = 2 THEN 'Job Title / Department Change'
+                            WHEN ei.id_type = 3 THEN 'Subcontractor Staff'
+                            WHEN ei.id_type = 4 THEN 'Temporary Site Entry'
+                            WHEN ei.id_type = 5 THEN 'Vistor Entry'
+                            WHEN ei.id_type = 6 THEN 'Trainee Entry'
+                            ELSE 'Unknown'
+                        END AS type"),
+                DB::raw('CONCAT(ei.firstname, \' \', ei.middlename, \' \', ei.lastname) as applicant'),
+                DB::raw('e.employee_no as employee'),
+                DB::raw('ei.personal_type as personal_type'),
+                DB::raw("CASE
+                            WHEN ei.personal_type = 1 THEN 'New Comers'
+                            WHEN ei.personal_type = 2 THEN 'Change Job'
+                            WHEN ei.personal_type = 3 THEN 'Vistor'
+                           WHEN ei.personal_type = 4 THEN 'Transfer'
+                            ELSE ''
+                        END AS personal_type"),
+                DB::raw("CASE
+                            WHEN ei.site_pass_type = 1 THEN 'Permanent'
+                            ELSE 'Temporary'
+                        END AS site_pass_type"),
+                DB::raw('em.name as employer'),
+                DB::raw('jt.name as job_title'),
+                DB::raw('jt1.name as new_job_title'),
+                DB::raw('d.name as department'),
+                DB::raw('d1.name as new_department'),
+            ])
+            ->leftJoin('employees as e', 'ei.employee_id', '=', 'e.id')
+            ->leftJoin('employers as em', 'ei.employer_id', '=', 'em.id')
+            ->leftJoin('job_title as jt', 'ei.job_title_id', '=', 'jt.id')
+            ->leftJoin('job_title as jt1', 'ei.new_job_title_id', '=', 'jt1.id')
+            ->leftJoin('departments as d', 'ei.department_id', '=', 'd.id')
+            ->leftJoin('departments as d1', 'ei.new_department_id', '=', 'd1.id')
+            ->where('ei.id', $id)
+            ->where('ei.id_type', $type)
+            ->first();
+
+
+        return $data;
+
+}
+
 }

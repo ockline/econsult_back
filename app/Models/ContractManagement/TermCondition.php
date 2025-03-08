@@ -26,6 +26,7 @@ class TermCondition extends Model
         'uploaded_date',
         'stage',
         'progressive_stage',
+        'supportive_attachment'
 
     ];
 }

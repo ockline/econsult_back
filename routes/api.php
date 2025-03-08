@@ -331,6 +331,18 @@ Route::prefix('employees')->group(function () {
 });
 
 
+/** api for general  */
+ Route::post('/application/create_id_request', [PersonnelApplicationController::class, 'createIdApplication'])->middleware('api');
+Route::get('/application/show_general_id_requests', [PersonnelApplicationController::class, 'retrieveGeneralIdRequest'])->middleware('api');
+Route::get('/application/show_general_application/{id}', [PersonnelApplicationController::class, 'retrieveIdRequest'])->middleware('api');
+ //update
+
+Route::get('/application/edit_application_record/{id}', [PersonnelApplicationController::class, 'edit'])->middleware('api');
+Route::put('/application/update_application_record/{id}', [PersonnelApplicationController::class, 'updatePersonnelApplication'])->middleware('api');
+Route::post('/application/complete_application_record/{id}', [PersonnelApplicationController::class, 'completePersonnelApplication'])->middleware('api');
+Route::get('/application/preview_id_application/{id}/{type}', [PersonnelApplicationController::class, 'previewApplicationForm'])->middleware('api');
+
+
 // ******** Contracts Block  (Both required details, fixed, specific, unspecific and term & Conditions)  *****
 // api for
 Route::prefix('contracts')->group(function () {
@@ -354,6 +366,7 @@ Route::prefix('contracts')->group(function () {
     Route::get('/fixed/edit_fixed_contract/{id}', [FixedContractController::class, 'editFixed'])->middleware('api');
     Route::post('/fixed/update_fixed_contract/{id}', [FixedContractController::class, 'updateFixedContract'])->middleware('api');
     Route::post('/fixed/complete_fixed_contract/{id}', [FixedContractController::class, 'completeFixedContrat'])->middleware('api');
+Route::get('fixed/preview_fixed_contract/{id}',[FixedContractController::class, 'previewFixedContract'])->middleware('api');
     Route::get('/fixed/get_contract_document/{id}', [FixedContractController::class, 'getContractDocument'])->middleware('api');
 
 

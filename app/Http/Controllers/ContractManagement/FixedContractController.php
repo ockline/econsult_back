@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\ContractManagement;
 
 use Illuminate\Http\Request;
+use Mpdf\Mpdf;
 use App\Models\Employer\Employer;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -292,4 +293,33 @@ class FixedContractController extends Controller
             ]);
         }
     }
+/**
+*@method to  generate fixed contract
+ */
+public function previewFixedContract($employee_id)
+{
+
+        $details = $this->fixed_contract->showDownloadFixed();
+
+        $fixed_contract = $details->where('employee_id', $employee_id)->first();
+
+            if (isset($fixed_contract)) {
+                  $mpdf = new Mpdf();
+        $mpdf->SetTitle('Fixed Contract');
+        $sheet = view('ContractTemplate.fixed_contract', [
+            'fixed_contract' => $fixed_contract,
+
+        ]);
+        $mpdf->WriteHTML($sheet);
+        $fixed = base64_encode($mpdf->Output('', 'S'));
+        return $this->sendResponse('data:application/pdf;base64,' . $fixed, 'Success');
+
+            } else {
+                // log::info('222');
+                return response()->json([
+                    'status' => 500,
+                    'message' => "Internal server Error"
+                ]);
+            }
+}
 }

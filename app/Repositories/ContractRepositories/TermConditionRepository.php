@@ -42,39 +42,41 @@ class TermConditionRepository extends  BaseRepository
 
         DB::beginTransaction();
 
-
         try {
             $input = $request->all();
+            $employee_id = !empty($input['employee_id']) ? $input['employee_id'] : null;
 
+            // Use updateOrCreate to either create a new record or update an existing one
+            TermCondition::updateOrCreate(
+                ['employee_id' => $employee_id], // Condition to check for existing record
+                [ // Data to create or update
+                    'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
+                    'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
+                    'reg_number' => !empty($input['reg_number']) ? $input['reg_number'] : null,
+                    'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
+                    'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
+                    'date_contracted' => !empty($input['date_contracted']) ? $input['date_contracted'] : null,
+                    'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
+                    'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
+                    'supportive_attachment' => !empty($input['supportive_attachment']) ?
+                        (is_array($input['supportive_attachment']) ?
+                            base64_encode(file_get_contents($input['supportive_attachment'][0]->getPathname())) :
+                            base64_encode(file_get_contents($input['supportive_attachment']->getPathname()))
+                        ) : null,
+                    'stage' => 0,
+                    'progressive_stage' => 5,
+                    'status' => 0,
+                ]
+            );
 
-            TermCondition::create([
-
-                'employee_name' => !empty($input['employee_name']) ? $input['employee_name'] : null,
-                'employer_name' => !empty($input['employer_name']) ? $input['employer_name'] : null,
-                'employee_id' => !empty($input['employee_id']) ? $input['employee_id'] : null,
-                'reg_number' => !empty($input['reg_number']) ? $input['reg_number'] : null,
-                'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
-                'department_id' => !empty($input['department_id']) ? $input['department_id'] : null,
-                'date_contracted' => !empty($input['date_contracted']) ? $input['date_contracted'] : null,
-                'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
-                'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
-                'stage' => 0,
-                'progressive_stage' => 5,
-                'status' => 0,
-
-            ]);
-            // Log::info('vita iendeleee');
-            $employee_id = $input['employee_id'];
-            // $this->saveTermConditionDocument($request, $employee_id); // incase you want to add
             DB::commit();
-
             Log::info('Saved done');
-            return response()->json(['message' => 'Term and Conditions  successfully', 'status' => 201], 201);
+            return response()->json(['message' => 'Term and Conditions successfully', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
-            Log::error('Failed to create Term and Conditions  ', ['error' => $e->getMessage()]);
+            Log::error('Failed to create or update Term and Conditions', ['error' => $e->getMessage()]);
 
-            return response()->json(['message' => 'Failed to create Term and Conditions  ', 'status' => 500]);
+            return response()->json(['message' => 'Failed to create or update Term and Conditions', 'status' => 500]);
         }
     }
     public function updatePersonaDetail($employee_id)
@@ -190,6 +192,11 @@ class TermConditionRepository extends  BaseRepository
                 'date_contracted' => !empty($input['date_contracted']) ? $input['date_contracted'] : null,
                 'downloaded' => !empty($input['downloaded']) ? $input['downloaded'] : null,
                 'uploaded_date' => !empty($input['uploaded_date']) ? $input['uploaded_date'] : null,
+                'supportive_attachment' => !empty($input['supportive_attachment']) ?
+                    (is_array($input['supportive_attachment']) ?
+                        base64_encode(file_get_contents($input['supportive_attachment'][0]->getPathname())) :
+                        base64_encode(file_get_contents($input['supportive_attachment']->getPathname()))
+                    ) : null,
                 'stage' => 0,
                 'progressive_stage' => 5,
                 'status' => 0,

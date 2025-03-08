@@ -275,7 +275,7 @@ class SpecificTaskRepository extends  BaseRepository
     /**
      * Method to fetch Employee person Details
      */
-    public function getSpecificContractDoc()
+    public function getSpecificContractDoc($id)
     {
 
         return  DB::table('contract_documents as cds')
@@ -283,11 +283,12 @@ class SpecificTaskRepository extends  BaseRepository
             ->leftJoin('documents as d', 'cds.document_id', '=', 'd.id')
             // ->where('cds.document_group_id', 8)
             ->whereIn('cds.document_id', [43, 44, 45])
+            ->where('employee_id', $id)
             ->get();
     }
 
 
-    public function showDownloadSpecific()
+    public function showDownloadSpecific($id)
     {
         $data =  DB::table('contract_specific as csc')
             ->select([
@@ -309,8 +310,8 @@ class SpecificTaskRepository extends  BaseRepository
             ->leftJoin('employees as e', 'csc.employee_id', '=', 'e.id')
             ->leftJoin('job_title as jt', 'csc.job_title_id', '=', 'jt.id')
             ->leftJoin('departments as dpt', 'csc.department_id', '=', 'dpt.id')
-            ->orderBy('csc.id', 'DESC')
-            ->get();
+            ->where('csc.employee_id', $id)
+            ->first();
 
         return $data;
     }
