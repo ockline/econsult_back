@@ -86,6 +86,14 @@ class LeaveTypeTableSeeder extends Seeder
                 'created_at' => '2024-10-21 10:33:33',
                 'updated_at' => NULL,
             ),
+8 =>
+            array(
+                'id'  => 9,
+                'name' => 'Emergency Leave ',
+                'description' => 'Emergency Leave',
+                'created_at' => '2024-10-21 10:33:33',
+                'updated_at' => NULL,
+            ),
      );
 
  $lastRecordCount = $this->getRecordCount("leave_types");
