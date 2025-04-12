@@ -40,7 +40,7 @@ public function  createPerfomanceReview(Request $request)
 {
 
              $validator = Validator::make($request->all(), [
-            'rate_creterial' => 'required|max:5',
+            // 'rate_creterial' => 'required|max:5',
             'firstname' => 'required|max:191',
             'lastname' => 'required|max:191',
             'review_date' => 'required|max:191',
@@ -57,8 +57,10 @@ public function  createPerfomanceReview(Request $request)
              $reviewes = $this->reviewes->createPerfomanceReview($request);
 
             $status = $reviewes->getStatusCode();
+                log::info('juuu');
+                log::info(json_encode($status));
 
-            if ($status === 200) {
+            if ($status == 201) {
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
@@ -71,8 +73,6 @@ public function  createPerfomanceReview(Request $request)
                 ];
             }
          }
-
-
 
         return response()->json($return);
 }
@@ -135,6 +135,13 @@ public function retrievePerfomaneReviewDetail($id)
 
         return response()->json(["status" => 200, "show_perfomance" => $show_perfomance]);
 
+}
+public function retrievePerfomaneReviewReport($id)
+{
+
+    $performance_report =  $this->reviewes->retrievePerfomaneReviewReport($id);
+
+        return response()->json(["status" => 200, "performance_report" => $performance_report]);
 }
 
 }

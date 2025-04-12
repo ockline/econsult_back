@@ -4,14 +4,15 @@ namespace App\Models\IndustrialRelationship\Misconduct;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Misconduct extends Model {
+class Misconduct extends Model
+{
 
 
-        protected $table = 'misconducts';
+    protected $table = 'misconducts';
 
     public $timestamps = true;
     protected $fillable = [
-	'misconduct_cause',
+        'misconduct_cause',
         'employee_id',
         'employer_id',
         'misconduct_date',
@@ -23,8 +24,10 @@ class Misconduct extends Model {
         'show_cause_letter',
         'status',
         'stage',
-        'count'
+        'count',
+        'incidence_remarks',
+        'incidence_reported_by',
+        'incidence_reported_date',
     ];
     protected $guarded = [];
-
 }
