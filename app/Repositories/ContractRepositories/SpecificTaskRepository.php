@@ -4,6 +4,7 @@ namespace App\Repositories\ContractRepositories;
 
 
 use Exception;
+use Mpdf\Mpdf;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
@@ -438,4 +439,47 @@ class SpecificTaskRepository extends  BaseRepository
         }
         return $return;
     }
+ public function previewSpecificTaskContract($id)
+{
+
+  $data =  DB::table('contract_specific as csc')
+            ->select([
+                DB::raw('csc.* '),
+                DB::raw("CASE
+                            WHEN csc.progressive_stage = 1 THEN 'Employee Details'
+                            WHEN csc.progressive_stage = 2 THEN 'Supportive Document'
+                            WHEN csc.progressive_stage = 3 THEN 'Social Record'
+                            WHEN csc.progressive_stage = 4 THEN 'Induction Training'
+                            WHEN csc.progressive_stage = 5 THEN 'Contract Processing'
+                            WHEN csc.progressive_stage = 6 THEN 'Person ID'
+                            ELSE 'Registration Completed'
+                        END AS progressive"),
+                // DB::raw('CONCAT(e.firstname, \' \', e.middlename, \' \', e.lastname) as employee_name'),
+                DB::raw('e.employee_no as employee'),
+                DB::raw('jt.name as job_title'),
+                DB::raw('dpt.name as department'),
+            ])
+            ->leftJoin('employees as e', 'csc.employee_id', '=', 'e.id')
+            ->leftJoin('job_title as jt', 'csc.job_title_id', '=', 'jt.id')
+            ->leftJoin('departments as dpt', 'csc.department_id', '=', 'dpt.id')
+            ->where('csc.employee_id', $id)
+            ->first();
+
+           if (isset($data)) {
+         $mpdf = new Mpdf();
+        $mpdf->SetTitle('Specific Task Contract');
+        $sheet = view('ContractTemplate.specific_contract', [
+            'data' => $data,
+               ]);
+        $mpdf->WriteHTML($sheet);
+        $reviews = base64_encode($mpdf->Output('', 'S'));
+
+        return $reviews;
+
+        }
+
+        return $data;
+
+}
+
 }

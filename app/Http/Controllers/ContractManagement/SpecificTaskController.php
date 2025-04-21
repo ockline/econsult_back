@@ -153,14 +153,8 @@ class SpecificTaskController extends Controller
 
         $specific_task = $this->specific_task->showDownloadSpecific($id);
 
-        // $specific_task = $details->where('employee_id', $id)->first();
 
-        // if (!isset($specific_task)) {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => "No data Found"
-        //     ]);
-        // } else {
+
             if (isset($specific_task)) {
                 // Log::info('111');
                 return response()->json([
@@ -176,6 +170,7 @@ class SpecificTaskController extends Controller
             }
 
     }
+
 
     public function editSpecificTask(string $id)
     {
@@ -197,7 +192,30 @@ class SpecificTaskController extends Controller
             ]);
         }
     }
+    /**
+    *@method to preview specific contract
+     */
+    public function previewSpecificTaskContract(string $id)
+            {
 
+                    $specific_contract = $this->specific_task->previewSpecificTaskContract($id);
+
+
+                        if (isset($specific_contract)) {
+                            // Log::info('111');
+                            return response()->json([
+                                'status' => 200,
+                                'specific_contract' => $specific_contract,
+                            ]);
+                        } else {
+                            // log::info('222');
+                            return response()->json([
+                                'status' => 500,
+                                'message' => "Internal server Error"
+                            ]);
+                        }
+
+            }
     /**
      * Update the specified resource in storage.
      */

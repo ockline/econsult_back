@@ -366,7 +366,7 @@ Route::prefix('contracts')->group(function () {
     Route::get('/fixed/edit_fixed_contract/{id}', [FixedContractController::class, 'editFixed'])->middleware('api');
     Route::post('/fixed/update_fixed_contract/{id}', [FixedContractController::class, 'updateFixedContract'])->middleware('api');
     Route::post('/fixed/complete_fixed_contract/{id}', [FixedContractController::class, 'completeFixedContrat'])->middleware('api');
-Route::get('fixed/preview_fixed_contract/{id}',[FixedContractController::class, 'previewFixedContract'])->middleware('api');
+    Route::get('fixed/preview_fixed_contract/{id}',[FixedContractController::class, 'previewFixedContract'])->middleware('api');
     Route::get('/fixed/get_contract_document/{id}', [FixedContractController::class, 'getContractDocument'])->middleware('api');
 
 
@@ -380,6 +380,7 @@ Route::get('fixed/preview_fixed_contract/{id}',[FixedContractController::class, 
     Route::post('/specific/update_specific_task/{id}', [SpecificTaskController::class, 'updateSpecificTask'])->middleware('api');
     Route::post('/specific/complete_specific_task/{id}', [SpecificTaskController::class, 'completeSpecificTask'])->middleware('api');
     Route::get('/specific/get_specific_document/{id}', [SpecificTaskController::class, 'getSpecificTaskDocument'])->middleware('api');
+    Route::get('/specific/specific_task_contract_preview/{id}', [SpecificTaskController::class, 'previewSpecificTaskContract'])->middleware('api');
 
     /** api for Term and Conditions Contract */
     Route::get('/terms/show_term_conditions', [TermConditionController::class, 'getTermConditions'])->middleware('api');

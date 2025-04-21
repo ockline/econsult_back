@@ -163,37 +163,28 @@ class FixedContractController extends Controller
     {
         //  log::info($id);
 
-        $details = $this->fixed_contract->showDownloadFixed();
+        $fixed_contract = $this->fixed_contract->showDownloadFixed($id);
 
-        $fixed_contract = $details->where('employee_id', $id)->first();
-
-        // if (!isset($fixed_contract)) {
-        //     return response()->json([
-        //         'status' => 404,
-        //         'message' => "No data Found"
-        //     ]);
-        // } else {
-            if (isset($fixed_contract)) {
-                // Log::info('111');
-                return response()->json([
-                    'status' => 200,
-                    'fixed_contract' => $fixed_contract,
-                ]);
-            } else {
-                // log::info('222');
-                return response()->json([
-                    'status' => 500,
-                    'message' => "Internal server Error"
-                ]);
-            }
-
+        if (isset($fixed_contract)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'fixed_contract' => $fixed_contract,
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
     }
 
     public function editFixed(string $id)
     {
         // Log::info($id);
 
-        $fixed_contract = FixedContract::select('contract_fixed.*','jt.name as job_title')->leftJoin('job_title as jt', 'contract_fixed.job_title_id', '=', 'jt.id')->where('employee_id', $id)->first();
+        $fixed_contract = FixedContract::select('contract_fixed.*', 'jt.name as job_title')->leftJoin('job_title as jt', 'contract_fixed.job_title_id', '=', 'jt.id')->where('employee_id', $id)->first();
         //   Log::info($fixed_contract);
         if (isset($fixed_contract)) {
 
@@ -219,22 +210,22 @@ class FixedContractController extends Controller
 
         $employee = $this->fixed_contract->updateFixedContract($request, $id);
 
-            $status = $employee->getStatusCode();
-            // Log::info($status);
-            // // Get HTTP status code
-            // $responseContent = $employeee->getContent();
-            if ($status === 200) {
-                // log::info('ndani');
-                return response()->json([
-                    'status' => 200,
-                    "message" => "Fixed Contract Updated Successfully",
-                ]);
-            } else if($status === 500){
-                return response()->json([
-                    'status' => 500,
-                    'message' => 'Update process failed'
-                ]);
-            }else {
+        $status = $employee->getStatusCode();
+        // Log::info($status);
+        // // Get HTTP status code
+        // $responseContent = $employeee->getContent();
+        if ($status === 200) {
+            // log::info('ndani');
+            return response()->json([
+                'status' => 200,
+                "message" => "Fixed Contract Updated Successfully",
+            ]);
+        } else if ($status === 500) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Update process failed'
+            ]);
+        } else {
             return response()->json([
                 'status' => 404,
                 'message' => 'No Data found to be updated!; kindly register first'
@@ -268,7 +259,7 @@ class FixedContractController extends Controller
     {
         $fixed_contract = FixedContract::where('employee_id', $id)->where('uploaded', 1)->first();
 
-// log::info($fixed_contract);
+        // log::info($fixed_contract);
         if (!empty($fixed_contract)) {
             $this->fixed_contract->updateStageData($fixed_contract);
 
@@ -293,33 +284,25 @@ class FixedContractController extends Controller
             ]);
         }
     }
-/**
-*@method to  generate fixed contract
- */
-public function previewFixedContract($employee_id)
-{
+    /**
+     *@method to  generate fixed contract
+     */
+    public function previewFixedContract($id)
+    {
 
-        $details = $this->fixed_contract->showDownloadFixed();
-
-        $fixed_contract = $details->where('employee_id', $employee_id)->first();
-
-            if (isset($fixed_contract)) {
-                  $mpdf = new Mpdf();
-        $mpdf->SetTitle('Fixed Contract');
-        $sheet = view('ContractTemplate.fixed_contract', [
-            'fixed_contract' => $fixed_contract,
-
-        ]);
-        $mpdf->WriteHTML($sheet);
-        $fixed = base64_encode($mpdf->Output('', 'S'));
-        return $this->sendResponse('data:application/pdf;base64,' . $fixed, 'Success');
-
-            } else {
-                // log::info('222');
-                return response()->json([
-                    'status' => 500,
-                    'message' => "Internal server Error"
-                ]);
-            }
-}
+        $fixed_term = $this->fixed_contract->previewFixedTermContract($id);
+        if (isset($fixed_term)) {
+            // Log::info('111');
+            return response()->json([
+                'status' => 200,
+                'fixed_term' => $fixed_term,
+            ]);
+        } else {
+            // log::info('222');
+            return response()->json([
+                'status' => 500,
+                'message' => "Internal server Error"
+            ]);
+        }
+    }
 }
