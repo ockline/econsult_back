@@ -312,37 +312,28 @@
     The employee shall be entitled to any other benefits stipulated by the Laws even if not stated in this Agreement or as agreed between the parties.
 </p>
 
-    <h2>APPENDICES:</h2>
-    <ul>
-        <li>A: Personal Particulars</li>
-        <li>B: Job Description</li>
-        <li>C: Terms and Condition</li>
-    </ul>
+  <p class="justified-heading"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;APPENDICES</strong></p>
+<ul class="justified-continuation" style="list-style: none; padding-left: 4em; margin-top: -0.5rem;">
+    <li>A: Personal Particulars</li>
+    <li>B: Job Description</li>
+    <li>C: Terms and Conditions</li>
+</ul>
 
+<p class="justified-heading"><strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SIGNATURES</strong><br/>On behalf of the Employer</p>
+<div style="display: flex; justify-content: space-between; padding-left: 4em; gap: 3rem;">
+    <div>
 
+        <div style="width: 200px;margin-top: 2rem; border-bottom: 1px solid #000; margin-bottom: 0.5rem;"></div>
+        <p>Date: <div style="width: 200px; border-bottom: 1px solid #000; margin-bottom: 0.5rem;"></span></p>
+    </div>
 
-
-
-<div class="signature-section mt-5">
-    <div class="row">
-        <div class="col-md-6">
-            <div class="employer-signature">
-                <h4>SIGNATURES</h4>
-                <p class="mb-4">On behalf of the Employer</p>
-                <div class="signature-line mb-2" style="width: 200px; border-bottom: 1px solid #000;"></div>
-                <p>Date: <span class="date-line" style="width: 100px; border-bottom: 1px solid #000; display: inline-block;"></span></p>
-            </div>
-        </div>
-
-        <div class="col-md-6">
-            <div class="employee-signature">
-                <p class="mb-4">The Employee (Read, Understood & Agreed)</p>
-                <div class="signature-line mb-2" style="width: 200px; border-bottom: 1px solid #000;"></div>
-                <p>Date: <span class="date-line" style="width: 100px; border-bottom: 1px solid #000; display: inline-block;"></span></p>
-            </div>
-        </div>
+    <div>
+        <p class="justified-heading">&nbsp;&nbsp;The Employee (Read, Understood & Agreed)</p>
+        <div style="width: 200px; margin-top: 2.5rem;  border-bottom: 1px solid #000; margin-bottom: 0.5rem;"></div>
+        <p>Date: <div style="width: 200px; margin-top: 2rem; border-bottom: 1px solid #000; margin-bottom: 0.5rem;"></div></p>
     </div>
 </div>
+
 
 
 
