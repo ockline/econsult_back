@@ -11,6 +11,8 @@ use App\Http\Controllers\Employer\EmployerController;
 use App\Http\Controllers\Leave\CompassionateController;
 use App\Http\Controllers\Attendance\AttendanceController;
 use App\Models\IndustrialRelationship\Misconduct\Misconduct;
+use App\Http\Controllers\IndustrialRelationship\GrievanceController;
+use App\Http\Controllers\IndustrialRelationship\GrievavceController;
 use App\Http\Controllers\IndustrialRelationship\MisconductController;
 use App\Http\Controllers\IndustrialRelationship\PerfomanceReviewController;
 use App\Http\Controllers\IndustrialRelationship\PerfomanceCapacityController;
@@ -111,4 +113,9 @@ Route::prefix('industrial_relationship')->group(function () {
     Route::post('/create_perfomance_assessment', [PerformanceAssessmentController::class, 'createPerfomanceAssessment']);
     Route::get('show_performance_assessment/{id}', [PerformanceAssessmentController::class, 'retrievePerformanceAssessmentDetail']);
     Route::post('/update_performance_/{id}', [PerformanceAssessmentController::class, 'updatePerformanceAssessment']);
+
+Route::post('/grievances/initiate_grievance', [GrievanceController::class, 'initiateEmployeeGrievance']);
+
+
+
 });
