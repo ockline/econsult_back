@@ -2,12 +2,13 @@
 
 namespace App\Models\Hiring\Interview;
 
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CompetencyInterview extends Model
 {
-  use SoftDeletes;
+  use SoftDeletes, Auditable;
 
     protected  $table = 'competency_interviews';
     protected $guarded = [];

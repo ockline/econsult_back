@@ -2,12 +2,13 @@
 
 namespace App\Models\Hiring\Interview;
 
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 class PracticalTestTranc extends Model
 {
-  use SoftDeletes;
+  use SoftDeletes, Auditable;
 
     protected  $table = 'practical_test_tranc';
     protected $guarded = [];

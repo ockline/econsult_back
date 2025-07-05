@@ -14,6 +14,7 @@ use App\Models\IndustrialRelationship\Misconduct\Misconduct;
 use App\Http\Controllers\IndustrialRelationship\GrievanceController;
 use App\Http\Controllers\IndustrialRelationship\GrievavceController;
 use App\Http\Controllers\IndustrialRelationship\MisconductController;
+use App\Http\Controllers\IndustrialRelationship\DisciplinaryController;
 use App\Http\Controllers\IndustrialRelationship\PerfomanceReviewController;
 use App\Http\Controllers\IndustrialRelationship\PerfomanceCapacityController;
 use App\Http\Controllers\IndustrialRelationship\PerformanceAssessmentController;
@@ -40,9 +41,6 @@ Route::prefix('leaves')->group(function () {
     Route::get('/retrieve_emergency_leave', [AnnualController::class, 'getEmergencyLeave']);
     Route::post('/update_emergency_leave/{id}', [AnnualController::class, 'updateEmergencyLeave']);
     Route::get('/retrieve_annual_emergency_leave/{id}', [AnnualController::class, 'retrieveAnnualEmergencyLeave']);
-
-
-
 
     //sick
     Route::post('/create_sick_leave', [SickController::class, 'createSickLeave']);
@@ -85,11 +83,14 @@ Route::prefix('attendances')->group(function () {
 //Industrial Relationship
 
 Route::prefix('industrial_relationship')->group(function () {
-    Route::post('/create_misconduct', [MisconductController::class, 'createMisconduct']);
-    Route::post('/update_misconduct/{id}', [MisconductController::class, 'updateMisconduct']);
+    Route::middleware('auth:sanctum')->post('/create_misconduct', [MisconductController::class, 'createMisconduct']);
+    Route::middleware('auth:sanctum')->post('/update_misconduct/{id}', [MisconductController::class, 'updateMisconduct']);
     Route::get('/retrieve_misconduct_type', [MisconductController::class, 'getMisconductType']);
     Route::get('/retrieve_all_misconduct', [MisconductController::class, 'retrieveAllMisconduct']);
     Route::get('/show_misconduct/{id}', [MisconductController::class, 'retrieveMisconductDetails']);
+    Route::middleware('auth:sanctum')->get('/misconducts/retrieve_misconduct_workflow/{misconductId}', [MisconductController::class, 'retrieveWorkflowMisconduct']);
+    Route::middleware('auth:sanctum')->post('/misconducts/review_misconduct_workflow', [MisconductController::class, 'reviewMisconductWorkflow']);
+
     // Route::get('/generate_monthly_attendance', [MisconductController::class, 'generateMonthlyAttendance']);
 
 
@@ -99,7 +100,7 @@ Route::prefix('industrial_relationship')->group(function () {
     Route::post('/create_perfomance_review', [PerfomanceReviewController::class, 'createPerfomanceReview']);
     Route::post('/update_perfomance_review/{id}', [PerfomanceReviewController::class, 'updatePerfomanceReview']);
     Route::get('/retrieve_perfomance_criterials', [PerfomanceReviewController::class, 'getPerfomanceCriterial']);
-    Route::get('/retrieve_employee_details/{id}', [PerfomanceReviewController::class, 'retrieveEmployeeDetail']);
+    Route::middleware('auth:sanctum')->get('/retrieve_employee_details/{id}', [PerfomanceReviewController::class, 'retrieveEmployeeDetail']);
     Route::get('show_perfomance_review/{id}', [PerfomanceReviewController::class, 'retrievePerfomaneReviewDetail']);
     Route::get('retrieve_perfomance_review_report/{id}', [PerfomanceReviewController::class, 'retrievePerfomaneReviewReport']);
 
@@ -114,8 +115,30 @@ Route::prefix('industrial_relationship')->group(function () {
     Route::get('show_performance_assessment/{id}', [PerformanceAssessmentController::class, 'retrievePerformanceAssessmentDetail']);
     Route::post('/update_performance_/{id}', [PerformanceAssessmentController::class, 'updatePerformanceAssessment']);
 
-Route::post('/grievances/initiate_grievance', [GrievanceController::class, 'initiateEmployeeGrievance']);
+    Route::middleware('auth:sanctum')->post('/grievances/initiate_grievance', [GrievanceController::class, 'initiateEmployeeGrievance']);
+    Route::middleware('auth:sanctum')->get('/grievances/retrieve_all_grievances', [GrievanceController::class, 'retrieveAllGrievances']);
+    Route::middleware('auth:sanctum')->post('/grievances/update_grievance', [GrievanceController::class, 'updateGrievance']);
 
 
+    Route::middleware('auth:sanctum')->get('/grievances/show_grievances/{grievanceId}', [GrievanceController::class, 'retrieveSpecificGrievance']);
+    Route::middleware('auth:sanctum')->get('/grievances/retrieve_workflow_grievances/{grievanceId}', [GrievanceController::class, 'retrieveWorkflowGrievance']);
+    Route::middleware('auth:sanctum')->post('/grievances/review_grievance_workflow', [GrievanceController::class, 'reviewWorkflowGrievance']);
+    Route::middleware('auth:sanctum')->post('/grievances/reviewal_return_grievance_workflow', [GrievanceController::class, 'reviewalREturnWorkflowGrievance']);
+
+    //approval block
+    Route::middleware('auth:sanctum')->post('/grievances/approve_grievance_workflow', [GrievanceController::class, 'approveWorkflowGrievance']);
+    Route::middleware('auth:sanctum')->post('/grievances/approval_return_grievance_workflow', [GrievanceController::class, 'approvalReturnWorkflowGrievance']);
+    Route::middleware('auth:sanctum')->get('/grievances/preview_grievance/{grievanceId}', [GrievanceController::class, 'previewGrievanceDocument']);
+
+
+
+        //Disciplinary Block
+Route::middleware('auth:sanctum')->get('/disciplinary/retrieve_all_disciplinary', [DisciplinaryController::class, 'retrieveAllDisciplinary']);
+Route::middleware('auth:sanctum')->get('/disciplinary/retrieve_disciplinary/{$}', [DisciplinaryController::class, 'retrieveAllDisciplinary']);
+ Route::middleware('auth:sanctum')->get('/disciplinary/retrieve_employee_details/{id}', [DisciplinaryController::class, 'retrieveEmployeeDetail']);
+ Route::middleware('auth:sanctum')->get('/disciplinary/show_disciplinary_details/{id}', [DisciplinaryController::class, 'retrieveDisciplinaryDetails']);
+ Route::middleware('auth:sanctum')->post('/disciplinary/update_disciplinary', [DisciplinaryController::class, 'updateDisciplinary']);
+ Route::middleware('auth:sanctum')->post('/disciplinary/initiate_appeal_workflow', [DisciplinaryController::class, 'initiateEmployeeAppeal']);
+ Route::middleware('auth:sanctum')->post('/disciplinary/review_appeal_workflow', [DisciplinaryController::class, 'reviewDisciplinaryAppeal']);
 
 });

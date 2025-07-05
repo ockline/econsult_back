@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 class DocumentsTableSeeder extends Seeder
 {
 
-    use DisableForeignKeys, TruncateTable;
+    use DisableForeignKeys;
+//  TruncateTable;
     /**
      * Auto generated seed file
      *
@@ -815,15 +816,177 @@ class DocumentsTableSeeder extends Seeder
                 'isother' => 0,
                 'document_order' => NULL,
             ),
+        49 =>
+            array(
+                'id' => 50,
+                'name' => 'Grievance Attachment',
+                'document_group_id' => '15',
+                'description' => 'grievance_supportive_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-04-26 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+        50 =>
+            array(
+                'id' => 51,
+                'name' => 'Grievance Signed Attachment',
+                'document_group_id' => '15',
+                'description' => 'grievance_signed_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-04-26 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+        51 =>
+            array(
+                'id' => 52,
+                'name' => 'Misconduct supportive Attachment',
+                'document_group_id' => '16',
+                'description' => 'misconduct_supportive_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-04-26 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+        52 =>
+            array(
+                'id' => 53,
+                'name' => 'Misconduct Signed Attachment',
+                'document_group_id' => '16',
+                'description' => 'misconduct_supportive_signed',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-04-26 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+        53 =>
+            array(
+                'id' => 54,
+                'name' => 'Misconduct investigation Attachment',
+                'document_group_id' => '16',
+                'description' => 'investigation_report_attachment',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-01-01 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+        54 =>
+            array(
+                'id' => 55,
+                'name' => 'Notice of Appeal',
+                'document_group_id' => '13',
+                'description' => 'notice_appeal_attachment',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-01-01 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+       55 =>
+            array(
+                'id' => 56,
+                'name' => 'Misconduct Show Cause Attachment',
+                'document_group_id' => '16',
+                'description' => 'show_cause_letter_attachment',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-01-01 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+             56 =>
+            array(
+                'id' => 57,
+                'name' => 'Charge Sheet Attachment',
+                'document_group_id' => '13',
+                'description' => 'charge_sheet_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-01-01 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+            57 =>
+            array(
+                'id' => 58,
+                'name' => 'Disciplinary Invitation Hearing Attachment',
+                'document_group_id' => '13',
+                'description' => 'invitation_hearing_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-01-01 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+              58 =>
+            array(
+                'id' => 59,
+                'name' => 'Invitation Re-hearing Attachment',
+                'document_group_id' => '13',
+                'description' => 'invitation_re-hearing_doc',
+                'isrecurring' => '0',
+                'ismandatory' => '1',
+                'isactive' => '1',
+                'created_at' => '2025-01-01 08:18:07',
+                'updated_at' => NULL,
+                'deleted_at' => NULL,
+                'anysource' => 1,
+                'isother' => 0,
+                'document_order' => NULL,
+            ),
+
         );
-
-
-
 
 $lastRecordCount = $this->getRecordCount("documents");
         $slice = array_slice($data, $lastRecordCount);;
         if (count($slice)) {
             DB::table('documents')->insert($slice);
         }
+    }
+ protected function getRecordCount($table): int
+    {
+        return DB::table($table)->count();
     }
 }

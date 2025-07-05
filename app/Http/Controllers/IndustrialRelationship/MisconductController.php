@@ -48,8 +48,8 @@ class MisconductController extends Controller
             'lastname' => 'required|max:191',
             'misconduct_date' => 'required|max:191',
             'investigation_report' => 'required|',
-             'incidence_remarks' => 'required',
-            'incidence_reported_by' =>'required',
+            'incidence_remarks' => 'required',
+            'incidence_reported_by' => 'required',
             'incidence_reported_date' => 'required',
 
 
@@ -100,7 +100,7 @@ class MisconductController extends Controller
 
         $validator = Validator::make($request->all(), [
 
-            'investigation_report_attachment' => 'required|max:191',
+            // 'investigation_report_attachment' => 'required|max:191',
             // 'show_cause_letter_attachment' => 'required|',
 
 
@@ -128,9 +128,6 @@ class MisconductController extends Controller
                 ];
             }
         }
-
-
-
         return response()->json($return);
     }
     public function retrieveMisconductDetails($id)
@@ -140,4 +137,22 @@ class MisconductController extends Controller
 
         return response()->json(["status" => 200, "misconduct" => $misconduct]);
     }
+    public function retrieveWorkflowMisconduct($misconductId)
+{
+
+ $misconduct =  $this->misconducts->retrieveWorkflowMisconduct($misconductId);
+
+return response()->json(["status" => 200, "misconduct" => $misconduct]);
+}
+/**
+*@method to review  misconduct submitted by HR
+ */
+public function reviewMisconductWorkflow(Request $request)
+{
+$misconduct =  $this->misconducts->reviewMisconductWorkflow($request);
+
+return response()->json(["status" => 200, "misconduct" => $misconduct]);
+
+}
+
 }

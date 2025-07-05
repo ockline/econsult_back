@@ -147,14 +147,6 @@ this should include Capital letter, small, character and number ',
     {
         $user = User::find($id);
 
-        // if($user){
-        //     $user = $this->user->updateUser($request, $id);
-
-        //     return response()->json([
-
-        //     ]);
-        //  }
-
         if ($user) {
             $user->name = $request->input('firstname') . " " . $request->input('lastname');
             $user->firstname = $request->input('firstname');

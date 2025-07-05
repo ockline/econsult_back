@@ -49,6 +49,10 @@ class Kernel extends HttpKernel
             \Illuminate\Session\Middleware\StartSession::class, // Add this line 'throttle:api',
             \Illuminate\Routing\Middleware\ThrottleRequests::class.':api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
+            \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class, // <-- Add this here
+            'throttle:api',
+            \Illuminate\Routing\Middleware\SubstituteBindings::class,
+
 
 
         ],

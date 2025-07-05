@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('stage')->nullable();
             $table->string('initiated_by')->nullable();
-            $table->string('initated_date');
+            $table->date('initiated_date');
             $table->string('source')->default('system')->comment('system, portal, manual');
             $table->timestamps();
             $table->softDeletes();

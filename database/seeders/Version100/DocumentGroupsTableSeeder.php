@@ -10,7 +10,8 @@ use Illuminate\Support\Facades\DB;
 class DocumentGroupsTableSeeder extends Seeder
 {
 
-    use DisableForeignKeys, TruncateTable;
+    use DisableForeignKeys;
+// TruncateTable;
     /**
      * Auto generated seed file
      *
@@ -160,6 +161,26 @@ class DocumentGroupsTableSeeder extends Seeder
                 'status' =>  1,
                 'deleted_at' => NULL,
             ),
+        14 =>
+            array(
+                'id' => 15,
+                'name' => 'Grievance',
+                'created_at' => '2025-04-11 01:07:52',
+                'updated_at' => NULL,
+                'short' => NULL,
+                'status' =>  1,
+                'deleted_at' => NULL,
+            ),
+        15 =>
+            array(
+                'id' => 16,
+                'name' => 'Misconduct',
+                'created_at' => '2025-05-01 01:07:52',
+                'updated_at' => NULL,
+                'short' => NULL,
+                'status' =>  1,
+                'deleted_at' => NULL,
+            ),
         );
 
 $lastRecordCount = $this->getRecordCount("document_groups");
@@ -167,5 +188,9 @@ $lastRecordCount = $this->getRecordCount("document_groups");
         if (count($slice)) {
             DB::table('document_groups')->insert($slice);
         }
+    }
+ protected function getRecordCount($table): int
+    {
+        return DB::table($table)->count();
     }
 }

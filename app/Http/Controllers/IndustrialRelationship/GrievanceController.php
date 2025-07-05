@@ -28,16 +28,10 @@ class GrievanceController extends Controller
 
         return response()->json(["status" => 200, "employee" => $employee]);
     }
-    public function getMisconductType()
-    {
 
-        $misconduct_cause =  DB::table('misconduct_types')->select('id', 'name')->get();
-
-        return response()->json(["status" => 200, "misconduct_cause" => $misconduct_cause]);
-    }
 
     /**
-     *@method to create paternity leave
+     *@method to create initiate grievance
      */
     public function  initiateEmployeeGrievance(Request $request)
     {
@@ -64,12 +58,12 @@ class GrievanceController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Misconduct successfully created.",
+                    "message" => "Grievance successfully initiated.",
                 ];
             } else {
                 $return = [
                     'status' => 500,
-                    'message' => 'Sorry! Operation failed'
+                    'message' => 'Sorry! Operation failed.'
                 ];
             }
         }
@@ -81,24 +75,24 @@ class GrievanceController extends Controller
     /**
      *@method to retrieve all  misconduct details
      */
-    public function retrieveAllMisconduct()
+    public function retrieveAllGrievances()
     {
 
-        $misconduct =  $this->grievances->retrieveAllMisconduct();
+        $grievance =  $this->grievances->retrieveAllGrievances();
 
-        return response()->json(["status" => 200, "misconduct" => $misconduct]);
+        return response()->json(["status" => 200, "grievance" => $grievance]);
     }
     /**
      *@method to update paternity leave
      */
-    public function  updateMisconduct(Request $request, $id)
+    public function  updateGrievance(Request $request)
     {
 
         $validator = Validator::make($request->all(), [
 
-            'investigation_report_attachment' => 'required|max:191',
+'grievance_id' => 'required',
+//   'grievance_supportive_doc' => 'required',
             // 'show_cause_letter_attachment' => 'required|',
-
 
         ]);
 
@@ -106,8 +100,7 @@ class GrievanceController extends Controller
             $return = ['validator_err' => $validator->errors()->toArray()];
         } else {
 
-
-            $grievances = $this->grievances->updateMisconduct($request, $id);
+            $grievances = $this->grievances->updateGrievance($request);
 
             $status = $grievances->getStatusCode();
 
@@ -115,7 +108,7 @@ class GrievanceController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Misconduct successfully updated.",
+                    "message" => "Grievance successfully updated.",
                 ];
             } else {
                 $return = [
@@ -124,16 +117,65 @@ class GrievanceController extends Controller
                 ];
             }
         }
-
-
-
         return response()->json($return);
     }
-    public function retrieveMisconductDetails($id)
+    public function retrieveSpecificGrievance($grievanceId)
     {
 
-        $misconduct =  $this->grievances->retrieveMisconductDetails($id);
+        $grievance =  $this->grievances->retrieveSpecificGrievance($grievanceId);
 
-        return response()->json(["status" => 200, "misconduct" => $misconduct]);
+        return response()->json(["status" => 200, "grievance" => $grievance]);
+    }
+    public function retrieveWorkflowGrievance($grievanceId)
+    {
+
+        $grievance =  $this->grievances->retrieveWorkflowGrievance($grievanceId);
+
+        return response()->json(["status" => 200, "grievance" => $grievance]);
+    }
+    /**
+     *@method to review workflow
+     */
+    public function reviewWorkflowGrievance(Request $request)
+    {
+        $grievance =  $this->grievances->reviewWorkflowGrievance($request);
+
+        return response()->json(["status" => 200, "grievance" => $grievance]);
+    }
+    /**
+     *@method to return initiated Grievances
+     */
+    public function reviewalReturnGrievanceWorkflow(Request $request)
+    {
+
+        $grievance =  $this->grievances->reviewalReturnGrievanceWorkflow($request);
+
+        return response()->json(["status" => 200, "grievance" => $grievance]);
+    }
+    /**
+     *@method to approve grievance this don by menager and should have this role Grievance approver
+     */
+    public function approveWorkflowGrievance(Request $request)
+    {
+
+        $grievance =  $this->grievances->approveWorkflowGrievance($request);
+
+        return response()->json(["status" => 200, "grievance" => $grievance]);
+    }
+    public function approvalReturnWorkflowGrievance(Request $request)
+    {
+
+        $grievance =  $this->grievances->approvalReturnWorkflowGrievance($request);
+
+        return response()->json(["status" => 200, "grievance" => $grievance]);
+    }
+    /**
+     *@method to retrieve  preview of  grievance document
+     */
+    public function previewGrievanceDocument($id)
+    {
+        $grievance =  $this->grievances->previewGrievanceDocument($id);
+
+        return response()->json(["status" => 200, "grievance" => $grievance]);
     }
 }

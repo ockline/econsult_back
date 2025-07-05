@@ -2,11 +2,12 @@
 
 namespace App\Models\IndustrialRelationship\Misconduct;
 
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Model;
 
 class Misconduct extends Model
 {
-
+    use Auditable;
 
     protected $table = 'misconducts';
 
@@ -28,6 +29,8 @@ class Misconduct extends Model
         'incidence_remarks',
         'incidence_reported_by',
         'incidence_reported_date',
+        'initiated_by',
+        'initiated_date'
     ];
     protected $guarded = [];
 }
