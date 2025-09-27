@@ -40,6 +40,8 @@ use App\Http\Controllers\ContractManagement\FixedContractController;
 use App\Http\Controllers\ContractManagement\TermConditionController;
 use App\Http\Controllers\ContractManagement\ContractDetailController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
+use App\Http\Controllers\Exits\ResignationController;
+use App\Http\Controllers\Exits\ResignationWorkflowController;
 
 
 
@@ -328,6 +330,23 @@ Route::prefix('employees')->group(function () {
     Route::get('/application/edit_application_record/{id}', [PersonnelApplicationController::class, 'edit'])->middleware('api');
     Route::put('/application/update_application_record/{id}', [PersonnelApplicationController::class, 'updatePersonnelApplication'])->middleware('api');
     Route::post('/application/complete_application_record/{id}', [PersonnelApplicationController::class, 'completePersonnelApplication'])->middleware('api');
+
+    /** api for exit management (resignation) */
+    Route::get('/exits/resignation/show_all_resignations', [ResignationController::class, 'index'])->middleware('api');
+    Route::get('/exits/resignation/show_resignation/{id}', [ResignationController::class, 'show'])->middleware('api');
+    Route::post('/exits/resignation/add_resignation', [ResignationController::class, 'store'])->middleware('api');
+    Route::post('/exits/resignation/update_resignation/{id}', [ResignationController::class, 'update'])->middleware('api');
+    Route::post('/exits/resignation/submit_resignation/{id}', [ResignationController::class, 'submit'])->middleware('api');
+    Route::post('/exits/resignation/create_acceptance/{id}', [ResignationController::class, 'createAcceptance'])->middleware('api');
+    Route::delete('/exits/resignation/delete_resignation/{id}', [ResignationController::class, 'destroy'])->middleware('api');
+
+    /** api for exit management workflow */
+    Route::post('/exits/resignation/review_resignation', [ResignationWorkflowController::class, 'review'])->middleware('api');
+    Route::post('/exits/resignation/manager_review', [ResignationWorkflowController::class, 'managerReview'])->middleware('api');
+    Route::post('/exits/resignation/approve_resignation', [ResignationWorkflowController::class, 'approve'])->middleware('api');
+    Route::post('/exits/resignation/reject_resignation', [ResignationWorkflowController::class, 'reject'])->middleware('api');
+    Route::post('/exits/resignation/return_resignation', [ResignationWorkflowController::class, 'return'])->middleware('api');
+    Route::get('/exits/resignation/workflow_history/{id}', [ResignationWorkflowController::class, 'getWorkflowHistory'])->middleware('api');
 });
 
 
