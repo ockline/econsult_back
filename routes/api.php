@@ -246,6 +246,7 @@ Route::prefix('hiring')->group(function () {
     Route::post('/hr_interview/update_assessment/{id}', [HrInterviewController::class, 'updateAssessment'])->middleware('api');
     Route::delete('/hr_interview/delete_assessment/{id}', [HrInterviewController::class, 'destroy'])->middleware('api');
     Route::get('hr_interview/get_assessed_document/{id}', [HrInterviewController::class, 'assessedDocument'])->middleware('api');
+    Route::get('/hr_interview/get_cost_centers', [HrInterviewController::class, 'getCostCenters'])->middleware('api');
 
     // Technical Interview
     Route::get('technical_interview/show_candidate', [TechnicalInterviewController::class, 'candidate'])->middleware('api');

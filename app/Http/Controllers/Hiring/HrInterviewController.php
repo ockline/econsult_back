@@ -38,9 +38,10 @@ class HrInterviewController extends Controller
 
         $validator = Validator::make($request->all(), [
             'job_title_id' => 'required|max:191',
+            // 'cost_center_id' => 'nullable|exists:cost_centers,id',
             'date' => 'required|max:191',
             'firstname' => 'required|max:191',
-            'middlename' => 'required|max:191',
+
             'lastname' => 'required|max:191',
             'interviewer' => 'required|max:191',
             'place_recruitment' => 'required|max:191',
@@ -59,7 +60,11 @@ class HrInterviewController extends Controller
         ]);
 
         if ($validator->fails()) {
-            $return = ['validator_err' => $validator->errors()->toArray()];
+            $return = [
+                'status' => 422,
+                'message' => 'Validation failed',
+                'validator_err' => $validator->errors()->toArray()
+            ];
         } else {
             // Log::info('ndani ya nyumba');
             $overall =  $this->competenciesResult($request);
@@ -320,5 +325,27 @@ class HrInterviewController extends Controller
                 'message' => "Internal server Error"
             ]);
         }
-}
+    }
+
+    /**
+     * Get available cost centers for validation
+     */
+    public function getCostCenters()
+    {
+        try {
+            $costCenters = \DB::table('cost_centers')->select('id', 'name')->get();
+
+            return response()->json([
+                'status' => 200,
+                'cost_centers' => $costCenters
+            ]);
+        } catch (\Exception $e) {
+            Log::error('Failed to fetch cost centers', ['error' => $e->getMessage()]);
+
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to fetch cost centers'
+            ]);
+        }
+    }
 }

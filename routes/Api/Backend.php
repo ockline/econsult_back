@@ -8,6 +8,7 @@ use App\Http\Controllers\Leave\AnnualController;
 use App\Http\Controllers\Leave\MaternityController;
 use App\Http\Controllers\Leave\PaternityController;
 use App\Http\Controllers\Employer\EmployerController;
+use App\Http\Controllers\Exits\ResignationController;
 use App\Http\Controllers\Leave\CompassionateController;
 use App\Http\Controllers\Attendance\AttendanceController;
 use App\Models\IndustrialRelationship\Misconduct\Misconduct;
@@ -140,5 +141,13 @@ Route::middleware('auth:sanctum')->get('/disciplinary/retrieve_disciplinary/{$}'
  Route::middleware('auth:sanctum')->post('/disciplinary/update_disciplinary', [DisciplinaryController::class, 'updateDisciplinary']);
  Route::middleware('auth:sanctum')->post('/disciplinary/initiate_appeal_workflow', [DisciplinaryController::class, 'initiateEmployeeAppeal']);
  Route::middleware('auth:sanctum')->post('/disciplinary/review_appeal_workflow', [DisciplinaryController::class, 'reviewDisciplinaryAppeal']);
+
+//Resignation Block
+Route::middleware('auth:sanctum')->get('/resignation/retrieve_all_resignation', [ResignationController::class, 'retrieveAllResignation']);
+Route::middleware('auth:sanctum')->get('/resignation/retrieve_resignation/{id}', [ResignationController::class, 'retrieveResignation']);
+Route::middleware('auth:sanctum')->post('/resignation/update_resignation', [ResignationController::class, 'updateResignation']);
+Route::middleware('auth:sanctum')->post('/resignation/initiate_resignation_workflow', [ResignationController::class, 'initiateEmployeeResignation']);
+Route::middleware('auth:sanctum')->post('/resignation/review_resignation_workflow', [ResignationController::class, 'reviewResignationWorkflow']);
+
 
 });

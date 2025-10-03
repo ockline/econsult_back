@@ -66,9 +66,20 @@ class HrInterviewRepository extends  BaseRepository
 
             // $request->file->move(public_path('uploads'), $fileName);
 
+            // Validate cost_center_id exists in cost_centers table
+            $costCenterId = null;
+            if (!empty($input['cost_center_id'])) {
+                $costCenterExists = DB::table('cost_centers')->where('id', $input['cost_center_id'])->exists();
+                if ($costCenterExists) {
+                    $costCenterId = $input['cost_center_id'];
+                } else {
+                    Log::warning('Invalid cost_center_id provided: ' . $input['cost_center_id']);
+                }
+            }
+
             $assessment =  $this->assessment->create([
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
-                'cost_center_id' => !empty($input['cost_center_id']) ? $input['cost_center_id'] : null,
+                'cost_center_id' => $costCenterId,
                 'cost_number' => !empty($input['cost_number']) ? $input['cost_number'] : null,
                 'date' => !empty($input['date']) ? $input['date'] : null,
                 'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,

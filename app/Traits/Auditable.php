@@ -34,13 +34,13 @@ trait Auditable
      */
     protected function logAudit($event)
     {
+        try {
+            $user = Auth::user(); // Get the authenticated user
+            $ipAddress = Request::ip(); // Get the request IP address
+            $userAgent = Request::header('User-Agent'); // Get the user agent from the request
 
-        $user = Auth::user(); // Get the authenticated user
-        $ipAddress = Request::ip(); // Get the request IP address
-        $userAgent = Request::header('User-Agent'); // Get the user agent from the request
-
-        $auditData = [
-            'user_id' => $user ? $user->id : null, // Log user ID if authenticated
+            $auditData = [
+                'user_id' => $user ? $user->id : null, // Log user ID if authenticated
             'event' => $event,
             'auditable_id' => $this->id,
             'auditable_type' => get_class($this),
@@ -57,5 +57,10 @@ trait Auditable
 
         // Insert the audit record into the Audit table
         Audit::create($auditData);
+
+        } catch (\Exception $e) {
+            // Log the error but don't break the main operation
+            Log::error('Audit logging failed: ' . $e->getMessage());
+        }
     }
 }
