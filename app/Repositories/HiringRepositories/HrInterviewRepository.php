@@ -77,6 +77,7 @@ class HrInterviewRepository extends  BaseRepository
                 }
             }
 
+
             $assessment =  $this->assessment->create([
                 'job_title_id' => !empty($input['job_title_id']) ? $input['job_title_id'] : null,
                 'cost_center_id' => $costCenterId,
@@ -93,7 +94,6 @@ class HrInterviewRepository extends  BaseRepository
                 'education_knowledge' => !empty($input['education_knowledge']) ? $input['education_knowledge'] : 0,
                 'relevant_experience' => !empty($input['relevant_experience']) ? $input['relevant_experience'] : 0,
                 'major_achievement' => !empty($input['major_achievement']) ? $input['major_achievement'] : 0,
-                'criminal_bureau' => !empty($input['criminal_bureau']) ? $input['criminal_bureau'] : 'No',
                 'language_fluency_id' => !empty($input['language_fluency_id']) ? $input['language_fluency_id'] : 0,
                 'education_knowledge_remark' => !empty($input['education_knowledge_remark']) ? $input['education_knowledge_remark'] : null,
                 'relevant_experience_remark' => !empty($input['relevant_experience_remark']) ? $input['relevant_experience_remark'] : null,
@@ -119,7 +119,7 @@ class HrInterviewRepository extends  BaseRepository
                 'social_insuarance_status' => !empty($input['social_insuarance_status']) ? $input['social_insuarance_status'] : 2,
                 'work_site' => !empty($input['work_site']) ? $input['work_site'] : 2,
                 'reallocation_place' => !empty($input['reallocation_place']) ? $input['reallocation_place'] : 2,
-                'recruiter_recommendations' => !empty($input['recruiter_recommendations']) ? $input['recruiter_recommendations'] : 'null',
+                'recruiter_recommendations' => !empty($input['recruiter_recommendations']) ? $input['recruiter_recommendations'] : 2,
                 'recommended_title' => !empty($input['recommended_title']) ? $input['recommended_title'] : $input['job_title_id'],
                 'ranking_creterial_id' => !empty($input['ranking_creterial_id']) ? $input['ranking_creterial_id'] : null,
                 'core_competence_id' => !empty($input['core_competence_id']) ? $input['core_competence_id'] : null,
@@ -374,7 +374,6 @@ class HrInterviewRepository extends  BaseRepository
                     'residence_place' => !empty($input['residence_place']) ? $input['residence_place'] : null,
                     'relative_inside' => !empty($input['relative_inside']) ? $input['relative_inside'] : 2,
                     'relative_name' => !empty($input['relative_name']) ? $input['relative_name'] : null,
-                    'criminal_bureau' => !empty($input['criminal_bureau']) ? $input['criminal_bureau'] : 'No',
                     'chronic_disease' => !empty($input['chronic_disease']) ? $input['chronic_disease'] : 2,
                     'chronic_remarks' => !empty($input['chronic_remarks']) ? $input['chronic_remarks'] : null,
                     'pregnant' => !empty($input['pregnant']) ? $input['pregnant'] : 2,
