@@ -567,121 +567,127 @@ class HrInterviewRepository extends  BaseRepository
     /**
      * Method to fetch HR Interviewed Candidate
      */
-    public function getAssessedCandidate()
-    {
-        // return $this->assessment->get();
+   public function getAssessedCandidate()
+{
+    return DB::table('competency_interviews as ci')
+        ->select([
+            DB::raw('ci.job_title_id'),
+            DB::raw('ci.id'),
+            DB::raw('ci.date'),
+            DB::raw('ci.interview_number'),
+            DB::raw('ci.status'),
+            DB::raw('ci.candidate_name'),
+            DB::raw('ci.firstname'),
+            DB::raw('ci.middlename'),
+            DB::raw('ci.lastname'),
+            DB::raw('ci.military_number'),
+            DB::raw('ci.place_recruitment'),
+            DB::raw('ci.year_experience'),
+            DB::raw('ci.cost_number'),
 
-        return  DB::table('competency_interviews as ci')
-            ->select([
-                DB::raw('ci.job_title_id'),
-                DB::raw('ci.id'),
-                DB::raw('ci.date'),
-                DB::raw('ci.interview_number'),
-                DB::raw('ci.status'),
-                DB::raw('ci.candidate_name'),
-                DB::raw('ci.firstname'),
-                DB::raw('ci.middlename'),
-                DB::raw('ci.lastname'),
-                DB::raw('ci.military_number'),
-                DB::raw('ci.place_recruitment'),
-                DB::raw('ci.year_experience'),
-                DB::raw('ci.cost_number'),
-                // DB::raw('ci.overall_rating'),
-                DB::Raw("CASE WHEN ci.education_knowledge = 0 THEN 'N/A (0)' WHEN ci.education_knowledge = 1 THEN 'Below Average(1)' WHEN ci.education_knowledge = 2 THEN 'Average (2)' WHEN ci.education_knowledge = 3 THEN 'Good'  WHEN ci.education_knowledge = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS education_knowledge"),
-                DB::Raw("CASE WHEN ci.relevant_experience = 0 THEN 'N/A (0)' WHEN ci.relevant_experience = 1 THEN 'Below Average(1)' WHEN ci.relevant_experience = 2 THEN 'Average (2)' WHEN ci.relevant_experience = 3 THEN 'Good'  WHEN ci.relevant_experience = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS relevant_experience"),
-                DB::Raw("CASE WHEN ci.major_achievement = 0 THEN 'N/A (0)' WHEN ci.major_achievement = 1 THEN 'Below Average(1)' WHEN ci.major_achievement = 2 THEN 'Average (2)' WHEN ci.major_achievement = 3 THEN 'Good'  WHEN ci.major_achievement = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS major_achievement"),
-                DB::Raw("CASE WHEN ci.language_fluency_id = 0 THEN 'N/A (0)' WHEN ci.language_fluency_id = 1 THEN 'Below Average(1)' WHEN ci.language_fluency_id = 2 THEN 'Average (2)' WHEN ci.language_fluency_id = 3 THEN 'Good'  WHEN ci.language_fluency_id = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS language_fluency_id"),
-                DB::Raw("CASE WHEN ci.overall_rating = 0 THEN 'N/A' WHEN ci.overall_rating = 1 THEN 'Below Average' WHEN ci.overall_rating = 2 THEN 'Average' WHEN ci.overall_rating = 3 THEN 'Good'  WHEN ci.overall_rating = 4 THEN 'V.Good' ELSE 'Outstanding' END AS overall_rating"),
-                DB::raw('ci.main_strength'),
-                DB::raw('ci.main_weakness'),
-                DB::raw('ci.birth_place'),
-                DB::raw('ci.residence_place '),
-                DB::raw('ci.relative_name'),
-                DB::raw('ci.chronic_remarks'),
-                DB::raw('ci.pregnant'),
-                DB::raw('ci.pregnancy_months'),
-                DB::raw('ci.reference_check'),
-                DB::raw('ci.reference_remarks'),
-                DB::raw('ci.current_packages'),
-                DB::raw('ci.agreed_salary'),
-                DB::raw('ci.required_notes'),
-                DB::raw("CASE WHEN ci.current_employed_entity::integer = 1 THEN 'Private Sector' ELSE 'Public Sector' END AS current_employed_entity"),
-                DB::raw("CASE WHEN ci.military_service = 1 THEN 'Yes' ELSE 'No' END AS military_service "),
-                DB::raw("CASE WHEN ci.relative_inside  = 1 THEN 'Yes' ELSE 'No' END AS relative_inside "),
-                DB::raw("CASE WHEN ci.chronic_disease  = 1 THEN 'Yes' ELSE 'No' END AS chronic_disease "),
-                DB::raw("CASE WHEN ci.pregnant  = 1 THEN 'Yes' ELSE 'No' END AS pregnant "),
-                DB::raw("CASE WHEN ci.employed_before  = 1 THEN 'Yes' ELSE 'No' END AS employed_before "),
-                DB::raw("CASE WHEN ci.reference_check  = 1 THEN 'Yes' ELSE 'No' END AS reference_check "),
-                DB::raw("CASE WHEN ci.social_insuarance_status  = 1 THEN 'Yes' ELSE 'No' END AS social_insuarance_status "),
-                DB::raw("CASE WHEN ci.work_site  = 1 THEN 'Yes' ELSE 'No' END AS work_site "),
-                DB::raw("CASE WHEN ci.reallocation_place  = 1 THEN 'Yes' ELSE 'No' END AS reallocation_place "),
-                DB::raw("CASE WHEN ci.downloaded  = 1 THEN 'Yes' ELSE 'No' END AS downloaded "),
-                DB::raw("CASE WHEN ci.uploaded  = 1 THEN 'Yes' ELSE 'No' END AS uploaded "),
-                DB::raw("CASE WHEN ci.recruiter_recommendations  = 1 THEN 'Accepted' WHEN ci.recruiter_recommendations  = 2 THEN 'Not Accepted' ELSE 'Waiting List' END AS recruiter_recommendations "),
-                DB::raw("CASE WHEN ci.surgery_operation  = 1 THEN 'Yes' ELSE 'No' END AS surgery_operation "),
-                DB::raw('ci.education_knowledge_remark '),
-                DB::raw('ci.relevant_experience_remark '),
-                DB::raw('ci.major_achievement_remark '),
-                DB::raw('ci.language_fluency_remark '),
-                DB::raw('ci.surgery_operation_remark '),
-                DB::raw('jt.name as job_title'),
-                DB::raw('ci.education_knowledge_remark'),
-                // DB::raw('jt.name as recommended_title'),
-                DB::raw('cc.name as cost_center'),
-                DB::raw("CASE WHEN cots.interactive_communication = 0 THEN 'N/A (0)' WHEN cots.interactive_communication = 1 THEN 'Below Average(1)' WHEN cots.interactive_communication = 2 THEN 'Average (2)' WHEN cots.interactive_communication = 3 THEN 'Good'  WHEN cots.interactive_communication = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS interactive_communication"),
-                DB::raw("CASE WHEN cots.accountability = 0 THEN 'N/A (0)' WHEN cots.accountability = 1 THEN 'Below Average(1)' WHEN cots.accountability = 2 THEN 'Average (2)' WHEN cots.accountability = 3 THEN 'Good'  WHEN cots.accountability = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS accountability"),
-                DB::raw("CASE WHEN cots.work_excellence = 0 THEN 'N/A (0)' WHEN cots.work_excellence = 1 THEN 'Below Average(1)' WHEN cots.work_excellence = 2 THEN 'Average (2)' WHEN cots.work_excellence = 3 THEN 'Good'  WHEN cots.work_excellence = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS work_excellence"),
-                DB::raw("CASE WHEN cots.planning_organizing = 0 THEN 'N/A (0)' WHEN cots.planning_organizing = 1 THEN 'Below Average(1)' WHEN cots.planning_organizing = 2 THEN 'Average (2)' WHEN cots.planning_organizing = 3 THEN 'Good'  WHEN cots.planning_organizing = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS planning_organizing"),
-                DB::raw("CASE WHEN cots.problem_solving = 0 THEN 'N/A (0)' WHEN cots.problem_solving = 1 THEN 'Below Average(1)' WHEN cots.problem_solving = 2 THEN 'Average (2)' WHEN cots.problem_solving = 3 THEN 'Good'  WHEN cots.problem_solving = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS problem_solving"),
-                DB::raw("CASE WHEN cots.analytical_ability = 0 THEN 'N/A (0)' WHEN cots.analytical_ability = 1 THEN 'Below Average(1)' WHEN cots.analytical_ability = 2 THEN 'Average (2)' WHEN cots.analytical_ability = 3 THEN 'Good'  WHEN cots.analytical_ability = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS analytical_ability"),
-                DB::raw("CASE WHEN cots.attention_details = 0 THEN 'N/A (0)' WHEN cots.attention_details = 1 THEN 'Below Average(1)' WHEN cots.attention_details = 2 THEN 'Average (2)' WHEN cots.attention_details = 3 THEN 'Good'  WHEN cots.attention_details = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS attention_details"),
-                DB::raw("CASE WHEN cots.initiative = 0 THEN 'N/A (0)' WHEN cots.initiative = 1 THEN 'Below Average(1)' WHEN cots.initiative = 2 THEN 'Average (2)' WHEN cots.initiative = 3 THEN 'Good'  WHEN cots.initiative = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS initiative"),
-                DB::raw("CASE WHEN cots.multi_tasking = 0 THEN 'N/A (0)' WHEN cots.multi_tasking = 1 THEN 'Below Average(1)' WHEN cots.multi_tasking = 2 THEN 'Average (2)' WHEN cots.multi_tasking = 3 THEN 'Good'  WHEN cots.multi_tasking = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS multi_tasking"),
-                DB::raw("CASE WHEN cots.continuous_improvement = 0 THEN 'N/A (0)' WHEN cots.continuous_improvement = 1 THEN 'Below Average(1)' WHEN cots.continuous_improvement = 2 THEN 'Average (2)' WHEN cots.continuous_improvement = 3 THEN 'Good'  WHEN cots.continuous_improvement = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS continuous_improvement"),
-                DB::raw("CASE WHEN cots.compliance = 0 THEN 'N/A (0)' WHEN cots.compliance = 1 THEN 'Below Average(1)' WHEN cots.compliance = 2 THEN 'Average (2)' WHEN cots.compliance = 3 THEN 'Good'  WHEN cots.compliance = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS compliance"),
-                DB::raw("CASE WHEN cots.creativity_innovation = 0 THEN 'N/A (0)' WHEN cots.creativity_innovation = 1 THEN 'Below Average(1)' WHEN cots.creativity_innovation = 2 THEN 'Average (2)' WHEN cots.creativity_innovation = 3 THEN 'Good'  WHEN cots.creativity_innovation = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS creativity_innovation"),
-                DB::raw("CASE WHEN cots.negotiation = 0 THEN 'N/A (0)' WHEN cots.negotiation = 1 THEN 'Below Average(1)' WHEN cots.negotiation = 2 THEN 'Average (2)' WHEN cots.negotiation = 3 THEN 'Good'  WHEN cots.negotiation = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS negotiation"),
-                DB::raw("CASE WHEN cots.team_work = 0 THEN 'N/A (0)' WHEN cots.team_work = 1 THEN 'Below Average(1)' WHEN cots.team_work = 2 THEN 'Average (2)' WHEN cots.team_work = 3 THEN 'Good'  WHEN cots.team_work = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS team_work"),
-                DB::raw("CASE WHEN cots.adaptability_flexibility = 0 THEN 'N/A (0)' WHEN cots.adaptability_flexibility = 1 THEN 'Below Average(1)' WHEN cots.adaptability_flexibility = 2 THEN 'Average (2)' WHEN cots.adaptability_flexibility = 3 THEN 'Good'  WHEN cots.adaptability_flexibility = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS adaptability_flexibility"),
-                DB::raw("CASE WHEN cots.leadership = 0 THEN 'N/A (0)' WHEN cots.leadership = 1 THEN 'Below Average(1)' WHEN cots.leadership = 2 THEN 'Average (2)' WHEN cots.leadership = 3 THEN 'Good'  WHEN cots.leadership = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS leadership"),
-                DB::raw("CASE WHEN cots.delegating_managing = 0 THEN 'N/A (0)' WHEN cots.delegating_managing = 1 THEN 'Below Average(1)' WHEN cots.delegating_managing = 2 THEN 'Average (2)' WHEN cots.delegating_managing = 3 THEN 'Good'  WHEN cots.delegating_managing = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS delegating_managing"),
-                DB::raw("CASE WHEN cots.managing_change = 0 THEN 'N/A (0)' WHEN cots.managing_change = 1 THEN 'Below Average(1)' WHEN cots.managing_change = 2 THEN 'Average (2)' WHEN cots.managing_change = 3 THEN 'Good'  WHEN cots.managing_change = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS managing_change"),
-                DB::raw("CASE WHEN cots.strategic_conceptual_thinking = 0 THEN 'N/A (0)' WHEN cots.strategic_conceptual_thinking = 1 THEN 'Below Average(1)' WHEN cots.strategic_conceptual_thinking = 2 THEN 'Average (2)' WHEN cots.strategic_conceptual_thinking = 3 THEN 'Good'  WHEN cots.strategic_conceptual_thinking = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS strategic_conceptual_thinking"),
-                DB::raw(' cots.interactive_communication_remark '),
-                DB::raw(' cots.accountability_remark  '),
-                DB::raw(' cots.work_excellence_remark '),
-                DB::raw(' cots.planning_organizing_remark '),
-                DB::raw(' cots.problem_solving_remark  '),
-                DB::raw(' cots.analytical_ability_remark '),
-                DB::raw(' cots.attention_details_remark  '),
-                DB::raw(' cots.initiative_remark  '),
-                DB::raw(' cots.multi_tasking_remark '),
-                DB::raw(' cots.continuous_improvement_remark '),
-                DB::raw(' cots.compliance_remark  '),
-                DB::raw(' cots.creativity_innovation_remark  '),
-                DB::raw(' cots.negotiation_remark  '),
-                DB::raw(' cots.team_work_remark  '),
-                DB::raw(' cots.adaptability_flexibility_remark '),
-                DB::raw(' cots.leadership_remark  '),
-                DB::raw(' cots.delegating_managing_remark '),
-                DB::raw(' cots.managing_change_remark'),
-                DB::raw(' cots.strategic_conceptual_thinking_remark'),
-                DB::raw('CONCAT(u.firstname, \' \', u.middlename, \'.\', u.lastname) as interviewer_name'),
+            // Ratings
+            DB::raw("CASE WHEN ci.education_knowledge = 0 THEN 'N/A (0)' WHEN ci.education_knowledge = 1 THEN 'Below Average(1)' WHEN ci.education_knowledge = 2 THEN 'Average (2)' WHEN ci.education_knowledge = 3 THEN 'Good' WHEN ci.education_knowledge = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS education_knowledge"),
+            DB::raw("CASE WHEN ci.relevant_experience = 0 THEN 'N/A (0)' WHEN ci.relevant_experience = 1 THEN 'Below Average(1)' WHEN ci.relevant_experience = 2 THEN 'Average (2)' WHEN ci.relevant_experience = 3 THEN 'Good' WHEN ci.relevant_experience = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS relevant_experience"),
+            DB::raw("CASE WHEN ci.major_achievement = 0 THEN 'N/A (0)' WHEN ci.major_achievement = 1 THEN 'Below Average(1)' WHEN ci.major_achievement = 2 THEN 'Average (2)' WHEN ci.major_achievement = 3 THEN 'Good' WHEN ci.major_achievement = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS major_achievement"),
+            DB::raw("CASE WHEN ci.language_fluency_id = 0 THEN 'N/A (0)' WHEN ci.language_fluency_id = 1 THEN 'Below Average(1)' WHEN ci.language_fluency_id = 2 THEN 'Average (2)' WHEN ci.language_fluency_id = 3 THEN 'Good' WHEN ci.language_fluency_id = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS language_fluency_id"),
+            DB::raw("CASE WHEN ci.overall_rating = 0 THEN 'N/A' WHEN ci.overall_rating = 1 THEN 'Below Average' WHEN ci.overall_rating = 2 THEN 'Average' WHEN ci.overall_rating = 3 THEN 'Good' WHEN ci.overall_rating = 4 THEN 'V.Good' ELSE 'Outstanding' END AS overall_rating"),
 
-                //  DB::raw('CONCAT(u.firstname," ", LEFT(u.middlename, 1),".", u.lastname) as interviewer_name')
-            ])
-            ->leftJoin('job_title as jt', 'ci.job_title_id', '=', 'jt.id')
-            ->leftJoin('cost_centers as cc', 'ci.cost_center_id', '=', 'cc.id')
-            ->leftJoin('competencies_transactions as cots', 'cots.competency_interview_id', '=', 'ci.id')
-            ->leftJoin('employers as e', 'ci.employer_id', '=', 'e.id')
-            ->leftJoin('users as u', 'u.employer_id', '=', 'e.id')
-            ->whereIn('recruiter_recommendations', [1,2])
-            ->where('ci.date', '>=', DB::raw("CURRENT_DATE - INTERVAL '1 month'"))
-            ->orderBy('ci.id', 'DESC')
-            ->get();
-        //  log::info($assessed_candidate);
-        //  return $assessed_candidate;
-    }
+            DB::raw('ci.main_strength'),
+            DB::raw('ci.main_weakness'),
+            DB::raw('ci.birth_place'),
+            DB::raw('ci.residence_place'),
+            DB::raw('ci.relative_name'),
+            DB::raw('ci.chronic_remarks'),
+            DB::raw('ci.pregnant'),
+            DB::raw('ci.pregnancy_months'),
+            DB::raw('ci.reference_check'),
+            DB::raw('ci.reference_remarks'),
+            DB::raw('ci.current_packages'),
+            DB::raw('ci.agreed_salary'),
+            DB::raw('ci.required_notes'),
+
+            // ✅ Fixed boolean comparisons
+            DB::raw("CASE WHEN ci.current_employed_entity = true THEN 'Private Sector' ELSE 'Public Sector' END AS current_employed_entity"),
+            DB::raw("CASE WHEN ci.military_service = true THEN 'Yes' ELSE 'No' END AS military_service"),
+            DB::raw("CASE WHEN ci.relative_inside = true THEN 'Yes' ELSE 'No' END AS relative_inside"),
+            DB::raw("CASE WHEN ci.chronic_disease = true THEN 'Yes' ELSE 'No' END AS chronic_disease"),
+            DB::raw("CASE WHEN ci.pregnant = true THEN 'Yes' ELSE 'No' END AS pregnant"),
+            DB::raw("CASE WHEN ci.employed_before = true THEN 'Yes' ELSE 'No' END AS employed_before"),
+            DB::raw("CASE WHEN ci.reference_check = true THEN 'Yes' ELSE 'No' END AS reference_check"),
+            DB::raw("CASE WHEN ci.social_insuarance_status = true THEN 'Yes' ELSE 'No' END AS social_insuarance_status"),
+            DB::raw("CASE WHEN ci.work_site = true THEN 'Yes' ELSE 'No' END AS work_site"),
+            DB::raw("CASE WHEN ci.reallocation_place = true THEN 'Yes' ELSE 'No' END AS reallocation_place"),
+            DB::raw("CASE WHEN ci.downloaded = true THEN 'Yes' ELSE 'No' END AS downloaded"),
+            DB::raw("CASE WHEN ci.uploaded = true THEN 'Yes' ELSE 'No' END AS uploaded"),
+            DB::raw("CASE WHEN ci.recruiter_recommendations = 1 THEN 'Accepted' WHEN ci.recruiter_recommendations = 2 THEN 'Not Accepted' ELSE 'Waiting List' END AS recruiter_recommendations"),
+            DB::raw("CASE WHEN ci.surgery_operation = true THEN 'Yes' ELSE 'No' END AS surgery_operation"),
+
+            DB::raw('ci.education_knowledge_remark'),
+            DB::raw('ci.relevant_experience_remark'),
+            DB::raw('ci.major_achievement_remark'),
+            DB::raw('ci.language_fluency_remark'),
+            DB::raw('ci.surgery_operation_remark'),
+
+            DB::raw('jt.name as job_title'),
+            DB::raw('ci.education_knowledge_remark'),
+            DB::raw('cc.name as cost_center'),
+
+            // Competency scores
+            DB::raw("CASE WHEN cots.interactive_communication = 0 THEN 'N/A (0)' WHEN cots.interactive_communication = 1 THEN 'Below Average(1)' WHEN cots.interactive_communication = 2 THEN 'Average (2)' WHEN cots.interactive_communication = 3 THEN 'Good' WHEN cots.interactive_communication = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS interactive_communication"),
+            DB::raw("CASE WHEN cots.accountability = 0 THEN 'N/A (0)' WHEN cots.accountability = 1 THEN 'Below Average(1)' WHEN cots.accountability = 2 THEN 'Average (2)' WHEN cots.accountability = 3 THEN 'Good' WHEN cots.accountability = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS accountability"),
+            DB::raw("CASE WHEN cots.work_excellence = 0 THEN 'N/A (0)' WHEN cots.work_excellence = 1 THEN 'Below Average(1)' WHEN cots.work_excellence = 2 THEN 'Average (2)' WHEN cots.work_excellence = 3 THEN 'Good' WHEN cots.work_excellence = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS work_excellence"),
+            DB::raw("CASE WHEN cots.planning_organizing = 0 THEN 'N/A (0)' WHEN cots.planning_organizing = 1 THEN 'Below Average(1)' WHEN cots.planning_organizing = 2 THEN 'Average (2)' WHEN cots.planning_organizing = 3 THEN 'Good' WHEN cots.planning_organizing = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS planning_organizing"),
+            DB::raw("CASE WHEN cots.problem_solving = 0 THEN 'N/A (0)' WHEN cots.problem_solving = 1 THEN 'Below Average(1)' WHEN cots.problem_solving = 2 THEN 'Average (2)' WHEN cots.problem_solving = 3 THEN 'Good' WHEN cots.problem_solving = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS problem_solving"),
+            DB::raw("CASE WHEN cots.analytical_ability = 0 THEN 'N/A (0)' WHEN cots.analytical_ability = 1 THEN 'Below Average(1)' WHEN cots.analytical_ability = 2 THEN 'Average (2)' WHEN cots.analytical_ability = 3 THEN 'Good' WHEN cots.analytical_ability = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS analytical_ability"),
+            DB::raw("CASE WHEN cots.attention_details = 0 THEN 'N/A (0)' WHEN cots.attention_details = 1 THEN 'Below Average(1)' WHEN cots.attention_details = 2 THEN 'Average (2)' WHEN cots.attention_details = 3 THEN 'Good' WHEN cots.attention_details = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS attention_details"),
+            DB::raw("CASE WHEN cots.initiative = 0 THEN 'N/A (0)' WHEN cots.initiative = 1 THEN 'Below Average(1)' WHEN cots.initiative = 2 THEN 'Average (2)' WHEN cots.initiative = 3 THEN 'Good' WHEN cots.initiative = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS initiative"),
+            DB::raw("CASE WHEN cots.multi_tasking = 0 THEN 'N/A (0)' WHEN cots.multi_tasking = 1 THEN 'Below Average(1)' WHEN cots.multi_tasking = 2 THEN 'Average (2)' WHEN cots.multi_tasking = 3 THEN 'Good' WHEN cots.multi_tasking = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS multi_tasking"),
+            DB::raw("CASE WHEN cots.continuous_improvement = 0 THEN 'N/A (0)' WHEN cots.continuous_improvement = 1 THEN 'Below Average(1)' WHEN cots.continuous_improvement = 2 THEN 'Average (2)' WHEN cots.continuous_improvement = 3 THEN 'Good' WHEN cots.continuous_improvement = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS continuous_improvement"),
+            DB::raw("CASE WHEN cots.compliance = 0 THEN 'N/A (0)' WHEN cots.compliance = 1 THEN 'Below Average(1)' WHEN cots.compliance = 2 THEN 'Average (2)' WHEN cots.compliance = 3 THEN 'Good' WHEN cots.compliance = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS compliance"),
+            DB::raw("CASE WHEN cots.creativity_innovation = 0 THEN 'N/A (0)' WHEN cots.creativity_innovation = 1 THEN 'Below Average(1)' WHEN cots.creativity_innovation = 2 THEN 'Average (2)' WHEN cots.creativity_innovation = 3 THEN 'Good' WHEN cots.creativity_innovation = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS creativity_innovation"),
+            DB::raw("CASE WHEN cots.negotiation = 0 THEN 'N/A (0)' WHEN cots.negotiation = 1 THEN 'Below Average(1)' WHEN cots.negotiation = 2 THEN 'Average (2)' WHEN cots.negotiation = 3 THEN 'Good' WHEN cots.negotiation = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS negotiation"),
+            DB::raw("CASE WHEN cots.team_work = 0 THEN 'N/A (0)' WHEN cots.team_work = 1 THEN 'Below Average(1)' WHEN cots.team_work = 2 THEN 'Average (2)' WHEN cots.team_work = 3 THEN 'Good' WHEN cots.team_work = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS team_work"),
+            DB::raw("CASE WHEN cots.adaptability_flexibility = 0 THEN 'N/A (0)' WHEN cots.adaptability_flexibility = 1 THEN 'Below Average(1)' WHEN cots.adaptability_flexibility = 2 THEN 'Average (2)' WHEN cots.adaptability_flexibility = 3 THEN 'Good' WHEN cots.adaptability_flexibility = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS adaptability_flexibility"),
+            DB::raw("CASE WHEN cots.leadership = 0 THEN 'N/A (0)' WHEN cots.leadership = 1 THEN 'Below Average(1)' WHEN cots.leadership = 2 THEN 'Average (2)' WHEN cots.leadership = 3 THEN 'Good' WHEN cots.leadership = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS leadership"),
+            DB::raw("CASE WHEN cots.delegating_managing = 0 THEN 'N/A (0)' WHEN cots.delegating_managing = 1 THEN 'Below Average(1)' WHEN cots.delegating_managing = 2 THEN 'Average (2)' WHEN cots.delegating_managing = 3 THEN 'Good' WHEN cots.delegating_managing = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS delegating_managing"),
+            DB::raw("CASE WHEN cots.managing_change = 0 THEN 'N/A (0)' WHEN cots.managing_change = 1 THEN 'Below Average(1)' WHEN cots.managing_change = 2 THEN 'Average (2)' WHEN cots.managing_change = 3 THEN 'Good' WHEN cots.managing_change = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS managing_change"),
+            DB::raw("CASE WHEN cots.strategic_conceptual_thinking = 0 THEN 'N/A (0)' WHEN cots.strategic_conceptual_thinking = 1 THEN 'Below Average(1)' WHEN cots.strategic_conceptual_thinking = 2 THEN 'Average (2)' WHEN cots.strategic_conceptual_thinking = 3 THEN 'Good' WHEN cots.strategic_conceptual_thinking = 4 THEN 'V.Good (4)' ELSE 'Outstanding (5)' END AS strategic_conceptual_thinking"),
+
+            // Remarks
+            DB::raw('cots.interactive_communication_remark'),
+            DB::raw('cots.accountability_remark'),
+            DB::raw('cots.work_excellence_remark'),
+            DB::raw('cots.planning_organizing_remark'),
+            DB::raw('cots.problem_solving_remark'),
+            DB::raw('cots.analytical_ability_remark'),
+            DB::raw('cots.attention_details_remark'),
+            DB::raw('cots.initiative_remark'),
+            DB::raw('cots.multi_tasking_remark'),
+            DB::raw('cots.continuous_improvement_remark'),
+            DB::raw('cots.compliance_remark'),
+            DB::raw('cots.creativity_innovation_remark'),
+            DB::raw('cots.negotiation_remark'),
+            DB::raw('cots.team_work_remark'),
+            DB::raw('cots.adaptability_flexibility_remark'),
+            DB::raw('cots.leadership_remark'),
+            DB::raw('cots.delegating_managing_remark'),
+            DB::raw('cots.managing_change_remark'),
+            DB::raw('cots.strategic_conceptual_thinking_remark'),
+
+            // Interviewer name
+            DB::raw("CONCAT(u.firstname, ' ', u.middlename, '.', u.lastname) as interviewer_name"),
+        ])
+        ->leftJoin('job_title as jt', 'ci.job_title_id', '=', 'jt.id')
+        ->leftJoin('cost_centers as cc', 'ci.cost_center_id', '=', 'cc.id')
+        ->leftJoin('competencies_transactions as cots', 'cots.competency_interview_id', '=', 'ci.id')
+        ->leftJoin('employers as e', 'ci.employer_id', '=', 'e.id')
+        ->leftJoin('users as u', 'u.employer_id', '=', 'e.id')
+        ->whereIn('recruiter_recommendations', [1, 2])
+        ->where('ci.date', '>=', DB::raw("CURRENT_DATE - INTERVAL '1 month'"))
+        ->orderBy('ci.id', 'DESC')
+        ->get();
+}
+
     public function getCompetencyTransactions()
     {
         return  DB::table('competencies_transactions')->select('*')->get();
