@@ -41,22 +41,24 @@ trait Auditable
 
             $auditData = [
                 'user_id' => $user ? $user->id : null, // Log user ID if authenticated
-            'event' => $event,
-            'auditable_id' => $this->id,
-            'auditable_type' => get_class($this),
-            'old_values' => $event === 'updated' ? $this->getOriginal() : null,
-            'new_values' => $event !== 'deleted' ? $this->getDirty() : null,
-            'url' => Request::fullUrl(),
-            'ip_address' => $ipAddress,
-            'user_agent' => $userAgent,
-            'user_type' => $user ? $user->role : null, // Assuming you have roles defined
-            'tags' => null, // You can define tags if needed
-            'created_at' => now(),
-            'updated_at' => now()
-        ];
+                'event' => $event,
+                'auditable_id' => $this->id,
+                'auditable_type' => get_class($this),
+                'old_values' => $event === 'updated' ? $this->getOriginal() : null,
+                'new_values' => $event !== 'deleted' ? $this->getDirty() : null,
+                'url' => Request::fullUrl(),
+                'ip_address' => $ipAddress,
+                'user_agent' => $userAgent,
+                'user_type' => $user ? $user->role : null, // Assuming you have roles defined
+                'tags' => null, // You can define tags if needed
+                'created_at' => now(),
+                'updated_at' => now()
+            ];
 
-        // Insert the audit record into the Audit table
-        Audit::create($auditData);
+            // Use afterCommit to ensure audit logging happens after main transaction
+            \DB::afterCommit(function() use ($auditData) {
+                Audit::create($auditData);
+            });
 
         } catch (\Exception $e) {
             // Log the error but don't break the main operation
