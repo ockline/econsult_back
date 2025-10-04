@@ -35,6 +35,10 @@ trait Auditable
     protected function logAudit($event)
     {
         try {
+            // Temporarily disable audit logging to isolate the main issue
+            Log::info('Audit logging disabled temporarily for debugging');
+            return;
+
             $user = Auth::user(); // Get the authenticated user
             $ipAddress = Request::ip(); // Get the request IP address
             $userAgent = Request::header('User-Agent'); // Get the user agent from the request
