@@ -29,6 +29,12 @@ class ResignationController extends Controller
      */
     public function store(Request $request)
     {
+        \Log::info('Resignation store method called', [
+            'request_data' => $request->all(),
+            'headers' => $request->headers->all(),
+            'user' => \Auth::user(),
+        ]);
+
         $validator = Validator::make($request->all(), [
             'employee_id' => 'required|exists:employees,id',
             'employee_name' => 'required|string|max:255',

@@ -55,23 +55,56 @@ class ResignationRepository extends BaseRepository
                 'resignation_date' => $input['resignation_date'],
                 'status' => 'Draft',
                 'stage' => 'Initiated',
-                'created_by' => Auth::user()->id,
+                'created_by' => 1, // admin after login will be authenticated user
             ]);
 
             // Save resignation documents
             if ($request->hasFile('resignation_notice_file')) {
-                $resignation->resignation_notice_file = $this->saveFile($request->file('resignation_notice_file'), $resignation->id, 'resignation_notice');
-                $resignation->save();
+                try {
+                    $resignation->resignation_notice_file = $this->saveFile($request->file('resignation_notice_file'), $resignation->id, 'resignation_notice');
+                    $resignation->save();
+                } catch (\Exception $e) {
+                    Log::error('Failed to save resignation notice file', ['error' => $e->getMessage()]);
+                    throw $e;
+                }
             }
 
             if ($request->hasFile('resignation_form_file')) {
-                $resignation->resignation_form_file = $this->saveFile($request->file('resignation_form_file'), $resignation->id, 'resignation_form');
-                $resignation->save();
+                try {
+                    $resignation->resignation_form_file = $this->saveFile($request->file('resignation_form_file'), $resignation->id, 'resignation_form');
+                    $resignation->save();
+                } catch (\Exception $e) {
+                    Log::error('Failed to save resignation form file', ['error' => $e->getMessage()]);
+                    throw $e;
+                }
             }
 
             if ($request->hasFile('resignation_letter_file')) {
-                $resignation->resignation_letter_file = $this->saveFile($request->file('resignation_letter_file'), $resignation->id, 'resignation_letter');
-                $resignation->save();
+                try {
+                    $resignation->resignation_letter_file = $this->saveFile($request->file('resignation_letter_file'), $resignation->id, 'resignation_letter');
+                    $resignation->save();
+                } catch (\Exception $e) {
+                    Log::error('Failed to save resignation letter file', ['error' => $e->getMessage()]);
+                    throw $e;
+                }
+            }
+
+            if ($request->hasFile('certificate_of_service_file')) {
+                try {
+                    $resignation->certificate_of_service_file = $this->saveFile($request->file('certificate_of_service_file'), $resignation->id, 'certificate_of_service');
+                    $resignation->save();
+                } catch (\Exception $e) {
+                    Log::error('Failed to save certificate of service file', ['error' => $e->getMessage()]);
+                    throw $e;
+                }
+            }
+
+            // Save documents to attachments table using the already saved file names
+            try {
+                $this->saveResignationDocumentFromSavedFiles($resignation);
+            } catch (\Exception $e) {
+                Log::error('Failed to save resignation documents', ['error' => $e->getMessage()]);
+                throw $e; // This will trigger the rollback in the main transaction
             }
 
             DB::commit();
@@ -91,6 +124,202 @@ class ResignationRepository extends BaseRepository
             ], 500);
         }
     }
+/**
+*@method saveResignationDocument
+*@param Request $request
+*@return void
+*/
+private function saveResignationDocument($request,$resignationId)
+    {
+        // Log::info($request->all());
+
+        try {
+
+            $documents = [];
+
+            $documentTypes = [
+                'resignation_notice_file' => 'resignation_notice',
+                'resignation_form_file' => 'resignation_form',
+                'resignation_letter_file' => 'resignation_letter',
+                'certificate_of_service_file' => 'certificate_of_service',
+                'hr_signature_file' => 'hr_signature',
+                'employee_signature_file' => 'employee_signature'
+            ];
+
+            foreach ($documentTypes as $fileField => $documentType) {
+                if ($request->hasFile($fileField) && $resignationId) {
+                    $file = $request->file($fileField);
+
+                    if ($file) {
+                        try {
+                            $fileName = time() . '_' . $file->getClientOriginalName();
+                            $directory = public_path('exit/resignation');
+
+                            // Create directory if it doesn't exist
+                            if (!file_exists($directory)) {
+                                mkdir($directory, 0755, true);
+                            }
+
+                            // Check if file is valid
+                            if (!$file->isValid()) {
+                                Log::error('Invalid file upload', [
+                                    'file_field' => $fileField,
+                                    'error' => $file->getError(),
+                                    'error_message' => $file->getErrorMessage()
+                                ]);
+                                continue;
+                            }
+
+                            $file->move($directory, $fileName);
+
+                            Log::info('File uploaded successfully', [
+                                'file_field' => $fileField,
+                                'file_name' => $fileName,
+                                'directory' => $directory
+                            ]);
+
+                            $documents[] = [
+                                'name' => $documentType,
+                                'document_id' => $this->getDocumentId($documentType),
+                                'description' => $fileName,
+                                'document_group_id' => 5,
+                                'resignation_id' => $resignationId,
+                            ];
+                        } catch (\Exception $e) {
+                            Log::error('File upload failed', [
+                                'file_field' => $fileField,
+                                'error' => $e->getMessage(),
+                                'file_name' => $file->getClientOriginalName()
+                            ]);
+                            continue;
+                        }
+                    }
+                }
+            }
+            Log::info('Documents to save', ['documents' => $documents]);
+
+            foreach ($documents as $document) {
+                try {
+                    ResignationAttachment::create($document);
+                    Log::info('Document saved successfully', ['document' => $document]);
+                } catch (\Exception $e) {
+                    Log::error('Failed to save document to database', [
+                        'document' => $document,
+                        'error' => $e->getMessage()
+                    ]);
+                    throw $e;
+                }
+            }
+
+
+
+            Log::info('Saved document successfully');
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Failed to save document', ['error' => $e->getMessage()]);
+            throw $e; // Re-throw the exception to trigger rollback in main transaction
+        }
+    }
+
+    /**
+     * Save resignation documents to attachments table using already saved files
+     */
+    private function saveResignationDocumentFromSavedFiles($resignation)
+    {
+        try {
+            $documents = [];
+
+            // Map file fields to document types
+            $fileMappings = [
+                'resignation_notice_file' => 'resignation_notice',
+                'resignation_form_file' => 'resignation_form',
+                'resignation_letter_file' => 'resignation_letter',
+                'certificate_of_service_file' => 'certificate_of_service',
+            ];
+
+            foreach ($fileMappings as $fileField => $documentType) {
+                $fileName = $resignation->$fileField;
+                if ($fileName) {
+                    // Copy file to exit/resignation directory for document management system
+                    $sourcePath = public_path("resignations/{$resignation->id}/{$fileName}");
+                    $targetDirectory = public_path('exit/resignation');
+                    $targetPath = $targetDirectory . '/' . $fileName;
+                    
+                    // Create target directory if it doesn't exist
+                    if (!file_exists($targetDirectory)) {
+                        mkdir($targetDirectory, 0755, true);
+                    }
+                    
+                    // Copy file if source exists
+                    if (file_exists($sourcePath)) {
+                        copy($sourcePath, $targetPath);
+                        Log::info('File copied to exit/resignation directory', [
+                            'source' => $sourcePath,
+                            'target' => $targetPath
+                        ]);
+                    }
+                    
+                    $documents[] = [
+                        'name' => $documentType,
+                        'document_id' => $this->getDocumentId($documentType),
+                        'description' => $fileName,
+                        'document_group_id' => 5,
+                        'resignation_id' => $resignation->id,
+                    ];
+                }
+            }
+
+            Log::info('Documents to save from saved files', ['documents' => $documents]);
+            
+            foreach ($documents as $document) {
+                try {
+                    ResignationAttachment::create($document);
+                    Log::info('Document saved successfully from saved files', ['document' => $document]);
+                } catch (\Exception $e) {
+                    Log::error('Failed to save document to database from saved files', [
+                        'document' => $document,
+                        'error' => $e->getMessage()
+                    ]);
+                    throw $e;
+                }
+            }
+
+            Log::info('Saved documents from saved files successfully');
+            return true;
+        } catch (\Exception $e) {
+            Log::error('Failed to save documents from saved files', ['error' => $e->getMessage()]);
+            throw $e;
+        }
+    }
+
+    public function getDocumentId($documentId)
+    {
+        // $document_id = [29, 30];
+        //  $documentTypes = [resignation_notice','resignation_form','resignation_letter','certificate_of_service','hr_signature','employee_signature'];
+        switch ($documentId) {
+            case 'resignation_notice':
+                return 60;
+                break;
+            case 'resignation_form':
+                return 61;
+                break;
+            case 'resignation_letter':
+                return 62;
+                break;
+            case 'certificate_of_service':
+                return 63;
+                break;
+            case 'hr_signature':
+                return 64;
+                break;
+            case 'employee_signature':
+                return 65;
+                break;
+            default:
+                return null;
+        }
+    }
+
 
     /**
      * Update resignation details
@@ -111,7 +340,7 @@ class ResignationRepository extends BaseRepository
                 'phone_number' => $input['phone_number'],
                 'remark' => $input['remark'],
                 'resignation_date' => $input['resignation_date'],
-                'updated_by' => Auth::user()->id,
+                'updated_by' => 1, // admin after login will be authenticated user
             ]);
 
             // Update files if provided
@@ -125,6 +354,10 @@ class ResignationRepository extends BaseRepository
 
             if ($request->hasFile('resignation_letter_file')) {
                 $resignation->resignation_letter_file = $this->saveFile($request->file('resignation_letter_file'), $resignation->id, 'resignation_letter');
+            }
+
+            if ($request->hasFile('certificate_of_service_file')) {
+                $resignation->certificate_of_service_file = $this->saveFile($request->file('certificate_of_service_file'), $resignation->id, 'certificate_of_service');
             }
 
             $resignation->save();
@@ -160,11 +393,11 @@ class ResignationRepository extends BaseRepository
             $resignation->update([
                 'status' => 'Submitted',
                 'stage' => 'HR Review',
-                'updated_by' => Auth::user()->id,
+                'updated_by' => 1, // admin after login will be authenticated user
             ]);
 
             // Create workflow entry
-            $this->createWorkflow($resignation->id, 'Submitted', 'HR Review', 'Resignation Submitted');
+            $this->createWorkflow($resignation->id, 'Initiated', 'HR Review', 'Resignation Submitted');
 
             DB::commit();
 
@@ -205,7 +438,7 @@ class ResignationRepository extends BaseRepository
                 'started_work' => $input['started_work'],
                 'hr_name' => $input['hr_name'],
                 'hr_designation' => $input['hr_designation'],
-                'created_by' => Auth::user()->id,
+                'created_by' => 1, // admin after login will be authenticated user
             ]);
 
             // Save signature files
@@ -293,7 +526,7 @@ class ResignationRepository extends BaseRepository
             'resignation_id' => $resignationId,
             'comments' => $comments,
             'received_date' => now(),
-            'attended_by' => Auth::user()->id,
+            'attended_by' => 1, // admin after login will be authenticated user
             'attended_date' => now(),
             'status' => $status,
             'stage' => $stage,
@@ -308,25 +541,43 @@ class ResignationRepository extends BaseRepository
      */
     private function saveFile($file, $resignationId, $type)
     {
-        $fileName = time() . '_' . $type . '_' . $file->getClientOriginalName();
-        $file->move(public_path("resignations/{$resignationId}"), $fileName);
-        return $fileName;
+        try {
+            $fileName = time() . '_' . $type . '_' . $file->getClientOriginalName();
+            $directory = public_path("resignations/{$resignationId}");
+
+            // Create directory if it doesn't exist
+            if (!file_exists($directory)) {
+                mkdir($directory, 0755, true);
+            }
+
+            // Check if file is valid
+            if (!$file->isValid()) {
+                Log::error('Invalid file in saveFile method', [
+                    'type' => $type,
+                    'error' => $file->getError(),
+                    'error_message' => $file->getErrorMessage()
+                ]);
+                throw new \Exception("Invalid file upload: " . $file->getErrorMessage());
+            }
+
+            $file->move($directory, $fileName);
+
+            Log::info('File saved successfully in saveFile method', [
+                'type' => $type,
+                'file_name' => $fileName,
+                'directory' => $directory
+            ]);
+
+            return $fileName;
+        } catch (\Exception $e) {
+            Log::error('Failed to save file in saveFile method', [
+                'type' => $type,
+                'error' => $e->getMessage(),
+                'file_name' => $file->getClientOriginalName()
+            ]);
+            throw $e;
+        }
     }
 
-    /**
-     * Get document ID based on type
-     */
-    private function getDocumentId($documentType)
-    {
-        $documentIds = [
-            'resignation_notice' => 1,
-            'resignation_form' => 2,
-            'resignation_letter' => 3,
-            'certificate_of_service' => 4,
-            'hr_signature' => 5,
-            'employee_signature' => 6,
-        ];
 
-        return $documentIds[$documentType] ?? null;
-    }
 }
