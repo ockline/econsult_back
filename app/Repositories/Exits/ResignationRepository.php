@@ -244,12 +244,12 @@ private function saveResignationDocument($request,$resignationId)
                     $sourcePath = public_path("resignations/{$resignation->id}/{$fileName}");
                     $targetDirectory = public_path('exit/resignation');
                     $targetPath = $targetDirectory . '/' . $fileName;
-                    
+
                     // Create target directory if it doesn't exist
                     if (!file_exists($targetDirectory)) {
                         mkdir($targetDirectory, 0755, true);
                     }
-                    
+
                     // Copy file if source exists
                     if (file_exists($sourcePath)) {
                         copy($sourcePath, $targetPath);
@@ -258,7 +258,7 @@ private function saveResignationDocument($request,$resignationId)
                             'target' => $targetPath
                         ]);
                     }
-                    
+
                     $documents[] = [
                         'name' => $documentType,
                         'document_id' => $this->getDocumentId($documentType),
@@ -270,7 +270,7 @@ private function saveResignationDocument($request,$resignationId)
             }
 
             Log::info('Documents to save from saved files', ['documents' => $documents]);
-            
+
             foreach ($documents as $document) {
                 try {
                     ResignationAttachment::create($document);
@@ -478,7 +478,16 @@ private function saveResignationDocument($request,$resignationId)
         try {
             $resignations = Resignation::with(['employee', 'acceptance', 'workflows', 'creator'])
                 ->orderBy('created_at', 'desc')
-                ->get();
+                ->get()
+                ->map(function ($resignation) {
+                    // Add employee_no to the resignation data
+                    if ($resignation->employee) {
+                        $resignation->employee_no = $resignation->employee->employee_no;
+                    } else {
+                        $resignation->employee_no = 'N/A';
+                    }
+                    return $resignation;
+                });
 
             return response()->json([
                 'status' => 200,
@@ -502,6 +511,13 @@ private function saveResignationDocument($request,$resignationId)
         try {
             $resignation = Resignation::with(['employee', 'acceptance', 'workflows.attendedBy', 'attachments', 'creator', 'updater'])
                 ->findOrFail($id);
+
+            // Add employee_no to the resignation data
+            if ($resignation->employee) {
+                $resignation->employee_no = $resignation->employee->employee_no;
+            } else {
+                $resignation->employee_no = 'N/A';
+            }
 
             return response()->json([
                 'status' => 200,
