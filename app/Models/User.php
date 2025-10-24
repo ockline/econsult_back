@@ -13,6 +13,13 @@ class User extends Authenticatable
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
+     * The table associated with the model.
+     *
+     * @var string
+     */
+    protected $table = 'users';
+
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -45,4 +52,22 @@ class User extends Authenticatable
         'password' => 'hashed',
         'confirm_password' => 'hashed',
     ];
+
+    /**
+     * Get the user's full name.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        $name = trim(($this->firstname ?? '') . ' ' . ($this->middlename ?? '') . ' ' . ($this->lastname ?? ''));
+        return !empty($name) ? $name : ($this->username ?? 'Unknown User');
+    }
+
+    /**
+     * Append custom attributes to the model's array form.
+     *
+     * @var array
+     */
+    protected $appends = ['name'];
 }

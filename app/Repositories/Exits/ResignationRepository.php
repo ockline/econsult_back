@@ -390,14 +390,27 @@ private function saveResignationDocument($request,$resignationId)
         try {
             $resignation = Resignation::findOrFail($id);
 
+            // Define stage progression
+            $previousStage = 'Industrial Initiator';
+            $nextStage = 'Industrial Reviewer';
+            $functionName = 'Resignation Initiation';
+
             $resignation->update([
                 'status' => 'Submitted',
-                'stage' => 'HR Review',
-                'updated_by' => 1, // admin after login will be authenticated user
+                'stage' => $nextStage,
+                'updated_by' => Auth::user()->id ?? 1,
             ]);
 
-            // Create workflow entry
-            $this->createWorkflow($resignation->id, 'Initiated', 'HR Review', 'Resignation Submitted');
+            // Create workflow entry for submission
+            $this->createWorkflow(
+                $resignation->id,
+                'Submitted',
+                $nextStage,
+                $functionName,
+                null,
+                $previousStage,
+                $nextStage
+            );
 
             DB::commit();
 
@@ -536,17 +549,19 @@ private function saveResignationDocument($request,$resignationId)
     /**
      * Create workflow entry
      */
-    private function createWorkflow($resignationId, $status, $stage, $functionName, $comments = null)
+    private function createWorkflow($resignationId, $status, $stage, $functionName, $comments = null, $previousStage = null, $nextStage = null)
     {
         $workflow = ResignationWorkflow::create([
             'resignation_id' => $resignationId,
             'comments' => $comments,
             'received_date' => now(),
-            'attended_by' => 1, // admin after login will be authenticated user
+            'attended_by' => Auth::user()->id ?? 1, // Use authenticated user or default to 1
             'attended_date' => now(),
             'status' => $status,
             'stage' => $stage,
             'function_name' => $functionName,
+            'previous_stage' => $previousStage,
+            'next_stage' => $nextStage,
         ]);
 
         return $workflow;

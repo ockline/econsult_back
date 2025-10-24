@@ -53,7 +53,7 @@ class AnnualRepository extends  BaseRepository
 
     public function retrieveEmployeeDetails($id)
     {
-        $data = DB::table('employees as e')->select('e.id', 'e.employee_no as employee_id', 'e.firstname', 'e.middlename', 'e.lastname', 'e.job_title_id', 'e.department_id', 'jt.name as job_title', 'dpt.name as departments', 'e.employer_id', 'emp.name as employer')
+        $data = DB::table('employees as e')->select('e.id', 'e.employee_no as employee_id', 'e.firstname', 'e.middlename', 'e.lastname', 'e.job_title_id', 'e.department_id', 'jt.name as job_title', 'dpt.name as departments', 'e.employer_id', 'emp.name as employer', 'e.mobile_number', 'e.telephone_home', 'e.telephone_office', 'e.email')
             ->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
             ->leftJoin('departments as dpt', 'e.department_id', 'dpt.id')
             ->leftJoin('employers as emp', 'e.employer_id', '=', 'emp.id')

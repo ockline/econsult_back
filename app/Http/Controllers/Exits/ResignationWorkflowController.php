@@ -24,7 +24,7 @@ class ResignationWorkflowController extends Controller
         $validator = Validator::make($request->all(), [
             'resignation_id' => 'required|exists:resignations,id',
             'comments' => 'nullable|string',
-            'hr_recommendations' => 'required|string',
+            'hr_recommendations' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
@@ -33,6 +33,11 @@ class ResignationWorkflowController extends Controller
                 'message' => 'Validation failed',
                 'errors' => $validator->errors()
             ], 422);
+        }
+
+        // If hr_recommendations is not provided, use comments as fallback
+        if (!$request->has('hr_recommendations') || empty($request->hr_recommendations)) {
+            $request->merge(['hr_recommendations' => $request->comments]);
         }
 
         return $this->workflow->reviewResignation($request);

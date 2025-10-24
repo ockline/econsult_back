@@ -42,6 +42,8 @@ use App\Http\Controllers\ContractManagement\ContractDetailController;
 use App\Http\Controllers\Employee\UploadDocumentController; // for required document
 use App\Http\Controllers\Exits\ResignationController;
 use App\Http\Controllers\Exits\ResignationWorkflowController;
+use App\Http\Controllers\Exits\EndContractController;
+use App\Http\Controllers\Exits\EndContractWorkflowController;
 
 
 
@@ -348,6 +350,32 @@ Route::prefix('employees')->group(function () {
     Route::post('/exits/resignation/reject_resignation', [ResignationWorkflowController::class, 'reject'])->middleware('api');
     Route::post('/exits/resignation/return_resignation', [ResignationWorkflowController::class, 'return'])->middleware('api');
     Route::get('/exits/resignation/workflow_history/{id}', [ResignationWorkflowController::class, 'getWorkflowHistory'])->middleware('api');
+
+    /** api for exit management (end contract) */
+    Route::get('/exits/endcontract/show_all_endcontracts', [EndContractController::class, 'showAllEndContracts'])->middleware('api');
+    Route::get('/exits/endcontract/show_endcontract/{id}', [EndContractController::class, 'showEndContract'])->middleware('api');
+    Route::post('/exits/endcontract/create_endcontract', [EndContractController::class, 'createEndContract'])->middleware('api');
+    Route::post('/exits/endcontract/update_endcontract/{id}', [EndContractController::class, 'updateEndContract'])->middleware('api');
+    Route::post('/exits/endcontract/submit_endcontract/{id?}', [EndContractController::class, 'submitEndContract'])->middleware('api');
+    Route::delete('/exits/endcontract/delete_endcontract/{id}', [EndContractController::class, 'deleteEndContract'])->middleware('api');
+    Route::get('/exits/endcontract/by_status/{status}', [EndContractController::class, 'getEndContractsByStatus'])->middleware('api');
+    Route::get('/exits/endcontract/by_employee/{employeeId}', [EndContractController::class, 'getEndContractsByEmployee'])->middleware('api');
+    Route::get('/exits/endcontract/statistics', [EndContractController::class, 'getStatistics'])->middleware('api');
+    Route::get('/exits/endcontract/{id}/download/{fileName}', [EndContractController::class, 'downloadFile'])->middleware('api');
+    Route::get('/exits/endcontract/generate_employment_contract/{id}', [EndContractController::class, 'generateEmploymentContract'])->middleware('api');
+    Route::get('/exits/endcontract/generate_nonrenewal_contract/{id}', [EndContractController::class, 'generateNonRenewalContract'])->middleware('api');
+
+    /** api for end contract workflow */
+    Route::post('/exits/endcontract/review_endcontract', [EndContractWorkflowController::class, 'review'])->middleware('api');
+    Route::post('/exits/endcontract/manager_review', [EndContractWorkflowController::class, 'managerReview'])->middleware('api');
+    Route::post('/exits/endcontract/approve_endcontract', [EndContractWorkflowController::class, 'approve'])->middleware('api');
+    Route::post('/exits/endcontract/reject_endcontract', [EndContractWorkflowController::class, 'reject'])->middleware('api');
+    Route::post('/exits/endcontract/return_endcontract', [EndContractWorkflowController::class, 'return'])->middleware('api');
+    Route::get('/exits/endcontract/workflow_history/{id}', [EndContractWorkflowController::class, 'getWorkflowHistory'])->middleware('api');
+    Route::get('/exits/endcontract/pending_workflows', [EndContractWorkflowController::class, 'getPendingWorkflows'])->middleware('api');
+    Route::get('/exits/endcontract/workflow_statistics', [EndContractWorkflowController::class, 'getWorkflowStatistics'])->middleware('api');
+    Route::post('/exits/endcontract/bulk_approve', [EndContractWorkflowController::class, 'bulkApprove'])->middleware('api');
+    Route::post('/exits/endcontract/bulk_reject', [EndContractWorkflowController::class, 'bulkReject'])->middleware('api');
 });
 
 

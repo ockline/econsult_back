@@ -36,27 +36,48 @@ class ResignationWorkflowRepository extends BaseRepository
         try {
             $resignation = Resignation::findOrFail($request->resignation_id);
 
+            // Determine the next stage based on current stage
+            $currentStage = $resignation->stage;
+            $nextStage = 'Manager Review'; // Default next stage
+            $functionName = 'Resignation Review';
+            $previousStage = $currentStage;
+
+            // Define stage progression
+            if ($currentStage === 'Initiated') {
+                $nextStage = 'HR Review';
+                $functionName = 'Resignation Initiation Review';
+                $previousStage = 'Industrial Initiator';
+            } elseif ($currentStage === 'HR Review') {
+                $nextStage = 'Manager Review';
+                $functionName = 'HR Review Assessment';
+                $previousStage = 'Industrial Reviewer';
+            } elseif ($currentStage === 'Manager Review') {
+                $nextStage = 'Final Approval';
+                $functionName = 'Manager Review Assessment';
+                $previousStage = 'Manager Review';
+            }
+
             // Update resignation with recommendations
             $resignation->update([
-                'hr_recommendations' => $request->hr_recommendations,
+                'hr_recommendations' => $request->hr_recommendations ?? $request->comments,
                 'status' => 'Under Review',
-                'stage' => 'Manager Review',
-                'updated_by' => Auth::user()->id,
+                'stage' => $nextStage,
+                'updated_by' => Auth::user()->id ?? 1 ?? 1,
             ]);
 
             // Create workflow entry
             $workflow = ResignationWorkflow::create([
                 'resignation_id' => $request->resignation_id,
                 'comments' => $request->comments,
-                'recommendation' => $request->hr_recommendations,
+                'recommendation' => $request->hr_recommendations ?? $request->comments,
                 'received_date' => now(),
-                'attended_by' => Auth::user()->id,
+                'attended_by' => Auth::user()->id ?? 1 ?? 1,
                 'attended_date' => now(),
                 'status' => 'Reviewed',
-                'stage' => 'Manager Review',
-                'function_name' => 'HR Review',
-                'previous_stage' => 'HR Review',
-                'next_stage' => 'Manager Review',
+                'stage' => $nextStage,
+                'function_name' => $functionName,
+                'previous_stage' => $previousStage,
+                'next_stage' => $nextStage,
             ]);
 
             DB::commit();
@@ -91,7 +112,7 @@ class ResignationWorkflowRepository extends BaseRepository
                 'manager_recommendations' => $request->manager_recommendations,
                 'status' => 'Under Review',
                 'stage' => 'Final Approval',
-                'updated_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id ?? 1,
             ]);
 
             // Create workflow entry
@@ -100,7 +121,7 @@ class ResignationWorkflowRepository extends BaseRepository
                 'comments' => $request->comments,
                 'recommendation' => $request->manager_recommendations,
                 'received_date' => now(),
-                'attended_by' => Auth::user()->id,
+                'attended_by' => Auth::user()->id ?? 1,
                 'attended_date' => now(),
                 'status' => 'Reviewed',
                 'stage' => 'Final Approval',
@@ -136,11 +157,27 @@ class ResignationWorkflowRepository extends BaseRepository
         try {
             $resignation = Resignation::findOrFail($request->resignation_id);
 
+            // Determine the function name and previous stage based on current stage
+            $currentStage = $resignation->stage;
+            $functionName = 'Final Approval';
+            $previousStage = $currentStage;
+
+            if ($currentStage === 'Final Approval') {
+                $functionName = 'Final Approval';
+                $previousStage = 'Final Approval';
+            } elseif ($currentStage === 'Manager Review') {
+                $functionName = 'Manager Approval';
+                $previousStage = 'Manager Review';
+            } elseif ($currentStage === 'HR Review') {
+                $functionName = 'HR Approval';
+                $previousStage = 'HR Review';
+            }
+
             // Update resignation status
             $resignation->update([
                 'status' => 'Approved',
                 'stage' => 'Completed',
-                'updated_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id ?? 1,
             ]);
 
             // Create workflow entry
@@ -149,20 +186,20 @@ class ResignationWorkflowRepository extends BaseRepository
                 'comments' => $request->comments,
                 'recommendation' => $request->recommendation,
                 'received_date' => now(),
-                'attended_by' => Auth::user()->id,
+                'attended_by' => Auth::user()->id ?? 1,
                 'attended_date' => now(),
                 'status' => 'Approved',
                 'stage' => 'Completed',
-                'function_name' => 'Final Approval',
-                'previous_stage' => 'Final Approval',
-                'next_stage' => null,
+                'function_name' => $functionName,
+                'previous_stage' => $previousStage,
+                'next_stage' => 'Completed',
             ]);
 
             DB::commit();
 
             return response()->json([
                 'status' => 200,
-                'message' => 'Resignation approval successfully'
+                'message' => 'Resignation approved successfully'
             ], 200);
 
         } catch (\Exception $e) {
@@ -189,7 +226,7 @@ class ResignationWorkflowRepository extends BaseRepository
             $resignation->update([
                 'status' => 'Rejected',
                 'stage' => 'Completed',
-                'updated_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id ?? 1,
             ]);
 
             // Create workflow entry
@@ -198,7 +235,7 @@ class ResignationWorkflowRepository extends BaseRepository
                 'comments' => $request->comments,
                 'recommendation' => $request->recommendation,
                 'received_date' => now(),
-                'attended_by' => Auth::user()->id,
+                'attended_by' => Auth::user()->id ?? 1,
                 'attended_date' => now(),
                 'status' => 'Rejected',
                 'stage' => 'Completed',
@@ -238,7 +275,7 @@ class ResignationWorkflowRepository extends BaseRepository
             $resignation->update([
                 'status' => 'Draft',
                 'stage' => 'Initiated',
-                'updated_by' => Auth::user()->id,
+                'updated_by' => Auth::user()->id ?? 1,
             ]);
 
             // Create workflow entry
@@ -247,7 +284,7 @@ class ResignationWorkflowRepository extends BaseRepository
                 'comments' => $request->comments,
                 'recommendation' => $request->recommendation,
                 'received_date' => now(),
-                'attended_by' => Auth::user()->id,
+                'attended_by' => Auth::user()->id ?? 1,
                 'attended_date' => now(),
                 'status' => 'Returned',
                 'stage' => 'Initiated',
