@@ -12,9 +12,15 @@ use Illuminate\Http\Request;
 
 class EndContractRepository extends BaseRepository
 {
-    public function __construct(EndContract $model)
+    const MODEL = EndContract::class;
+
+    protected $model;
+    protected $workflow;
+
+    public function __construct(EndContract $model, EndContractWorkflow $workflow)
     {
-        parent::__construct($model);
+        $this->model = $model;
+        $this->workflow = $workflow;
     }
 
     /**

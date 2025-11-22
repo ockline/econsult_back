@@ -3,12 +3,9 @@
 namespace App\Http\Controllers\Workflow;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Facades\Validator;
 use App\Models\Employee\Personal\Employee;
 use App\Repositories\WorkflowRepositories\WorkflowRepository;
-
 
 class WorkflowController extends Controller
 {
@@ -18,6 +15,7 @@ class WorkflowController extends Controller
     {
         $this->workflows = $workflows;
     }
+
     /**
      * Display a listing of the resource.
      */
@@ -25,108 +23,98 @@ class WorkflowController extends Controller
     {
         //
     }
+
     /**
-*@method to initiate job vacancy workflow
- */
-public function  initiateJobWorkflow(Request $request)
-{
+     * Initiate job vacancy workflow.
+     */
+    public function initiateJobWorkflow(Request $request)
+    {
+        $initiateDetails = $this->workflows->saveInitiatedVacancy($request);
+        $status = $initiateDetails->getStatusCode();
 
- $initate_details =    $this->workflows->saveInitiatedVacancy($request);
-
-$status = $initate_details->getStatusCode();
-
-// log::info($status);
         if ($status === 201) {
-            // Log::info('111');
             return response()->json([
                 'status' => 200,
                 'message' => 'Job workflow successfully initiated',
             ]);
-        } else {
-            // log::info('222');
-            return response()->json([
-                'status' => 500,
-                'message' => "Sorry! Operation failed"
-            ]);
         }
-}
 
-/**
-*@method to return initiated job vacancy workflow
- */
-public function  returnInitiatedVacancy($workflow)
-{
+        return response()->json([
+            'status' => 500,
+            'message' => 'Sorry! Operation failed',
+        ]);
+    }
 
- $initiated_details =    $this->workflows->retriveInitiatedVacancy($workflow);
+    /**
+     * Return initiated job vacancy workflow details.
+     */
+    public function returnInitiatedVacancy($workflow)
+    {
+        $initiatedDetails = $this->workflows->retriveInitiatedVacancy($workflow);
 
-
-
-
-        if ($initiated_details) {
-
+        if ($initiatedDetails) {
             return response()->json([
                 'status' => 200,
-                'initiated_details' => $initiated_details,
-            ]);
-        } else {
-        
-            return response()->json([
-                'status' => 500,
-                'message' => "Sorry! Data Not Found"
+                'initiated_details' => $initiatedDetails,
             ]);
         }
 
-}
+        return response()->json([
+            'status' => 500,
+            'message' => 'Sorry! Data Not Found',
+        ]);
+    }
 
-
- /**
-*@method to initiate job vacancy workflow
- */
-public function  reviewInitiatedVacancy(Request $request)
-{
-
- $review_details =    $this->workflows->saveReviewVacancy($request);
-
-$status = $review_details->getStatusCode();
-
+    /**
+     * Review initiated workflow.
+     */
+    public function reviewInitiatedVacancy(Request $request)
+    {
+        $reviewDetails = $this->workflows->saveReviewVacancy($request);
+        $status = $reviewDetails->getStatusCode();
 
         if ($status === 201) {
-            // Log::info('111');
             return response()->json([
                 'status' => 200,
-                'message' => 'Job workflow successfully review',
-            ]);
-        } else {
-            // log::info('222');
-            return response()->json([
-                'status' => 500,
-                'message' => "Sorry! Operation failed"
+                'message' => 'Job workflow successfully reviewed',
             ]);
         }
-}
+
+        return response()->json([
+            'status' => 500,
+            'message' => 'Sorry! Operation failed',
+        ]);
+    }
 
     public function review(string $id)
     {
-
         $employee = Employee::find($id);
-        //   Log::info($employeeList->$employee);
-        if (isset($employee)) {
+
+        if ($employee) {
             return response()->json([
                 'status' => 200,
                 'employee' => $employee,
             ]);
-        } else {
-            return response()->json([
-                'status' => 404,
-                'message' => "No data found",
-
-            ]);
         }
+
+        return response()->json([
+            'status' => 404,
+            'message' => 'No data found',
+        ]);
     }
 
+    /**
+     * Return pending workflow histories (status = initiated).
+     */
+    public function pendingWorkflows(Request $request)
+    {
+        $limit = (int) $request->get('limit', 15);
+        $pending = $this->workflows->getPendingWorkflows($limit);
 
-
-
-
-
+        return response()->json([
+            'status' => 200,
+            'count' => count($pending),
+            'pending_workflows' => $pending,
+        ]);
+    }
 }

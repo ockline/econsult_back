@@ -362,6 +362,7 @@ Route::prefix('employees')->group(function () {
     Route::get('/exits/endcontract/by_employee/{employeeId}', [EndContractController::class, 'getEndContractsByEmployee'])->middleware('api');
     Route::get('/exits/endcontract/statistics', [EndContractController::class, 'getStatistics'])->middleware('api');
     Route::get('/exits/endcontract/{id}/download/{fileName}', [EndContractController::class, 'downloadFile'])->middleware('api');
+    Route::get('/exits/endcontract/{id}/file/{fileName}', [EndContractController::class, 'serveFile'])->middleware('api');
     Route::get('/exits/endcontract/generate_employment_contract/{id}', [EndContractController::class, 'generateEmploymentContract'])->middleware('api');
     Route::get('/exits/endcontract/generate_nonrenewal_contract/{id}', [EndContractController::class, 'generateNonRenewalContract'])->middleware('api');
 

@@ -247,6 +247,46 @@ class EndContractController extends Controller
     }
 
     /**
+     * Serve file for viewing (iframe)
+     */
+    public function serveFile($id, $fileName)
+    {
+        try {
+            $endContract = $this->endContractRepository->getModel()->findOrFail($id);
+
+            // Determine file path based on file type
+            $filePath = null;
+            if ($endContract->renewal_notice_file === $fileName) {
+                $filePath = 'public/endcontracts/renewal_notices/' . $fileName;
+            } elseif ($endContract->signature_file === $fileName) {
+                $filePath = 'public/endcontracts/signatures/' . $fileName;
+            } elseif ($endContract->employee_signature_file === $fileName) {
+                $filePath = 'public/endcontracts/employee_signatures/' . $fileName;
+            }
+
+            if (!$filePath || !Storage::exists($filePath)) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'File not found'
+                ], 404);
+            }
+
+            $file = Storage::get($filePath);
+            $mimeType = Storage::mimeType($filePath);
+
+            return response($file, 200)
+                ->header('Content-Type', $mimeType)
+                ->header('Content-Disposition', 'inline; filename="' . $fileName . '"');
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to serve file',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
      * Generate Employment Contract PDF
      */
     public function generateEmploymentContract($id)

@@ -10,7 +10,9 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use App\Repositories\BaseRepository;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Workflow\PerformanceReviewWorkflow;
 use App\Models\IndustrialRelationship\Misconduct\Misconduct;
 use App\Models\IndustrialRelationship\PerfomanceReview\PerfomanceReview;
 
@@ -251,7 +253,7 @@ class PerfomanceReviewRepository extends  BaseRepository
     /**
      *@method to get paternity leave according to id
      */
-    public function retrievePerfomaneReviewDetail($id)
+    public function retrievePerfomanceReviewDetail($id)
     {
 
         $data = DB::table('performance_new_reviews as pr')->select(
@@ -292,21 +294,39 @@ class PerfomanceReviewRepository extends  BaseRepository
                         ELSE 'NAN'
                     END AS status
                 "),
-            'knowledge_skill_rating', 'industry_knowledge_rating', 'knowledge_effectively_rating',
-            'work_accuracy_rating', 'attention_to_detail_rating', 'work_standards_rating',
-            'workload_management_rating', 'problem_solving_rating', 'work_efficiency_rating',
-            'communication_clarity_rating', 'listening_skills_rating', 'feedback_sharing_rating',
-            'team_contribution_rating', 'cooperation_rating', 'work_environment_rating',
-            'attendance_rating', 'punctuality_rating', 'absence_notification_rating',
-            'adaptability_rating', 'decision_making_rating', 'innovation_rating',
-            'customer_service_rating', 'issue_resolution_rating', 'customer_satisfaction_rating',
-            'leadership_skills_rating', 'team_guidance_rating', 'decision_responsibility_rating',
-        'strengths',
-        'improvement_areas',
-        'improvement_plan',
-        'employee_comments',
-        'final_rating_approval',
-        'performance_review_attachment',
+            'knowledge_skill_rating',
+            'industry_knowledge_rating',
+            'knowledge_effectively_rating',
+            'work_accuracy_rating',
+            'attention_to_detail_rating',
+            'work_standards_rating',
+            'workload_management_rating',
+            'problem_solving_rating',
+            'work_efficiency_rating',
+            'communication_clarity_rating',
+            'listening_skills_rating',
+            'feedback_sharing_rating',
+            'team_contribution_rating',
+            'cooperation_rating',
+            'work_environment_rating',
+            'attendance_rating',
+            'punctuality_rating',
+            'absence_notification_rating',
+            'adaptability_rating',
+            'decision_making_rating',
+            'innovation_rating',
+            'customer_service_rating',
+            'issue_resolution_rating',
+            'customer_satisfaction_rating',
+            'leadership_skills_rating',
+            'team_guidance_rating',
+            'decision_responsibility_rating',
+            'strengths',
+            'improvement_areas',
+            'improvement_plan',
+            'employee_comments',
+            'final_rating_approval',
+            'performance_review_attachment',
 
 
         )
@@ -320,10 +340,10 @@ class PerfomanceReviewRepository extends  BaseRepository
         return $data;
     }
 
-public function retrievePerfomaneReviewReport($id)
-{
+    public function retrievePerfomanceReviewReport($id)
+    {
 
-  $data = DB::table('performance_new_reviews as pr')->select(
+        $data = DB::table('performance_new_reviews as pr')->select(
             'pr.id',
             'pr.review_description',
             DB::raw("TO_CHAR(pr.review_date::DATE, 'DD-Mon-YYYY') AS review_date"),
@@ -361,21 +381,39 @@ public function retrievePerfomaneReviewReport($id)
                         ELSE 'NAN'
                     END AS status
                 "),
-            'knowledge_skill_rating', 'industry_knowledge_rating', 'knowledge_effectively_rating',
-            'work_accuracy_rating', 'attention_to_detail_rating', 'work_standards_rating',
-            'workload_management_rating', 'problem_solving_rating', 'work_efficiency_rating',
-            'communication_clarity_rating', 'listening_skills_rating', 'feedback_sharing_rating',
-            'team_contribution_rating', 'cooperation_rating', 'work_environment_rating',
-            'attendance_rating', 'punctuality_rating', 'absence_notification_rating',
-            'adaptability_rating', 'decision_making_rating', 'innovation_rating',
-            'customer_service_rating', 'issue_resolution_rating', 'customer_satisfaction_rating',
-            'leadership_skills_rating', 'team_guidance_rating', 'decision_responsibility_rating',
-        'strengths',
-        'improvement_areas',
-        'improvement_plan',
-        'employee_comments',
-        'final_rating_approval',
-        'performance_review_attachment',
+            'knowledge_skill_rating',
+            'industry_knowledge_rating',
+            'knowledge_effectively_rating',
+            'work_accuracy_rating',
+            'attention_to_detail_rating',
+            'work_standards_rating',
+            'workload_management_rating',
+            'problem_solving_rating',
+            'work_efficiency_rating',
+            'communication_clarity_rating',
+            'listening_skills_rating',
+            'feedback_sharing_rating',
+            'team_contribution_rating',
+            'cooperation_rating',
+            'work_environment_rating',
+            'attendance_rating',
+            'punctuality_rating',
+            'absence_notification_rating',
+            'adaptability_rating',
+            'decision_making_rating',
+            'innovation_rating',
+            'customer_service_rating',
+            'issue_resolution_rating',
+            'customer_satisfaction_rating',
+            'leadership_skills_rating',
+            'team_guidance_rating',
+            'decision_responsibility_rating',
+            'strengths',
+            'improvement_areas',
+            'improvement_plan',
+            'employee_comments',
+            'final_rating_approval',
+            'performance_review_attachment',
 
 
         )
@@ -386,33 +424,338 @@ public function retrievePerfomaneReviewReport($id)
             ->where('pr.id', $id)
             ->first();
 
-            $ratingMap = [
-                5 => 'Excellent',
-                4 => 'Good',
-                3 => 'Satisfactory',
-                2 => 'Needs Improvement',
-                1 => 'Poor'
-            ];
+        $ratingMap = [
+            5 => 'Excellent',
+            4 => 'Good',
+            3 => 'Satisfactory',
+            2 => 'Needs Improvement',
+            1 => 'Poor'
+        ];
 
 
-            if (isset($data)) {
-                  $mpdf = new Mpdf();
-        $mpdf->SetTitle('Performance Review Report');
-        $sheet = view('performance_reviews.performance_review', [
-            'data' => $data,
-            'ratingMap' => $ratingMap
+        if (isset($data)) {
+            $mpdf = new Mpdf();
+            $mpdf->SetTitle('Performance Review Report');
+            $sheet = view('performance_reviews.performance_review', [
+                'data' => $data,
+                'ratingMap' => $ratingMap
 
-        ]);
-        $mpdf->WriteHTML($sheet);
-        $reviews = base64_encode($mpdf->Output('', 'S'));
+            ]);
+            $mpdf->WriteHTML($sheet);
+            $reviews = base64_encode($mpdf->Output('', 'S'));
 
             // $details = ['data'  => $data,
             //           'reviews'  =>     $reviews
             //     ];
-        return $reviews;
+            return $reviews;
+        }
+    }
+    public function initiatePerfomanceReview($request, $id)
+    {
 
+    log::info('ndaniiii');
+log::info($request->all());
+
+log::info('mchawi?'.  Auth::user()->id);
+
+log::info($id);
+
+        try {
+
+            $review_workflow = new PerformanceReviewWorkflow();
+
+
+            $review_workflow->review_id =$id;
+            $review_workflow->comments =!empty($request->comments) ? $request->comments : null;
+            $review_workflow->user_id =  Auth::user()->id;
+            $review_workflow->attended_by = Auth::user()->id;
+            $review_workflow->function_name = 'Review Initiation';
+            $review_workflow->previous_stage = 'Review Initiator';
+            $review_workflow->current_stage = 'Review Reviewer';
+            $review_workflow->attended_date = Carbon::now();
+            $review_workflow->status = 'Initiated';
+         $initiation =   $review_workflow->save();
+
+
+            if($initiation){
+            //if create workflow successfully
+                    PerfomanceReview::find($id)->update(["status"=> 1, 'stage' => 1]);
+            }
+
+
+
+            return response()->json(['status' => 200, 'message' => 'performance review successfuly initiated']);
+        } catch (\Exception $e) {
+            log::error('Failure to  initiate performance error: ' . $e->getMessage());
+        }
+    }
+public function reviewInitiatedPerfomanceReview($request)
+{
+    try {
+
+            $review_workflow = new PerformanceReviewWorkflow();
+
+
+            $review_workflow->review_id =$request->id;
+            $review_workflow->comments =!empty($request->comments) ? $request->comments : null;
+            $review_workflow->user_id =  Auth::user()->id;
+            $review_workflow->attended_by = Auth::user()->id;
+            $review_workflow->function_name = 'Review Reviewal';
+            $review_workflow->previous_stage = 'Review Reviewer';
+            $review_workflow->current_stage = 'Review Approver';
+            $review_workflow->attended_date = Carbon::now();
+            $review_workflow->status = 'Reviewed';
+            $reviewed =   $review_workflow->save();
+
+
+            if($reviewed){
+            //if create workflow successfully
+                    PerfomanceReview::find($request->id)->update(["status"=> 2, 'stage' => 2]);
+            }
+
+            return response()->json(['status' => 200, 'message' => 'performance review successfuly reviewed']);
+        } catch (\Exception $e) {
+            log::error('Failure to  review performance error: ' . $e->getMessage());
         }
 
 }
 
+    protected function mapStageNumberToLabel($stageNumber): string
+    {
+        return match ((int) $stageNumber) {
+            1 => 'Performance Review Reviewer',
+            2 => 'Performance Review Approver',
+            default => 'Performance Review Initiator',
+        };
+    }
+
+    protected function mapStageLabelToNumber(?string $stageLabel): int
+    {
+        if (!$stageLabel) {
+            return 0;
+        }
+
+        $label = strtolower($stageLabel);
+
+        if (str_contains($label, 'approver')) {
+            return 2;
+        }
+
+        if (str_contains($label, 'reviewer')) {
+            return 1;
+        }
+
+        return 0;
+    }
+
+    public function retrievePerformanceWorkflow($performanceReviewId)
+    {
+        return DB::table('performance_review_workflows as prw')
+            ->select(
+                'prw.id',
+                'prw.review_id',
+                'prw.comments',
+                'prw.status',
+                'prw.function_name',
+                'prw.previous_stage',
+                'prw.current_stage',
+                DB::raw('CAST(prw.attended_by AS BIGINT) AS attended_by'),
+                'prw.return_to_user_id',
+                'prw.return_to_user_name',
+                DB::raw("TO_CHAR(prw.attended_date, 'DD-Mon-YYYY HH12:MI AM') AS attended_date"),
+                DB::raw("CONCAT_WS(' ', u.firstname, u.middlename, u.lastname) as attender")
+            )
+            ->leftJoin('users as u', DB::raw('CAST(prw.attended_by AS BIGINT)'), '=', 'u.id')
+            ->where('prw.review_id', $performanceReviewId)
+            ->orderBy('prw.id', 'ASC')
+            ->get();
+    }
+
+    public function getReturnRecipients($performanceReviewId)
+    {
+        $records = DB::table('performance_review_workflows as prw')
+            ->select(
+                'prw.id',
+                DB::raw('CAST(prw.attended_by AS BIGINT) AS user_id'),
+                'prw.previous_stage',
+                'prw.current_stage',
+                DB::raw("CONCAT_WS(' ', u.firstname, u.middlename, u.lastname) as name")
+            )
+            ->leftJoin('users as u', DB::raw('CAST(prw.attended_by AS BIGINT)'), '=', 'u.id')
+            ->where('prw.review_id', $performanceReviewId)
+            ->whereNotNull('prw.attended_by')
+            ->orderBy('prw.id', 'DESC')
+            ->get();
+
+        return $records
+            ->unique('user_id')
+            ->filter(fn ($row) => !empty($row->user_id) && !empty($row->name))
+            ->map(function ($row) {
+                $stageLabel = $row->previous_stage ?? $row->current_stage ?? 'Performance Review Initiator';
+
+                return [
+                    'user_id' => (int) $row->user_id,
+                    'name' => trim($row->name),
+                    'stage_label' => $stageLabel,
+                    'stage_value' => $this->mapStageLabelToNumber($stageLabel),
+                ];
+            })
+            ->values();
+    }
+
+    public function retrieveInitiatedPerfomance()
+    {
+        return DB::table('performance_new_reviews as pr')
+            ->select(
+                'pr.id',
+                'pr.employee_name',
+                'pr.review_description',
+                DB::raw("TO_CHAR(pr.review_date::DATE, 'DD-Mon-YYYY') AS review_date"),
+                'pr.status',
+                'pr.stage'
+            )
+            ->where('pr.status', 1)
+            ->orderBy('pr.review_date', 'DESC')
+            ->get();
+    }
+
+    public function reInitiatePerformanceWorkflow($request)
+    {
+        try {
+            $reviewId = $request->performance_review_id;
+
+            $workflow = new PerformanceReviewWorkflow();
+
+            $workflow->fill([
+                'review_id' => $reviewId,
+                'comments' => $request->comment ?? null,
+                'user_id' => Auth::user()->id,
+                'attended_by' => Auth::user()->id,
+                'function_name' => 'Performance Re-initiation',
+                'previous_stage' => 'Performance Review Initiator',
+                'current_stage' => 'Performance Review Reviewer',
+                'attended_date' => Carbon::now(),
+                'status' => 'Initiated',
+            ]);
+            $workflow->save();
+
+            PerfomanceReview::find($reviewId)?->update(['status' => 1, 'stage' => 1]);
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Performance review re-initiation failed: ' . $th->getMessage());
+            throw $th;
+        }
+    }
+
+    public function reviewPerformanceWorkflow($request)
+    {
+        try {
+            $reviewId = $request->performance_review_id;
+
+            $workflow = new PerformanceReviewWorkflow();
+            $workflow->fill([
+                'review_id' => $reviewId,
+                'comments' => $request->comments ?? null,
+                'user_id' => Auth::user()->id,
+                'attended_by' => Auth::user()->id,
+                'function_name' => 'Performance Review',
+                'previous_stage' => 'Performance Review Reviewer',
+                'current_stage' => 'Performance Review Approver',
+                'attended_date' => Carbon::now(),
+                'status' => 'Reviewed',
+            ]);
+            $workflow->save();
+
+            PerfomanceReview::find($reviewId)?->update(['status' => 2, 'stage' => 2]);
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Performance review evaluation failed: ' . $th->getMessage());
+            throw $th;
+        }
+    }
+
+    public function approvePerformanceWorkflow($request)
+    {
+        try {
+            $reviewId = $request->performance_review_id;
+
+            $workflow = new PerformanceReviewWorkflow();
+            $workflow->fill([
+                'review_id' => $reviewId,
+                'comments' => $request->comments ?? null,
+                'user_id' => Auth::user()->id,
+                'attended_by' => Auth::user()->id,
+                'function_name' => 'Performance Approval',
+                'previous_stage' => 'Performance Review Approver',
+                'current_stage' => 'Completed',
+                'attended_date' => Carbon::now(),
+                'status' => 'Approved',
+            ]);
+            $workflow->save();
+
+            PerfomanceReview::find($reviewId)?->update(['status' => 3, 'stage' => 3]);
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Performance review approval failed: ' . $th->getMessage());
+            throw $th;
+        }
+    }
+
+    public function returnPerformanceWorkflow($request)
+    {
+        try {
+            $reviewId = $request->performance_review_id;
+            $review = PerfomanceReview::find($reviewId);
+
+            if (!$review) {
+                throw new Exception('Performance review not found');
+            }
+
+            $returnToUserId = (int) ($request->return_to_user_id ?? 0);
+            if ($returnToUserId <= 0) {
+                throw new Exception('Return recipient is required.');
+            }
+
+            $targetWorkflow = PerformanceReviewWorkflow::where('review_id', $reviewId)
+                ->where('attended_by', $returnToUserId)
+                ->orderBy('id', 'DESC')
+                ->first();
+
+            $targetStageLabel = $targetWorkflow->previous_stage ?? $targetWorkflow->current_stage ?? 'Performance Review Initiator';
+            $targetStage = $this->mapStageLabelToNumber($targetStageLabel);
+
+            $recipientName = DB::table('users')
+                ->select(DB::raw("CONCAT_WS(' ', firstname, middlename, lastname) as name"))
+                ->where('id', $returnToUserId)
+                ->value('name');
+
+            $previousStage = $this->mapStageNumberToLabel($review->stage);
+
+            $workflow = new PerformanceReviewWorkflow();
+            $workflow->fill([
+                'review_id' => $reviewId,
+                'comments' => $request->comments ?? null,
+                'user_id' => Auth::user()->id,
+                'attended_by' => Auth::user()->id,
+                'function_name' => 'Performance Return',
+                'previous_stage' => $previousStage,
+                'current_stage' => $targetStageLabel,
+                'attended_date' => Carbon::now(),
+                'status' => 'Returned',
+                'return_to_user_id' => $returnToUserId,
+                'return_to_user_name' => $recipientName,
+            ]);
+            $workflow->save();
+
+            $review->update(['status' => 4, 'stage' => $targetStage]);
+
+            return true;
+        } catch (\Throwable $th) {
+            Log::error('Performance review return failed: ' . $th->getMessage());
+            throw $th;
+        }
+    }
 }

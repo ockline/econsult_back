@@ -24,4 +24,7 @@ class WorkflowHistory extends Authenticatable
     'workflow_id','user_id', 'model_type', 'status','comments', 'received_date', 'created_date', 'attended_date', 'attended_by', 'level', 'stage',  'created_by',
 ];
 
+
+ protected $guarded = [];
+
 }

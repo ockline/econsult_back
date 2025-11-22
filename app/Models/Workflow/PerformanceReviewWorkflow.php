@@ -3,25 +3,41 @@
 namespace App\Models\Workflow;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\Auditable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
-class WorkflowTrack extends Authenticatable
+
+class PerformanceReviewWorkflow extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use Notifiable, SoftDeletes,Auditable;
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-        protected $table = 'workflow_tracks';
+        protected $table = 'performance_review_workflows';
 
    protected $fillable = [
-    'user_id', 'model_type', 'status', 'created_date', 'received_date', 'created_date', 'attended_date', 'attended_by', 'level', 'stage',  'created_by',
+    'user_id',
+    'parent_id',
+    'status',
+    'received_date',
+    'current_stage',
+    'attended_date',
+    'attended_by',
+    'previous_stage',
+    'function_name',
+    'deleted_by',
+    'comments',
+    'review_id',
+    'return_to_user_id',
+    'return_to_user_name',
 ];
 
  protected $guarded = [];

@@ -33,7 +33,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '1',
                 'name' => 'Developer',
                 'alias' => 'DEV',
-                //'desciption' => 'All Module',
+                'module_id' => 1,
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -44,7 +44,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '2',
                 'name' => 'System Administrator',
                 'alias' => 'SA',
-                //'desciption' => 'All Module',
+                'module_id' => 1,
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -56,7 +56,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '3',
                 'name' => 'Super Approver',
                 'alias' => 'SUA',
-                //'desciption' => 'MD - Will Approve all Module ',
+                'module_id' => '1',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -68,7 +68,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '4',
                 'name' => 'Managing director',
                 'alias' => 'MD',
-                //'desciption' => 'All Module',
+                'module_id' => 1,
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -80,7 +80,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '5',
                 'name' => 'Operation Manager ',
                 'alias' => 'OM',
-                //'desciption' => 'All Module',
+                'module_id' => 1,
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -92,7 +92,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '6',
                 'name' => 'Administrator Functional',
                 'alias' => 'AF',
-                //'desciption' => 'All Module',
+                'module_id' => 1,
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -104,7 +104,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '7',
                 'name' => 'Registration Initiator',
                 'alias' => 'RI',
-                //'desciption' => 'Initiate Employer Registration',
+                'module_id' => 2,
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -116,7 +116,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '8',
                 'name' => 'Registration Reviewer',
                 'alias' => 'RR',
-                //'desciption' => 'Review All important Particular',
+                'module_id' =>  2, //'Review All important Particular',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -129,7 +129,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '9',
                 'name' => 'Registration Approver',
                 'alias' => 'RA',
-                //'desciption' => 'Approve Client Registration ',
+                'module_id' =>  2, //'Approve Client Registration ',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -141,7 +141,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '10',
                 'name' => 'Vacancy Initiator',
                 'alias' => 'VI', //supervisor initiate
-                //'desciption' => 'Initiate Job  anouncement',
+                'module_id' =>  3, //'Initiate Job  anouncement',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -153,7 +153,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '11',
                 'name' => 'Vacancy Approval',
                 'alias' => 'VA', //HR MAnager
-                //'desciption' => 'Approve Job Vacancy',
+                'module_id' => 3, //'Approve Job Vacancy',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -165,7 +165,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '12',
                 'name' => 'Interview Initiator',
                 'alias' => 'II',
-                //'desciption' => 'Conduct HR and Technical Interview',
+                'module_id' => 3, // 'Conduct HR and Technical Interview',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -177,7 +177,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '13',
                 'name' => 'Interview Cordinator',
                 'alias' => 'IC',
-                //'desciption' => 'Participate in all process of interview',
+                'module_id' =>  3, //'Participate in all process of interview',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -189,7 +189,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '14',
                 'name' => 'Interview Assessor',
                 'alias' => 'IA',
-                //'desciption' => 'Assess all process of interview',
+                'module_id' => 3, //'Assess all process of interview',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -201,7 +201,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '15',
                 'name' => 'Interview Approver',
                 'alias' => 'INA',
-                //'desciption' => 'Allow Employement Contrinuite',
+                'module_id' => 3, // 'Allow Employement Contrinuite',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -213,7 +213,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '16',
                 'name' => 'Hiring Initiator',
                 'alias' => 'HI',
-                //'desciption' => 'Initiate all process of employee registration',
+                'module_id' => 3, //'Initiate all process of employee registration',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -225,7 +225,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '17',
                 'name' => 'Hiring Checker',
                 'alias' => 'HC',
-                //'desciption' => 'Review all particular or Process if are in order',
+                'module_id' => 3, //'Review all particular or Process if are in order',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -237,7 +237,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '18',
                 'name' => 'Hiring Approver',
                 'alias' => 'HA',
-                //'desciption' => 'Recommend for the Completion of Employee Registration',
+                'module_id' => 3, //'Recommend for the Completion of Employee Registration',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -249,7 +249,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '19',
                 'name' => 'Social Initiator',
                 'alias' => 'SI',
-                //'desciption' => 'Initiate Social Record',
+                'module_id' => 4, //'Initiate Social Record',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -261,7 +261,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '20',
                 'name' => 'Social Reviewer',
                 'alias' => 'SR',
-                //'desciption' => 'Recommend ',
+                'module_id' => 4, //'Recommend ',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -272,7 +272,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '21',
                 'name' => 'Induction Initiator',
                 'alias' => 'ITI',
-                //'desciption' => 'Induction Training Initiator',
+                'module_id' => 4, //'Induction Training Initiator',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -284,7 +284,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '22',
                 'name' => 'Induction Reviewer',
                 'alias' => 'ITR',
-                //'desciption' => 'Reviewe Induction training',
+                'module_id' => 4, //'Reviewe Induction training',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -296,7 +296,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '23',
                 'name' => 'Induction Approver',
                 'alias' => 'ITAr',
-                //'desciption' => 'Approve training',
+                'module_id' => 4, //'Approve training',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -308,7 +308,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '24',
                 'name' => 'Contact Initiator',
                 'alias' => 'CI',
-                //'desciption' => 'Initiate Contract',
+                'module_id' => 5, //'Initiate Contract',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -320,7 +320,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '25',
                 'name' => 'Contract Reviewer',
                 'alias' => 'CR',
-                //'desciption' => 'Review All contract before Approval',
+                'module_id' => 5, //'Review All contract before Approval',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -332,7 +332,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '26',
                 'name' => 'Contract Approver',
                 'alias' => 'CA',
-                //'desciption' => 'Contract Approval',
+                'module_id' => 5, //'Contract Approval',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -344,7 +344,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '27',
                 'name' => 'Id initiator',
                 'alias' => 'IDIN',
-                //'desciption' => 'Initiate id application ',
+                'module_id' => 4, //'Initiate id application ',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -356,7 +356,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '28',
                 'name' => 'Id Issuer',
                 'alias' => 'IDI',
-                //'desciption' => 'Issue id Card',
+                'module_id' => 4, //'Issue id Card',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -368,7 +368,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '29',
                 'name' => 'View Only',
                 'alias' => 'VO',
-                //'desciption' => 'User can only view',
+                'module_id' => 1, //'User can only view',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -380,7 +380,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '30',
                 'name' => 'All User',
                 'alias' => 'ALL',
-                //'desciption' => 'User can only view',
+                'module_id' => 6, //'User can only view',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -392,7 +392,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '31',
                 'name' => 'Vacancy Reviewer',
                 'alias' => 'VR', //Direct Manager
-                //'desciption' => 'Initiate Job  anouncement',
+                'module_id' => 3, //'Initiate Job  anouncement',
                 'status' => '1',
                 'created_at' => '2024-05-24 09:28:50',
                 'updated_at' => '2024-05-24 09:28:50',
@@ -404,6 +404,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '32',
                 'name' => 'Grievance Initiator',
                 'alias' => 'IRGI', //Industrial Relationship  Grievance Initiator
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
@@ -415,6 +416,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '33',
                 'name' => 'Grievance Reviewer',
                 'alias' => 'IRGR', //Industrial Relationship  Grievance Initiator
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
@@ -426,6 +428,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '34',
                 'name' => 'Grievance Approver',
                 'alias' => 'IRGA', //Industrial Relationship  Grievance Initiator
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
@@ -437,6 +440,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '35',
                 'name' => 'Disciplinary Initiator',
                 'alias' => 'IRDI', //Industrial Relationship  Disciplinary Initiator
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
@@ -448,6 +452,7 @@ class RolesTableSeeder extends Seeder
                 'id' => '36',
                 'name' => 'Disciplinary Reviewer',
                 'alias' => 'IRDR', //Industrial Relationship  Disciplinary Reviewer
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
@@ -459,39 +464,257 @@ class RolesTableSeeder extends Seeder
                 'id' => '37',
                 'name' => 'Disciplinary Approver',
                 'alias' => 'IRDA', //Industrial Relationship  Disciplinary Approver
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
                 'deleted_at' => NULL,
 
             ),
-   37 =>
+            37 =>
             array(
                 'id' => '38',
                 'name' => 'Misconduct Initiator (HR)',
                 'alias' => 'IRMI', //Industrial Relationship  Misconduct Approver
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
                 'deleted_at' => NULL,
 
             ),
-   38 =>
+            38 =>
             array(
                 'id' => '39',
                 'name' => 'Misconduct Reviewer (IR)',
                 'alias' => 'IRMR', //Industrial Relationship  Misconduct Approver
+                'module_id' => 8,
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',
                 'deleted_at' => NULL,
 
             ),
-   39 =>
+            39 =>
             array(
                 'id' => '40',
                 'name' => 'Misconduct Approver',
                 'alias' => 'IRMA', //Industrial Relationship  Misconduct Approver
+                'module_id' => 8,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+//Leave block
+ 40 =>
+            array(
+                'id' => '41',
+                'name' => 'Leave Initiator',
+                'alias' => 'LVI', //
+                'module_id' => 7,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+   41 =>
+            array(
+                'id' => '42',
+                'name' => 'Leave Reviewer',
+                'alias' => 'LVR', //
+                'module_id' => 7,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 42 =>
+            array(
+                'id' => '43',
+                'name' => 'Leave Approver',
+                'alias' => 'LVA', //
+                'module_id' => 7,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+
+//Attendance Block
+ 43 =>
+            array(
+                'id' => '44',
+                'name' => 'Attendance Initiator',
+                'alias' => 'ATI', //
+                'module_id' => 6, //who will prepare attendance
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 44 =>
+            array(
+                'id' => '45',
+                'name' => 'Attendance Reviewer',
+                'alias' => 'ATR', // who will review prepared attendance for payroll run
+                'module_id' => 6,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 45 =>
+            array(
+                'id' => '46',
+                'name' => 'Attendance Approver',
+                'alias' => 'ATA', //
+                'module_id' => 6,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+//Exit Block
+ 46 =>
+            array(
+                'id' => '47',
+                'name' => 'Exit Initiator',
+                'alias' => 'ETI', //
+                'module_id' => 9,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 47 =>
+            array(
+                'id' => '48',
+                'name' => 'Exit Reviewer',
+                'alias' => 'ETR', //
+                'module_id' => 9,
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 48 =>
+            array(
+                'id' => '49',
+                'name' => 'Exit Approver',
+                'alias' => 'ETA', //
+                'module_id' => 9,//the one who will approve the exit
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+
+//General Compliance
+ 49 =>
+            array(
+                'id' => '50',
+                'name' => 'Compliance Initiator',
+                'alias' => 'GCI', //
+                'module_id' => 10,//the one who will register or initiate compliance issue
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 50 =>
+            array(
+                'id' => '51',
+                'name' => 'Compliance Reviewer',
+                'alias' => 'GCR', //
+                'module_id' => 10,//the one who will Review the Compliance issues
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 51 =>
+            array(
+                'id' => '52',
+                'name' => 'Compliance Approver',
+                'alias' => 'GCA', //
+                'module_id' => 10,//the one who will approve the exit
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+//payroll management block
+ 52 =>
+            array(
+                'id' => '53',
+                'name' => 'Payroll Initiator',
+                'alias' => 'PRI', //
+                'module_id' => 11,//the one who will initiate payroll or prepare
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 53 =>
+            array(
+                'id' => '54',
+                'name' => 'Payroll Reviewer',
+                'alias' => 'PRI', //
+                'module_id' => 11,//the one who will review payroll
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+ 54 =>
+            array(
+                'id' => '55',
+                'name' => 'Payroll Approver',
+                'alias' => 'PRA', //
+                'module_id' => 11,//the one who will approve payroll
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+
+//Report management Block
+ 55 =>
+            array(
+                'id' => '56',
+                'name' => 'Report View',
+                'alias' => 'RTI', //
+                'module_id' => 12,//the one who will initiate payroll or prepare
+                'status' => '1',
+                'created_at' => '2025-04-26 09:28:50',
+                'updated_at' => '2025-04-26 09:28:50',
+                'deleted_at' => NULL,
+
+            ),
+
+         56 =>
+            array(
+                'id' => '57',
+                'name' => 'Report Process',
+                'alias' => 'PRI', //
+                'module_id' => 12,//the one who will initiate payroll or prepare
                 'status' => '1',
                 'created_at' => '2025-04-26 09:28:50',
                 'updated_at' => '2025-04-26 09:28:50',

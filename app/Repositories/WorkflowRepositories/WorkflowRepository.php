@@ -205,6 +205,56 @@ public function retriveInitiatedVacancy($workflow)
             ->whereNull('job_vacancies.deleted_at')
             ->get();
     }
+
+    /**
+     * Retrieve pending workflow histories (latest first)
+     */
+    public function getPendingWorkflows($limit = 15)
+    {
+        $items = collect();
+
+        // Pending performance review workflows (initiated)
+        $performance = DB::table('performance_review_workflows as prw')
+            ->select(
+                'prw.id',
+                'prw.review_id',
+                'prw.comments',
+                'prw.status',
+                'prw.previous_stage',
+                'prw.current_stage',
+                'prw.attended_date',
+                'pr.employee_name'
+            )
+            ->join('performance_new_reviews as pr', 'pr.id', '=', 'prw.review_id')
+            ->where('prw.status', 'Initiated')
+            ->orderByDesc('prw.attended_date')
+            ->limit($limit)
+            ->get()
+            ->map(function ($row) {
+                return [
+                    'id' => $row->id,
+                    'module' => 'performance_review',
+                    'reference_id' => $row->review_id,
+                    'title' => 'Performance Review',
+                    'description' => $row->comments ?? "{$row->employee_name} pending review",
+                    'status' => $row->status,
+                    'previous_stage' => $row->previous_stage,
+                    'current_stage' => $row->current_stage,
+                    'employee' => $row->employee_name,
+                    'timestamp' => $row->attended_date,
+                    'link' => "/industrials/show_perfomance_review/{$row->review_id}",
+                ];
+            });
+
+        $items = $items->merge($performance);
+
+        // Additional workflow sources can be merged here (e.g., WorkflowHistory)
+        if ($items->count() > $limit) {
+            $items = $items->take($limit);
+        }
+
+        return $items->values();
+    }
     public function getJobDocument()
     {
         return  JobVacancyDocument::select('*', 'name as vacancy_doc')->get();
