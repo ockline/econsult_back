@@ -50,6 +50,54 @@ class EndContractRepository extends BaseRepository
     }
 
     /**
+     * Get list of active contracts (fixed & specific task) eligible for end-of-contract
+     * This is used by the bulk initiate UI instead of contracts/* routes.
+     */
+    public function getEligibleContractsForEnd()
+    {
+        try {
+            // contract_id 1 = Fixed Term, 2 = Specific Task (based on existing queries)
+            $contracts = DB::table('contract_details as cd')
+                ->select([
+                    DB::raw('cd.*'),
+                    // employee number from employees table (human-readable)
+                    DB::raw('e.employee_no as employee_number'),
+                    // foreign key to employees table
+                    DB::raw('cd.employee_id as employee_db_id'),
+                    // employer & job title
+                    DB::raw('emp.name as employer'),
+                    DB::raw('jt.name as job_title'),
+                    DB::raw('dpt.name as department_name'),
+                    // full name & helper fields
+                    DB::raw("CONCAT(cd.firstname, ' ', cd.middlename, ' ', cd.lastname) as employee_name"),
+                    DB::raw('cd.created_at as contract_created'),
+                ])
+                ->leftJoin('employees as e', 'cd.employee_id', '=', 'e.id')
+                ->leftJoin('departments as dpt', 'e.department_id', '=', 'dpt.id')
+                ->leftJoin('job_title as jt', 'cd.job_title_id', '=', 'jt.id')
+                ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
+                // only records that have reached contract stage (5+) and have actual contracts
+                ->where('cd.progressive_stage', '>=', 5)
+                ->whereIn('cd.contract_id', [1, 2])
+                ->orderBy('cd.id', 'DESC')
+                ->get();
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Eligible contracts retrieved successfully',
+                'data' => $contracts,
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to retrieve eligible contracts for end', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to retrieve eligible contracts for end',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    /**
      * Get end contract by ID with relationships
      */
     public function getEndContractById($id)

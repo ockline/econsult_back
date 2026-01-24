@@ -353,6 +353,8 @@ Route::prefix('employees')->group(function () {
 
     /** api for exit management (end contract) */
     Route::get('/exits/endcontract/show_all_endcontracts', [EndContractController::class, 'showAllEndContracts'])->middleware('api');
+    // New: list of eligible contracts (fixed & specific task) for bulk end-of-contract initiation
+    Route::get('/exits/endcontract/eligible_contracts', [EndContractController::class, 'getEligibleContractsForEnd'])->middleware('api');
     Route::get('/exits/endcontract/show_endcontract/{id}', [EndContractController::class, 'showEndContract'])->middleware('api');
     Route::post('/exits/endcontract/create_endcontract', [EndContractController::class, 'createEndContract'])->middleware('api');
     Route::post('/exits/endcontract/update_endcontract/{id}', [EndContractController::class, 'updateEndContract'])->middleware('api');

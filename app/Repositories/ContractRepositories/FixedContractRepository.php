@@ -354,6 +354,10 @@ class FixedContractRepository extends  BaseRepository
         return DB::table('contract_details as cd')
             ->select([
                 DB::raw('cd.* '),
+                // expose employee number from employees table (human-readable number like 9023)
+                DB::raw('e.employee_no as employee_number'),
+                // also expose the foreign key explicitly if frontend/backend need it
+                DB::raw('cd.employee_id as employee_db_id'),
                 DB::raw("CASE
                             WHEN cd.progressive_stage = 1 THEN 'Employee Details'
                             WHEN cd.progressive_stage = 2 THEN 'Supportive Document'

@@ -29,6 +29,15 @@ class EndContractController extends Controller
     }
 
     /**
+     * Return contracts (fixed & specific task) that are eligible for end-of-contract.
+     * This is used by the bulk initiate screen instead of contracts/* routes.
+     */
+    public function getEligibleContractsForEnd()
+    {
+        return $this->endContractRepository->getEligibleContractsForEnd();
+    }
+
+    /**
      * Show the form for creating a new end contract
      */
     public function create()
