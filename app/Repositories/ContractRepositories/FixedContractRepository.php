@@ -354,9 +354,9 @@ class FixedContractRepository extends  BaseRepository
         return DB::table('contract_details as cd')
             ->select([
                 DB::raw('cd.* '),
-                // expose employee number from employees table (human-readable number like 9023)
+                // employee number from employees table (human-readable number like 9023)
                 DB::raw('e.employee_no as employee_number'),
-                // also expose the foreign key explicitly if frontend/backend need it
+                // foreign key to employees table
                 DB::raw('cd.employee_id as employee_db_id'),
                 DB::raw("CASE
                             WHEN cd.progressive_stage = 1 THEN 'Employee Details'
@@ -380,6 +380,9 @@ class FixedContractRepository extends  BaseRepository
                             ELSE 'Female'
                         END AS gender"),
                 DB::raw('cf.stage as stages'),
+                // department & job title from their master tables
+                DB::raw('dpt.name as department_name'),
+                DB::raw('jt.name as job_title'),
                 DB::raw('CONCAT(cd.firstname, \' \', cd.middlename, \' \', cd.lastname) as contract_employee'),
                 DB::raw('cd.created_at as contract_created'),
                 DB::raw('emp.name as employer'),
@@ -387,10 +390,10 @@ class FixedContractRepository extends  BaseRepository
             ])
 
             ->leftJoin('employees as e', 'cd.employee_id', '=', 'e.id')
+            ->leftJoin('departments as dpt', 'e.department_id', '=', 'dpt.id')
             ->leftJoin('social_records as sr', 'sr.employee_id', '=', 'cd.employee_id')
             ->leftJoin('job_title as jt', 'cd.job_title_id', '=', 'jt.id')
             ->leftJoin('contract_fixed as cf', 'cf.employee_id', '=', 'cd.employee_id')
-            // ->leftJoin('job_title as jt', 'e.job_title_id', '=', 'jt.id')
             ->leftJoin('employers as emp', 'cd.employer_id', '=', 'emp.id')
             ->where('cd.progressive_stage', '>=', 5)
             ->where('cd.contract_id', 1)

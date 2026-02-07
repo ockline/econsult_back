@@ -58,35 +58,12 @@ class EndContractController extends Controller
      */
     public function createEndContract(Request $request)
     {
+        /**
+         * For creation we only enforce that an employee exists.
+         * Other business validations will be handled during update of each exit request.
+         */
         $validator = Validator::make($request->all(), [
             'employee_id' => 'required|exists:employees,id',
-            'employee_name' => 'required|string|max:255',
-            'department_name' => 'required|string|max:255',
-            'job_title' => 'required|string|max:255',
-            'postal_address' => 'required|string',
-            'phone_number' => 'required|string|max:20',
-            'remark' => 'required|string',
-            'end_date' => 'required|date',
-            'renewal_notice_file' => 'nullable|file|mimes:pdf,doc,docx,jpg,jpeg,png|max:5120',
-
-            // Employment Contract Details
-            'employer_name' => 'nullable|string|max:255',
-            'letter_title' => 'nullable|string|max:255',
-            'signed_date' => 'nullable|date',
-            'started_date' => 'nullable|date',
-            'days_worked' => 'nullable|integer|min:0',
-            'on_behalf_of' => 'nullable|string|max:255',
-            'designation' => 'nullable|string|max:255',
-            'hr_name' => 'nullable|string|max:255',
-            'signature_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-            'employee_designation' => 'nullable|string|max:255',
-            'employee_signature_file' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
-
-            // Non-Renewal Contract Details
-            'job_department' => 'nullable|string|max:255',
-            'contract_date' => 'nullable|date',
-            'expire_date' => 'nullable|date',
-            'non_renewal_letter_title' => 'nullable|string|max:255',
         ]);
 
         if ($validator->fails()) {
@@ -400,6 +377,167 @@ class EndContractController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'Failed to retrieve statistics',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Display a listing of end specific contracts (contract_type_id = 2)
+     */
+    public function showAllEndSpecificContracts()
+    {
+        return $this->endContractRepository->getAllEndSpecificContracts();
+    }
+
+    /**
+     * Store a newly created end specific contract
+     */
+    public function createEndSpecificContract(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'employee_id' => 'required|exists:employees,id',
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'status' => 422,
+                'message' => 'Validation failed',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        // Add contract_type_id = 2 for specific task contracts
+        $request->merge([
+            'contract_type_id' => 2,
+            'exit_type' => 'end_specific_contract'
+        ]);
+
+        return $this->endContractRepository->createEndContract($request);
+    }
+
+    /**
+     * Display the specified end specific contract
+     */
+    public function showEndSpecificContract($id)
+    {
+        return $this->endContractRepository->getEndContractById($id);
+    }
+
+    /**
+     * Update the specified end specific contract
+     */
+    public function updateEndSpecificContract(Request $request, $id)
+    {
+        return $this->endContractRepository->updateEndContract($request, $id);
+    }
+
+    /**
+     * Submit the specified end specific contract for review
+     */
+    public function submitEndSpecificContract(Request $request, $id = null)
+    {
+        return $this->endContractRepository->submitEndContract($request, $id);
+    }
+
+    /**
+     * Delete the specified end specific contract
+     */
+    public function deleteEndSpecificContract($id)
+    {
+        return $this->endContractRepository->deleteEndContract($id);
+    }
+
+    /**
+     * Generate PDF for end specific contract
+     */
+    public function generateEndSpecificContractPdf($id)
+    {
+        try {
+            $endContract = $this->endContractRepository->getEndContractById($id);
+            
+            if ($endContract->getStatusCode() !== 200) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'End specific contract not found'
+                ], 404);
+            }
+
+            $data = json_decode($endContract->getContent(), true);
+            $contractData = $data['data'] ?? null;
+
+            if (!$contractData) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'End specific contract data not found'
+                ], 404);
+            }
+
+            // Generate PDF using the PDF service
+            $pdf = $this->pdfService->generateEndSpecificContractPdf($contractData);
+
+            return response($pdf, 200)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'inline; filename="end_specific_contract_' . $contractData['employee_name'] . '_' . date('Y-m-d') . '.pdf"');
+        } catch (\Exception $e) {
+            \Log::error('Error generating end specific contract PDF', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to generate PDF',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get attachments for end specific contract
+     */
+    public function getAttachments($id)
+    {
+        try {
+            $attachments = $this->endContractRepository->getAttachments($id);
+            return response()->json([
+                'status' => 200,
+                'message' => 'Attachments retrieved successfully',
+                'data' => $attachments
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error fetching attachments', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to retrieve attachments',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Save attachment for end specific contract
+     */
+    public function saveAttachment(Request $request, $id)
+    {
+        try {
+            $validator = Validator::make($request->all(), [
+                'attachment_file' => 'required|file|mimes:pdf|max:10240', // 10MB max
+                'document_name' => 'required|string|max:255',
+                'document_type' => 'nullable|string|max:50',
+            ]);
+
+            if ($validator->fails()) {
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'Validation failed',
+                    'errors' => $validator->errors()
+                ], 422);
+            }
+
+            $result = $this->endContractRepository->saveAttachment($request, $id);
+            return $result;
+        } catch (\Exception $e) {
+            \Log::error('Error saving attachment', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to save attachment',
                 'error' => $e->getMessage()
             ], 500);
         }

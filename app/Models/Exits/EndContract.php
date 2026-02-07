@@ -16,6 +16,8 @@ class EndContract extends Model
 
     protected $fillable = [
         'employee_id',
+        'exit_type',
+        'contract_type_id',
         'employee_name',
         'department_name',
         'job_title',

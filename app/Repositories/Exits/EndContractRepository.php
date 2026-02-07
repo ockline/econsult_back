@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class EndContractRepository extends BaseRepository
 {
@@ -29,10 +30,31 @@ class EndContractRepository extends BaseRepository
     public function getAllEndContracts()
     {
         try {
-            $endContracts = $this->model
-                ->with(['employee', 'creator', 'updater', 'workflows.attendedBy'])
-                ->orderBy('created_at', 'desc')
-                ->get();
+            /**
+             * For listing, we also want to know the underlying contract type
+             * (Fixed Term, Specific Task, etc.). We derive this from
+             * contract_details -> contracts and attach it to each row.
+             * We get the most recent contract_details for each employee.
+             */
+            $endContracts = collect(DB::select("
+                SELECT 
+                    ec.*,
+                    c.id as contract_type_id,
+                    c.name as contract_type_name
+                FROM end_contracts ec
+                LEFT JOIN (
+                    SELECT cd1.*
+                    FROM contract_details cd1
+                    INNER JOIN (
+                        SELECT employee_id, MAX(id) as max_id
+                        FROM contract_details
+                        WHERE progressive_stage >= 5
+                        GROUP BY employee_id
+                    ) cd2 ON cd1.employee_id = cd2.employee_id AND cd1.id = cd2.max_id
+                ) cd ON ec.employee_id = cd.employee_id
+                LEFT JOIN contracts c ON cd.contract_id = c.id
+                ORDER BY ec.created_at DESC
+            "));
 
             return response()->json([
                 'status' => 200,
@@ -44,6 +66,54 @@ class EndContractRepository extends BaseRepository
             return response()->json([
                 'status' => 500,
                 'message' => 'Failed to retrieve end contracts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get all end specific contracts (contract_type_id = 2)
+     */
+    public function getAllEndSpecificContracts()
+    {
+        try {
+            /**
+             * Get only end contracts where exit_type = 'end_specific_contract' or contract_type_id = 2 (Specific Task)
+             */
+            $endContracts = collect(DB::select("
+                SELECT 
+                    ec.*,
+                    c.id as contract_type_id,
+                    c.name as contract_type_name
+                FROM end_contracts ec
+                LEFT JOIN (
+                    SELECT cd1.*
+                    FROM contract_details cd1
+                    INNER JOIN (
+                        SELECT employee_id, MAX(id) as max_id
+                        FROM contract_details
+                        WHERE progressive_stage >= 5
+                        GROUP BY employee_id
+                    ) cd2 ON cd1.employee_id = cd2.employee_id AND cd1.id = cd2.max_id
+                ) cd ON ec.employee_id = cd.employee_id
+                LEFT JOIN contracts c ON cd.contract_id = c.id
+                WHERE ec.exit_type = 'end_specific_contract' 
+                   OR ec.contract_type_id = 2 
+                   OR c.id = 2 
+                   OR c.name = 'Specific Task Contract'
+                ORDER BY ec.created_at DESC
+            "));
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'End specific contracts retrieved successfully',
+                'data' => $endContracts
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to retrieve end specific contracts', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to retrieve end specific contracts',
                 'error' => $e->getMessage()
             ], 500);
         }
@@ -134,6 +204,18 @@ class EndContractRepository extends BaseRepository
             $data['created_by'] = Auth::user()->id ?? 1;
             $data['updated_by'] = Auth::user()->id ?? 1;
 
+            // Set exit_type based on contract_type_id or request
+            if (isset($data['contract_type_id'])) {
+                if ($data['contract_type_id'] == 2) {
+                    $data['exit_type'] = 'end_specific_contract';
+                } else {
+                    $data['exit_type'] = 'end_contract';
+                }
+            } else {
+                // Default to end_contract if not specified
+                $data['exit_type'] = $data['exit_type'] ?? 'end_contract';
+            }
+
             // Handle file uploads
             if ($request->hasFile('renewal_notice_file')) {
                 $data['renewal_notice_file'] = $this->uploadFile($request->file('renewal_notice_file'), 'endcontracts/renewal_notices');
@@ -146,6 +228,21 @@ class EndContractRepository extends BaseRepository
             if ($request->hasFile('employee_signature_file')) {
                 $data['employee_signature_file'] = $this->uploadFile($request->file('employee_signature_file'), 'endcontracts/employee_signatures');
             }
+
+            /**
+             * For bulk / minimal creation we allow many fields to be empty,
+             * but the database has NOT NULL constraints on some columns.
+             * Provide safe defaults here; the real values will be filled
+             * and validated later during update of each exit request.
+             */
+            $data['employee_name'] = $data['employee_name'] ?? '';
+            $data['department_name'] = $data['department_name'] ?? '';
+            $data['job_title'] = $data['job_title'] ?? '';
+            $data['postal_address'] = $data['postal_address'] ?? '';
+            $data['phone_number'] = $data['phone_number'] ?? '';
+            $data['remark'] = $data['remark'] ?? '';
+            // Use today as a placeholder end date if none provided
+            $data['end_date'] = $data['end_date'] ?? Carbon::today()->toDateString();
 
             $endContract = $this->model->create($data);
 
@@ -443,6 +540,74 @@ class EndContractRepository extends BaseRepository
             return response()->json([
                 'status' => 500,
                 'message' => 'Failed to retrieve end contracts',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get attachments for an end contract
+     */
+    public function getAttachments($endContractId)
+    {
+        try {
+            $attachments = DB::table('exit_attachments')
+                ->where('end_contract_id', $endContractId)
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+            return $attachments;
+        } catch (\Exception $e) {
+            \Log::error('Failed to retrieve attachments', ['error' => $e->getMessage()]);
+            throw $e;
+        }
+    }
+
+    /**
+     * Save attachment for an end contract
+     */
+    public function saveAttachment(Request $request, $endContractId)
+    {
+        try {
+            $file = $request->file('attachment_file');
+            $documentName = $request->input('document_name');
+            $documentType = $request->input('document_type', 'end_specific_contract');
+
+            // Generate unique filename
+            $fileName = time() . '_' . $file->getClientOriginalName();
+            $filePath = 'exits/end_specific_contracts/' . $endContractId . '/attachments/' . $fileName;
+
+            // Store file
+            Storage::disk('public')->put($filePath, file_get_contents($file));
+
+            // Save to database
+            $attachmentId = DB::table('exit_attachments')->insertGetId([
+                'end_contract_id' => $endContractId,
+                'document_name' => $documentName,
+                'document_type' => $documentType,
+                'attachment_file' => $fileName,
+                'file_path' => $filePath,
+                'file_size' => $file->getSize(),
+                'mime_type' => $file->getMimeType(),
+                'created_by' => Auth::id() ?? 1,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Attachment saved successfully',
+                'data' => [
+                    'id' => $attachmentId,
+                    'document_name' => $documentName,
+                    'file_path' => $filePath,
+                ]
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Failed to save attachment', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to save attachment',
                 'error' => $e->getMessage()
             ], 500);
         }

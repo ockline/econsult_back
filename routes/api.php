@@ -379,6 +379,17 @@ Route::prefix('employees')->group(function () {
     Route::get('/exits/endcontract/workflow_statistics', [EndContractWorkflowController::class, 'getWorkflowStatistics'])->middleware('api');
     Route::post('/exits/endcontract/bulk_approve', [EndContractWorkflowController::class, 'bulkApprove'])->middleware('api');
     Route::post('/exits/endcontract/bulk_reject', [EndContractWorkflowController::class, 'bulkReject'])->middleware('api');
+
+    /** api for exit management (end specific contract) */
+    Route::get('/exits/end_specific_contract/show_all_end_specific_contracts', [EndContractController::class, 'showAllEndSpecificContracts'])->middleware('api');
+    Route::get('/exits/end_specific_contract/show_end_specific_contract/{id}', [EndContractController::class, 'showEndSpecificContract'])->middleware('api');
+    Route::post('/exits/end_specific_contract/create_end_specific_contract', [EndContractController::class, 'createEndSpecificContract'])->middleware('api');
+    Route::post('/exits/end_specific_contract/update_end_specific_contract/{id}', [EndContractController::class, 'updateEndSpecificContract'])->middleware('api');
+    Route::post('/exits/end_specific_contract/submit_end_specific_contract/{id?}', [EndContractController::class, 'submitEndSpecificContract'])->middleware('api');
+    Route::delete('/exits/end_specific_contract/delete_end_specific_contract/{id}', [EndContractController::class, 'deleteEndSpecificContract'])->middleware('api');
+    Route::get('/exits/end_specific_contract/generate_end_specific_contract_pdf/{id}', [EndContractController::class, 'generateEndSpecificContractPdf'])->middleware('api');
+    Route::get('/exits/end_specific_contract/get_attachments/{id}', [EndContractController::class, 'getAttachments'])->middleware('api');
+    Route::post('/exits/end_specific_contract/save_attachment/{id}', [EndContractController::class, 'saveAttachment'])->middleware('api');
 });
 
 
@@ -483,6 +494,6 @@ Route::get('/vacancies/retrive_initiated/{id}', [WorkflowController::class, 'ret
 
 include base_path('routes/Api/Backend.php');
 
-
-
 });
+
+
