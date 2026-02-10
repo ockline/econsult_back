@@ -8,6 +8,7 @@ use App\Services\EndContractPdfService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
 
 class EndContractController extends Controller
 {
@@ -538,6 +539,58 @@ class EndContractController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'Failed to save attachment',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+
+    /**
+     * Get attachment file for preview/download
+     */
+    public function getAttachmentFile($endContractId, $attachmentId)
+    {
+        try {
+            $attachment = DB::table('exit_attachments')
+                ->where('id', $attachmentId)
+                ->where('end_contract_id', $endContractId)
+                ->first();
+
+            if (!$attachment) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'Attachment not found'
+                ], 404);
+            }
+
+            $filePath = storage_path('app/public/' . $attachment->file_path);
+
+            if (!file_exists($filePath)) {
+                return response()->json([
+                    'status' => 404,
+                    'message' => 'File not found'
+                ], 404);
+            }
+
+            // Read file and encode to base64
+            $fileContent = file_get_contents($filePath);
+            $base64Content = base64_encode($fileContent);
+            $mimeType = $attachment->mime_type ?? 'application/pdf';
+
+            return response()->json([
+                'status' => 200,
+                'message' => 'Attachment retrieved successfully',
+                'data' => [
+                    'file_content' => $base64Content,
+                    'mime_type' => $mimeType,
+                    'file_name' => $attachment->attachment_file,
+                    'document_name' => $attachment->document_name
+                ]
+            ]);
+        } catch (\Exception $e) {
+            \Log::error('Error retrieving attachment file', ['error' => $e->getMessage()]);
+            return response()->json([
+                'status' => 500,
+                'message' => 'Failed to retrieve attachment file',
                 'error' => $e->getMessage()
             ], 500);
         }

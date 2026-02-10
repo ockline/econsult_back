@@ -44,6 +44,8 @@ use App\Http\Controllers\Exits\ResignationController;
 use App\Http\Controllers\Exits\ResignationWorkflowController;
 use App\Http\Controllers\Exits\EndContractController;
 use App\Http\Controllers\Exits\EndContractWorkflowController;
+use App\Http\Controllers\Exits\MutualAgreementController;
+use App\Http\Controllers\Exits\RetrenchmentController;
 
 
 
@@ -390,6 +392,31 @@ Route::prefix('employees')->group(function () {
     Route::get('/exits/end_specific_contract/generate_end_specific_contract_pdf/{id}', [EndContractController::class, 'generateEndSpecificContractPdf'])->middleware('api');
     Route::get('/exits/end_specific_contract/get_attachments/{id}', [EndContractController::class, 'getAttachments'])->middleware('api');
     Route::post('/exits/end_specific_contract/save_attachment/{id}', [EndContractController::class, 'saveAttachment'])->middleware('api');
+    Route::get('/exits/end_specific_contract/get_attachment_file/{endContractId}/{attachmentId}', [EndContractController::class, 'getAttachmentFile'])->middleware('api');
+
+    /** api for exit management (mutual agreement) */
+    Route::get('/exits/mutual_agreement/show_all_mutual_agreements', [MutualAgreementController::class, 'showAllMutualAgreements'])->middleware('api');
+    Route::get('/exits/mutual_agreement/show_mutual_agreement/{id}', [MutualAgreementController::class, 'showMutualAgreement'])->middleware('api');
+    Route::post('/exits/mutual_agreement/create_mutual_agreement', [MutualAgreementController::class, 'createMutualAgreement'])->middleware('api');
+    Route::post('/exits/mutual_agreement/update_mutual_agreement/{id}', [MutualAgreementController::class, 'updateMutualAgreement'])->middleware('api');
+    Route::post('/exits/mutual_agreement/submit_mutual_agreement/{id?}', [MutualAgreementController::class, 'submitMutualAgreement'])->middleware('api');
+    Route::delete('/exits/mutual_agreement/delete_mutual_agreement/{id}', [MutualAgreementController::class, 'deleteMutualAgreement'])->middleware('api');
+    Route::get('/exits/mutual_agreement/generate_mutual_agreement_pdf/{id}', [MutualAgreementController::class, 'generateMutualAgreementPdf'])->middleware('api');
+    Route::get('/exits/mutual_agreement/get_attachments/{id}', [MutualAgreementController::class, 'getAttachments'])->middleware('api');
+    Route::post('/exits/mutual_agreement/save_attachment/{id}', [MutualAgreementController::class, 'saveAttachment'])->middleware('api');
+    Route::get('/exits/mutual_agreement/get_attachment_file/{endContractId}/{attachmentId}', [MutualAgreementController::class, 'getAttachmentFile'])->middleware('api');
+
+    /** api for exit management (retrenchment) */
+    Route::get('/exits/retrenchment/show_all_retrenchments', [RetrenchmentController::class, 'showAllRetrenchments'])->middleware('api');
+    Route::get('/exits/retrenchment/show_retrenchment/{id}', [RetrenchmentController::class, 'showRetrenchment'])->middleware('api');
+    Route::post('/exits/retrenchment/create_retrenchment', [RetrenchmentController::class, 'createRetrenchment'])->middleware('api');
+    Route::post('/exits/retrenchment/update_retrenchment/{id}', [RetrenchmentController::class, 'updateRetrenchment'])->middleware('api');
+    Route::post('/exits/retrenchment/submit_retrenchment/{id?}', [RetrenchmentController::class, 'submitRetrenchment'])->middleware('api');
+    Route::delete('/exits/retrenchment/delete_retrenchment/{id}', [RetrenchmentController::class, 'deleteRetrenchment'])->middleware('api');
+    Route::get('/exits/retrenchment/generate_retrenchment_pdf/{id}', [RetrenchmentController::class, 'generateRetrenchmentPdf'])->middleware('api');
+    Route::get('/exits/retrenchment/get_attachments/{id}', [RetrenchmentController::class, 'getAttachments'])->middleware('api');
+    Route::post('/exits/retrenchment/save_attachment/{id}', [RetrenchmentController::class, 'saveAttachment'])->middleware('api');
+    Route::get('/exits/retrenchment/get_attachment_file/{endContractId}/{attachmentId}', [RetrenchmentController::class, 'getAttachmentFile'])->middleware('api');
 });
 
 
