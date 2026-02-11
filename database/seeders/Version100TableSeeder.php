@@ -63,67 +63,67 @@ class Version100TableSeeder extends Seeder
 
         DB::beginTransaction();
         /* Banks*/
-        // $this->call(BanksTableSeeder::class);
-        // $this->call(BankBranchesTableSeeder::class);
-        // /* National */
-        // $this->call(CountriesTableSeeder::class);
+        $this->call(BanksTableSeeder::class);
+        $this->call(BankBranchesTableSeeder::class);
+        /* National */
+        $this->call(CountriesTableSeeder::class);
         // $this->call(CurrenciesTableSeeder::class);
 
         /*  Users */
-        // $this->call(UsersTableSeeder::class);
-        // $this->call(DependentTypesTableSeeder::class);
-        // $this->call(MaritalStatusesTableSeeder::class);
-        // // $this->call(MemberTypesTableSeeder::class);
-        // $this->call(DesignationsTableSeeder::class);
+        $this->call(UsersTableSeeder::class);
+        $this->call(DependentTypesTableSeeder::class);
+        $this->call(MaritalStatusesTableSeeder::class);
+        // $this->call(MemberTypesTableSeeder::class);
+        $this->call(DesignationsTableSeeder::class);
 
-        // //  /*    Region  */
-        // $this->call(RegionsTableSeeder::class);
-        // $this->call(DistrictsTableSeeder::class);
-        // $this->call(LocationTypesTableSeeder::class);
+        //  /*    Region  */
+        $this->call(RegionsTableSeeder::class);
+        $this->call(DistrictsTableSeeder::class);
+        $this->call(LocationTypesTableSeeder::class);
 
-        // //  /*   Document */
-        // $this->call(DocumentGroupsTableSeeder::class);
-        // $this->call(DocumentsTableSeeder::class);
-        // $this->call(JobTitlesTableSeeder::class);
+        //  /*   Document */
+        $this->call(DocumentGroupsTableSeeder::class);
+        $this->call(DocumentsTableSeeder::class);
+        $this->call(JobTitlesTableSeeder::class);
 
         // //  /*  Offices */
-        // $this->call(OfficesTableSeeder::class);
-        // $this->call(OfficeZoneTableSeeder::class);
+        $this->call(OfficesTableSeeder::class);
+        $this->call(OfficeZoneTableSeeder::class);
 
-        // /* Hiring and Registration*/
-        // $this->call(LanguageFluenciesTableSeeder::class);
-        // $this->call(ShiftsTableSeeder::class);
-        // $this->call(RankingCreterialsTableSeeder::class);
-        // $this->call(TypeVacanciesTableSeeder::class);
-        // $this->call(AllowanciesTableSeeder::class);
-        // $this->call(CompetenciesTableSeeder::class);
-        // $this->call(CompetencySubjectsTableSeeder::class);
-        // $this->call(PackagesTableSeeder::class);
-        // $this->call(LeaveTypeTableSeeder::class);
-        // $this->call(MisconductTypeTableSeeder::class);
-        // $this->call(PerfomanceCriterialTableSeeder::class);
-        // $this->call(DepartmentsTableSeeder::class);
-        // $this->call(UnitsTableSeeder::class);
-        // $this->call(EducationHistoriesTableSeeder::class);
-        // $this->call(PracticalTestsTableSeeder::class);
+        /* Hiring and Registration*/
+        $this->call(LanguageFluenciesTableSeeder::class);
+        $this->call(ShiftsTableSeeder::class);
+        $this->call(RankingCreterialsTableSeeder::class);
+        $this->call(TypeVacanciesTableSeeder::class);
+        $this->call(AllowanciesTableSeeder::class);
+        $this->call(CompetenciesTableSeeder::class);
+        $this->call(CompetencySubjectsTableSeeder::class);
+        $this->call(PackagesTableSeeder::class);
+        $this->call(LeaveTypeTableSeeder::class);
+        $this->call(MisconductTypeTableSeeder::class);
+        $this->call(PerfomanceCriterialTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
+        $this->call(UnitsTableSeeder::class);
+        $this->call(EducationHistoriesTableSeeder::class);
+        $this->call(PracticalTestsTableSeeder::class);
 
-        // // /**  Contracts */
-        // $this->call(ContractsTableSeeder::class);
+       /**  Contracts */
+        $this->call(ContractsTableSeeder::class);
 
         // /* Role & Permission */
         $this->call(RolesTableSeeder::class);
-        // // $this->call(PermissionGroupsTableSeeder::class);
-        // // $this->call(PermissionsTableSeeder::class);
-        // // $this->call(PermissionDependenciesTableSeeder::class);
+        // $this->call(PermissionGroupsTableSeeder::class);
+        // $this->call(PermissionsTableSeeder::class);
+        // $this->call(PermissionDependenciesTableSeeder::class);
         // $this->call(SysdefsTableSeeder::class);
-        // // $this->call(UnitGroupsTableSeeder::class);
-        // $this->call(ModuleTableSeeder::class);
+        $this->call(UnitGroupsTableSeeder::class);
+        $this->call(ModuleTableSeeder::class);
 
 
         // /*postcodes*/
-        // $this->call(PostCodeTableSeeder::class);
-        // /**Quarters */
-        // $this->call(QuarterTableSeeder::class);
+        $this->call(PostCodeTableSeeder::class);
+        /**Quarters */
+        $this->call(QuarterTableSeeder::class);
 
 
         DB::commit();
