@@ -111,8 +111,8 @@ class RetrenchmentController extends Controller
                 ], 404);
             }
 
-            // Generate PDF using the PDF service
-            $pdf = $this->pdfService->generateEndSpecificContractPdf($contractData);
+            // Generate PDF using the PDF service (Retrenchment format in Swahili)
+            $pdf = $this->pdfService->generateRetrenchmentPdf($contractData);
 
             return response($pdf, 200)
                 ->header('Content-Type', 'application/pdf')
@@ -128,9 +128,9 @@ class RetrenchmentController extends Controller
     }
 
     /**
-     * Get attachments for retrenchment
+     * Get attachments for retrenchment (only documents attached to this contract/employee)
      */
-    public function getAttachments($id)
+    public function getAttachments(Request $request, $id)
     {
         try {
             $attachments = $this->retrenchmentRepository->getAttachments($id);

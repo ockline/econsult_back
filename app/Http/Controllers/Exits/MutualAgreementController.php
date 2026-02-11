@@ -128,9 +128,9 @@ class MutualAgreementController extends Controller
     }
 
     /**
-     * Get attachments for mutual agreement
+     * Get attachments for mutual agreement (only documents attached to this contract/employee)
      */
-    public function getAttachments($id)
+    public function getAttachments(Request $request, $id)
     {
         try {
             $attachments = $this->mutualAgreementRepository->getAttachments($id);

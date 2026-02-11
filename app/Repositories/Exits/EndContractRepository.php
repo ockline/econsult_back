@@ -564,6 +564,46 @@ class EndContractRepository extends BaseRepository
     }
 
     /**
+     * Get all attachments for the same employer as the given end contract (for Document Center per employer)
+     */
+    public function getAttachmentsByEmployer($endContractId)
+    {
+        try {
+            $contract = DB::table('end_contracts')->where('id', $endContractId)->first();
+            if (!$contract || empty(trim($contract->employer_name ?? ''))) {
+                return $this->getAttachments($endContractId);
+            }
+            $employerName = $contract->employer_name;
+
+            $attachments = DB::table('exit_attachments as ea')
+                ->join('end_contracts as ec', 'ea.end_contract_id', '=', 'ec.id')
+                ->where('ec.employer_name', $employerName)
+                ->select(
+                    'ea.id',
+                    'ea.end_contract_id',
+                    'ea.document_name',
+                    'ea.document_type',
+                    'ea.attachment_file',
+                    'ea.file_path',
+                    'ea.file_size',
+                    'ea.mime_type',
+                    'ea.created_by',
+                    'ea.created_at',
+                    'ea.updated_at',
+                    'ec.employee_name',
+                    'ec.exit_type'
+                )
+                ->orderBy('ea.created_at', 'desc')
+                ->get();
+
+            return $attachments;
+        } catch (\Exception $e) {
+            \Log::error('Failed to retrieve attachments by employer', ['error' => $e->getMessage()]);
+            throw $e;
+        }
+    }
+
+    /**
      * Save attachment for an end contract
      */
     public function saveAttachment(Request $request, $endContractId)

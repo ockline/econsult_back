@@ -51,6 +51,9 @@ class UploadDocumentController extends Controller
             'osha_checkup' => 'required|max:191',
             'combined_certificate' => 'required|max:3072',
             'bank_detail_doc' => 'required|max:191',
+            'fitness_to_work_declaration' => 'nullable|max:191',
+            'tax_identification_number' => 'nullable|max:191',
+            'consent_letter' => 'nullable|max:191',
 
         ]);
 
@@ -70,7 +73,7 @@ class UploadDocumentController extends Controller
                 // log::info('ndani');
                 $return = [
                     'status' => 200,
-                    "message" => "Required Document uploaded successfully",
+                    "message" => "New Employee Required Document uploaded successfully",
                 ];
             } else {
                 $return = [
@@ -143,4 +146,29 @@ class UploadDocumentController extends Controller
         }
 
 }
+
+    /**
+     * Return document for preview as base64 in JSON (decode on frontend).
+     * Uses file_get_contents for all file types to avoid FPDI parser issues with compressed PDFs.
+     */
+    public function previewFile(string $id, $file_id)
+    {
+        $employee_file = $this->upload->uploadedEmployeeFile($id, $file_id);
+        if (!$employee_file || empty($employee_file->description)) {
+            return response()->json(['message' => 'Document not found'], 404);
+        }
+        $path = public_path('employees/documentation/' . $id . '/' . $employee_file->description);
+        if (!is_file($path)) {
+            return response()->json(['message' => 'File not found'], 404);
+        }
+
+        $mime = mime_content_type($path) ?: 'application/octet-stream';
+        $content = file_get_contents($path);
+        $base64 = base64_encode($content);
+
+        return response()->json([
+            'content' => $base64,
+            'mime' => $mime,
+        ])->header('Cache-Control', 'private, max-age=3600');
+    }
 }

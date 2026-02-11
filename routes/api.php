@@ -296,6 +296,7 @@ Route::prefix('employees')->group(function () {
     Route::post('/document/upload_document/{id}', [UploadDocumentController::class, 'uploadDocument'])->middleware('api');
     Route::get('/document/get_uploaded_list/{id}', [UploadDocumentController::class, 'getEmployeeUpload'])->middleware('api');
     Route::get('/document/get_employee_files/{id}/{file_id}', [UploadDocumentController::class, 'getEmployeeFileUpload'])->middleware('api');
+    Route::get('/document/preview_file/{id}/{file_id}', [UploadDocumentController::class, 'previewFile'])->middleware('api');
 
     /** api for social record */
     Route::get('/social/show_social_details', [SocialRecordController::class, 'socialDetails'])->middleware('api');

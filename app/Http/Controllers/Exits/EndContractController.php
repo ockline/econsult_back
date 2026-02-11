@@ -491,9 +491,9 @@ class EndContractController extends Controller
     }
 
     /**
-     * Get attachments for end specific contract
+     * Get attachments for end specific contract (only documents attached to this contract/employee)
      */
-    public function getAttachments($id)
+    public function getAttachments(Request $request, $id)
     {
         try {
             $attachments = $this->endContractRepository->getAttachments($id);

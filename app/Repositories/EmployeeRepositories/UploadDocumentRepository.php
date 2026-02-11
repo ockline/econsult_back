@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use GuzzleHttp\Client;
 use App\Models\Employer\Employer;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\Log;
 use Mews\Purifier\Facades\Purifier;
 use App\Repositories\BaseRepository;
@@ -50,9 +51,59 @@ class UploadDocumentRepository extends  BaseRepository
      * @throws GeneralException
      */
 
+    /**
+     * Ensure supportive document types (65, 66, 67) exist in documents table.
+     * Prevents foreign key violation when uploading fitness_to_work_declaration, tax_identification_number, consent_letter.
+     */
+    protected function ensureSupportiveDocumentsExist(): void
+    {
+        $ids = [65, 66, 67];
+        $existing = DB::table('documents')->whereIn('id', $ids)->pluck('id')->all();
+        $missing = array_diff($ids, $existing);
+        if (empty($missing)) {
+            return;
+        }
+        $now = now()->format('Y-m-d H:i:s');
+        $rows = [
+            65 => ['Fitness to Work Declaration', 'fitness_to_work_declaration'],
+            66 => ['Tax Identification Number', 'tax_identification_number'],
+            67 => ['Consent Letter', 'consent_letter'],
+        ];
+        foreach ($missing as $id) {
+            if (!isset($rows[$id])) {
+                continue;
+            }
+            $base = [
+                'id' => $id,
+                'name' => $rows[$id][0],
+                'document_group_id' => 7,
+                'description' => $rows[$id][1],
+                'isrecurring' => 0,
+                'ismandatory' => 1,
+                'isactive' => 1,
+                'created_at' => $now,
+                'updated_at' => $now,
+                'deleted_at' => null,
+                'anysource' => 1,
+            ];
+            if (Schema::hasColumn('documents', 'isother')) {
+                $base['isother'] = 0;
+            }
+            if (Schema::hasColumn('documents', 'document_order')) {
+                $base['document_order'] = null;
+            }
+            DB::table('documents')->insert($base);
+        }
+        if (DB::getDriverName() === 'pgsql') {
+            DB::statement("SELECT setval(pg_get_serial_sequence('documents', 'id'), (SELECT COALESCE(MAX(id), 1) FROM documents))");
+        }
+    }
+
     public function saveUpladedDocument($request, $id)
     {
         // Log::info($request->all());
+
+        $this->ensureSupportiveDocumentsExist();
 
         DB::beginTransaction();
 
@@ -62,7 +113,8 @@ class UploadDocumentRepository extends  BaseRepository
 
             $documentTypes = [
                 'passport_doc', 'id_copy', 'cv_doc', 'nssf_membership', 'induction_doc', 'guarantors',
-                'referenc_doc', 'police_doc', 'osha_checkup', 'combined_certificate', 'bank_detail_doc'
+                'referenc_doc', 'police_doc', 'osha_checkup', 'combined_certificate', 'bank_detail_doc',
+                'fitness_to_work_declaration', 'tax_identification_number', 'consent_letter'
             ];
 
 
@@ -147,6 +199,15 @@ class UploadDocumentRepository extends  BaseRepository
             case 'bank_detail_doc';
                 return 40;
                 break;
+            case 'fitness_to_work_declaration';
+                return 65;
+                break;
+            case 'tax_identification_number';
+                return 66;
+                break;
+            case 'consent_letter';
+                return 67;
+                break;
             default:
                 return null;
         }
@@ -159,7 +220,7 @@ class UploadDocumentRepository extends  BaseRepository
 
         $uploade_doc = count($document_uploaded);
 
-        if (isset($uploade_doc) && in_array($uploade_doc, [11, 12])) {
+        if (isset($uploade_doc) && in_array($uploade_doc, [11, 12, 14, 15])) {
 
             Employee::where('id', $id)->update(['uploaded' => 1, 'uploaded_date' => now(), 'progressive_stage' => 3]);
 
@@ -199,7 +260,7 @@ return DB::table('employees as es')
     }
     public function getMandatoryDocument()
     {
-        $mandatory = [16, 39, 18, 19, 20, 21, 22, 23, 24, 25, 38, 40];
+        $mandatory = [16, 39, 18, 19, 20, 21, 22, 23, 24, 25, 38, 40, 65, 66, 67];
 
         return $mandatory;
     }
