@@ -116,7 +116,7 @@ class Version100TableSeeder extends Seeder
         // $this->call(PermissionsTableSeeder::class);
         // $this->call(PermissionDependenciesTableSeeder::class);
         // $this->call(SysdefsTableSeeder::class);
-        $this->call(UnitGroupsTableSeeder::class);
+        // $this->call(UnitGroupsTableSeeder::class);
         $this->call(ModuleTableSeeder::class);
 
 
