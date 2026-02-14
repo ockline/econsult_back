@@ -109,6 +109,7 @@ Route::middleware('auth:sanctum',)->group(function (){
     //     return $request->user();
     // });
     Route::post('/logout',[AuthController::class,'logout']);
+    Route::post('/logout-all',[AuthController::class,'logoutAllDevices']);
   Route::get('/get_user_token',[AuthController::class,'getToken']);
     // Route::apiResource('/users', UserController::class);
 });

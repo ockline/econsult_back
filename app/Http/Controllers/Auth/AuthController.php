@@ -100,6 +100,16 @@ public function logout(Request $request)
     return response()->json(['message' => 'Successfully logged out']);
 }
 
+/**
+ * Logout from all devices - revoke all tokens for the current user
+ */
+public function logoutAllDevices(Request $request)
+{
+    $request->user()->tokens()->delete();
+
+    return response()->json(['message' => 'Logged out from all devices successfully']);
+}
+
 
     public function user(Request $request)
     {
