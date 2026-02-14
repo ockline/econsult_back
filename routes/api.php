@@ -54,6 +54,8 @@ use App\Http\Controllers\Reports\ContractsReportController;
 use App\Http\Controllers\Reports\IndustrialsReportController;
 use App\Http\Controllers\Reports\PayrollsReportController;
 use App\Http\Controllers\Reports\AttendancesReportController;
+use App\Http\Controllers\UserActivityController;
+use App\Http\Controllers\NotificationController;
 
 
 
@@ -110,6 +112,20 @@ Route::middleware('auth:sanctum',)->group(function (){
   Route::get('/get_user_token',[AuthController::class,'getToken']);
     // Route::apiResource('/users', UserController::class);
 });
+Route::prefix('notifications')->middleware('auth:sanctum')->group(function () {
+    Route::get('/', [NotificationController::class, 'index']);
+    Route::get('/users', [NotificationController::class, 'users']);
+    Route::post('/send', [NotificationController::class, 'send']);
+});
+
+Route::prefix('user_activities')->middleware('auth:sanctum')->group(function () {
+    Route::post('/', [UserActivityController::class, 'store']);
+    Route::get('/', [UserActivityController::class, 'index']);
+    Route::get('/performance', [UserActivityController::class, 'performance']);
+    Route::get('/unconfirmed_summary', [UserActivityController::class, 'unconfirmedSummary']);
+    Route::post('/confirm', [UserActivityController::class, 'confirm']);
+});
+
 Route::prefix('users')->group(function () {
     Route::post('/add_user', [UserController::class, 'store'])->middleware('api');
     Route::get('/edit_user/{id}', [UserController::class, 'edit'])->middleware('api');

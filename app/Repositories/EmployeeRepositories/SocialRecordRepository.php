@@ -65,11 +65,15 @@ class SocialRecordRepository extends  BaseRepository
         try {
             $input = $request->all();
 
+            $employee_id = !empty($input['employee_id']) ? $input['employee_id'] : null;
+            if (!$employee_id) {
+                return response()->json(['message' => 'Employee ID is required', 'status' => 422], 422);
+            }
 
-            // log::info('data' . $employee_no);
-            $social =  SocialRecord::create([
-
-
+            // Use updateOrCreate to avoid duplicate key when record exists for this employee
+            $social = SocialRecord::updateOrCreate(
+                ['employee_id' => $employee_id],
+                [
                 'firstname' => !empty($input['firstname']) ? $input['firstname'] : null,
                 'middlename' => !empty($input['middlename']) ? $input['middlename'] : null,
                 'lastname' => !empty($input['lastname']) ? $input['lastname'] : null,
@@ -106,7 +110,6 @@ class SocialRecordRepository extends  BaseRepository
 
             ]);
             Log::info('vita iendeleee');
-            $employee_id = $input['employee_id'];
 
             $this->updatePersonaDetail($employee_id); //to save compotencies
             $this->saveSocialRecordDocument($request, $employee_id); // To save attachment
@@ -114,7 +117,7 @@ class SocialRecordRepository extends  BaseRepository
             DB::commit();
 
             Log::info('Saved done');
-            return response()->json(['message' => 'Social record created successfully', 'status' => 201], 201);
+            return response()->json(['message' => 'Social record saved successfully', 'status' => 201], 201);
         } catch (\Exception $e) {
             DB::rollback();
             Log::error('Failed to create Social record', ['error' => $e->getMessage()]);
