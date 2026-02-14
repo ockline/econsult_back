@@ -46,6 +46,14 @@ use App\Http\Controllers\Exits\EndContractController;
 use App\Http\Controllers\Exits\EndContractWorkflowController;
 use App\Http\Controllers\Exits\MutualAgreementController;
 use App\Http\Controllers\Exits\RetrenchmentController;
+use App\Http\Controllers\Compliance\ComplianceController;
+use App\Http\Controllers\Reports\HiringReportController;
+use App\Http\Controllers\Reports\EmployeesReportController;
+use App\Http\Controllers\Reports\ClientsReportController;
+use App\Http\Controllers\Reports\ContractsReportController;
+use App\Http\Controllers\Reports\IndustrialsReportController;
+use App\Http\Controllers\Reports\PayrollsReportController;
+use App\Http\Controllers\Reports\AttendancesReportController;
 
 
 
@@ -483,6 +491,35 @@ Route::prefix('contracts')->group(function () {
     Route::get('/terms/get_term_document/{id}', [TermConditionController::class, 'getTermConditionDocument'])->middleware('api');
 
 });
+
+// Compliance Management (ECMS.Req.009, ECMS.Req.009.2)
+Route::prefix('compliances')->group(function () {
+    Route::get('/template_employees', [ComplianceController::class, 'templateEmployees'])->middleware('api');
+    Route::get('/occupational/list', [ComplianceController::class, 'occupationalList'])->middleware('api');
+    Route::get('/occupational/show/{id}', [ComplianceController::class, 'occupationalShow'])->middleware('api');
+    Route::post('/occupational/store', [ComplianceController::class, 'occupationalStore'])->middleware('api');
+    Route::post('/occupational/update/{id}', [ComplianceController::class, 'occupationalUpdate'])->middleware('api');
+    Route::post('/occupational/import', [ComplianceController::class, 'occupationalImport'])->middleware('api');
+});
+
+// Reports (each module has its own controller)
+Route::prefix('reports')->group(function () {
+    Route::get('/hirings', [HiringReportController::class, 'index'])->middleware('api');
+    Route::get('/hirings/export', [HiringReportController::class, 'export'])->middleware('api');
+    Route::get('/employees', [EmployeesReportController::class, 'index'])->middleware('api');
+    Route::get('/employees/export', [EmployeesReportController::class, 'export'])->middleware('api');
+    Route::get('/clients', [ClientsReportController::class, 'index'])->middleware('api');
+    Route::get('/clients/export', [ClientsReportController::class, 'export'])->middleware('api');
+    Route::get('/contracts', [ContractsReportController::class, 'index'])->middleware('api');
+    Route::get('/contracts/export', [ContractsReportController::class, 'export'])->middleware('api');
+    Route::get('/industrials', [IndustrialsReportController::class, 'index'])->middleware('api');
+    Route::get('/industrials/export', [IndustrialsReportController::class, 'export'])->middleware('api');
+    Route::get('/payrolls', [PayrollsReportController::class, 'index'])->middleware('api');
+    Route::get('/payrolls/export', [PayrollsReportController::class, 'export'])->middleware('api');
+    Route::get('/attendances', [AttendancesReportController::class, 'index'])->middleware('api');
+    Route::get('/attendances/export', [AttendancesReportController::class, 'export'])->middleware('api');
+});
+
 // api for retrive contracted employees for normal dashboard
 Route::prefix('home')->group(function () {
     Route::get('/normal/show_employees', [HomeController::class, 'getAllEmployee'])->middleware('api');

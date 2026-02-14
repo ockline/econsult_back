@@ -248,30 +248,30 @@ class DepartmentsTableSeeder extends Seeder
                     'description' => null,
                     'deleted_at' => null,
                 ),
-            // 19 =>
-            //     array (
-            //         'id' => 20,
-            //         'name' => 'Chemist (scientist)',
-            //         'created_at' => '2024-01-10 15:02:12',
-            //         'updated_at' => NULL,
-            //          'employer_id' => 2,
-            //         'status' => '1',
-            //         'alias' => null,
-            //         'description' => null,
-            //         'deleted_at' => null,
-            //     ),
-            // 20 =>
-            //     array (
-            //         'id' => 21,
-            //         'name' => 'Chief executive officer',
-            //         'created_at' => '2024-01-10 15:02:12',
-            //         'updated_at' => NULL,
-            //          'employer_id' => 2,
-            //         'status' => '1',
-            //         'alias' => null,
-            //         'description' => null,
-            //         'deleted_at' => null,
-            //     ),
+            19 =>
+                array (
+                    'id' => 20,
+                    'name' => 'Chemist (scientist)',
+                    'created_at' => '2024-01-10 15:02:12',
+                    'updated_at' => NULL,
+                     'employer_id' => 2,
+                    'status' => '1',
+                    'alias' => null,
+                    'description' => null,
+                    'deleted_at' => null,
+                ),
+            20 =>
+                array (
+                    'id' => 21,
+                    'name' => 'Chief executive officer',
+                    'created_at' => '2024-01-10 15:02:12',
+                    'updated_at' => NULL,
+                     'employer_id' => 2,
+                    'status' => '1',
+                    'alias' => null,
+                    'description' => null,
+                    'deleted_at' => null,
+                ),
             // 21 =>
             //     array (
             //         'id' => 22,

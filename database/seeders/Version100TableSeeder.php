@@ -102,7 +102,7 @@ class Version100TableSeeder extends Seeder
         $this->call(LeaveTypeTableSeeder::class);
         $this->call(MisconductTypeTableSeeder::class);
         $this->call(PerfomanceCriterialTableSeeder::class);
-        // $this->call(DepartmentsTableSeeder::class);
+        $this->call(DepartmentsTableSeeder::class);
         // $this->call(UnitsTableSeeder::class);
         $this->call(EducationHistoriesTableSeeder::class);
         $this->call(PracticalTestsTableSeeder::class);

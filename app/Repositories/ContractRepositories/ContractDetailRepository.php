@@ -424,14 +424,23 @@ class ContractDetailRepository extends  BaseRepository
         }
     }
 public function getContractDatatable(){
-          return DB::table('contract_fixed as cf')->select(['cf.*'
-
-
-
-])
-// ->leftJoin();
-->where('stage', 1)
-->get();
-
+          return DB::table('contract_fixed as cf')
+            ->select([
+                'cf.*',
+                'e.employee_no',
+                'e.wcf',
+                'e.nssf',
+                'e.tin',
+                'e.national_id',
+                'e.gender',
+                'e.firstname',
+                'e.middlename',
+                'e.lastname',
+                DB::raw('jt.name as job_title'),
+            ])
+            ->leftJoin('employees as e', 'cf.employee_id', '=', 'e.id')
+            ->leftJoin('job_title as jt', 'cf.job_title_id', '=', 'jt.id')
+            ->where('cf.stage', 1)
+            ->get();
 }
 }
